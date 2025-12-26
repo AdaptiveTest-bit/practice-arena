@@ -50,14 +50,20 @@ class DiceLogicGenerator(QuestionGenerator):
     
     def generate(self) -> Question:
         """Generate a dice logic problem."""
-        problem_type = random.choice(["standard", "multiple_faces", "logic_trap"])
+        problem_type = random.choice(["standard", "multiple_faces", "logic_trap", "pattern_dice", "rotation_dice", "profit_dice"])
         
         if problem_type == "standard":
             return self._generate_standard_dice()
         elif problem_type == "multiple_faces":
             return self._generate_multiple_faces()
-        else:
+        elif problem_type == "logic_trap":
             return self._generate_logic_trap()
+        elif problem_type == "pattern_dice":
+            return self._generate_pattern_dice()
+        elif problem_type == "rotation_dice":
+            return self._generate_rotation_dice()
+        else:
+            return self._generate_profit_dice()
     
     def _generate_standard_dice(self) -> Question:
         """Standard dice problem: given top and one side, find others."""
@@ -172,6 +178,134 @@ class DiceLogicGenerator(QuestionGenerator):
             "West": "East"
         }
         return opposites.get(direction, direction)
+    
+    def _generate_pattern_dice(self) -> Question:
+        """Dice sum patterns - finding rules in sequences."""
+        dice_pair_scenarios = [
+            {"dice1": 1, "dice2": 6, "sum": 7, "description": "sum of opposite faces"},
+            {"dice1": 2, "dice2": 5, "sum": 7, "description": "always equals 7"},
+            {"dice1": 3, "dice2": 4, "sum": 7, "description": "reveals the pattern"},
+        ]
+        
+        scenario = random.choice(dice_pair_scenarios)
+        
+        # Create a series
+        series_text = "1 & 6 = 7, 2 & 5 = 7, 3 & 4 = 7"
+        new_pair = random.choice([
+            {"dice1": 4, "dice2": 3, "correct": True},
+            {"dice1": 5, "dice2": 2, "correct": True},
+            {"dice1": 2, "dice2": 4, "correct": False},
+        ])
+        
+        correct_answer = str(new_pair["correct"])
+        distractors = [
+            str(not new_pair["correct"]),
+            "Cannot determine from pattern",
+            "The pattern breaks here"
+        ]
+        
+        options = [correct_answer] + distractors
+        random.shuffle(options)
+        correct_idx = options.index(correct_answer)
+        
+        question = Question(
+            topic="Boxes & Sketches - Dice Logic (Pattern Recognition)",
+            logical_trap="Students must recognize that ALL opposite face pairs sum to 7, not just specific ones. The pattern is absolute and universal.",
+            data_representation=f"```\nDice Opposite Face Pattern:\n{series_text}\n\nObservation: Every pair sums to exactly 7\nThis is NOT a coincidence—it's the fundamental rule of standard dice.\n```",
+            question_text=f"Given the pattern: {series_text}\nDoes the pair ({new_pair['dice1']}, {new_pair['dice2']}) follow this pattern?\n\nAnswer: {'YES' if new_pair['correct'] else 'NO'} (sum = {new_pair['dice1'] + new_pair['dice2']})",
+            solution_steps=[
+                "Observe the pattern in opposite face pairs",
+                "All pairs sum to 7: 1+6=7, 2+5=7, 3+4=7",
+                f"Check new pair: {new_pair['dice1']} + {new_pair['dice2']} = {new_pair['dice1'] + new_pair['dice2']}",
+                f"Does it equal 7? {'YES' if new_pair['correct'] else 'NO'}",
+                "This confirms the universal law of standard dice"
+            ],
+            answer=correct_answer,
+            options=options,
+            correct_option_index=correct_idx
+        )
+        return question
+    
+    def _generate_rotation_dice(self) -> Question:
+        """Dice rotation - tracking face position through rotations."""
+        # Start position
+        top = 1
+        front = 2
+        right = 3
+        
+        # After forward roll
+        new_top = front
+        new_front = 7 - top  # Opposite of top becomes new back (not visible)
+        new_bottom = top
+        
+        correct_answer = str(new_top)
+        distractors = [str(top), str(front), str(7 - new_top)]
+        
+        options = [correct_answer] + distractors
+        random.shuffle(options)
+        correct_idx = options.index(correct_answer)
+        
+        question = Question(
+            topic="Boxes & Sketches - Dice Logic (Rotation & Tracking)",
+            logical_trap="Students forget that when a die rolls forward, the FRONT face becomes the TOP. They might think the top stays the same or moves sideways.",
+            data_representation=f"```\nDice Rotation (Forward Roll):\nBefore: Top=1, Front=2, Right=3\nAfter rolling forward one position:\nTop = (what was Front) = 2\nFront = (what was Bottom) = opposite of 1 = 6\nBottom = (what was Top) = 1\n```",
+            question_text=f"A die shows: Top=1, Front=2, Right=3.\nIf the die rolls FORWARD (away from you) once, what number appears on top?",
+            solution_steps=[
+                "Before roll: Top=1, Front=2",
+                "Rolling forward: the front face moves to the top",
+                f"After roll: Top = {new_top}",
+                "The original top (1) moves to the bottom",
+                f"New top face is {new_top}"
+            ],
+            answer=str(new_top),
+            options=options,
+            correct_option_index=correct_idx
+        )
+        return question
+    
+    def _generate_profit_dice(self) -> Question:
+        """Cross-concept: Dice + Profit/Loss calculation."""
+        num_dice = random.randint(20, 50)
+        cost_per_die = random.choice([5, 8, 10, 12])
+        total_cost = num_dice * cost_per_die
+        
+        # Selling price
+        sell_per_die = random.choice([6, 9, 12, 15])
+        total_sell = num_dice * sell_per_die
+        profit = total_sell - total_cost
+        
+        # Dice logic integration
+        question_text = f"A shopkeeper bought {num_dice} dice at ₹{cost_per_die} each. She sold all of them at ₹{sell_per_die} each.\n\nBased on the opposite faces rule (sum=7), if a customer receives a die showing 3 on top, what number is on the bottom face?\nAnd what is the shopkeeper's total profit?"
+        
+        # MCQ for profit part
+        correct_answer = f"Bottom: 4, Profit: ₹{profit}"
+        distractors = [
+            f"Bottom: 5, Profit: ₹{profit + 100}",
+            f"Bottom: 3, Profit: ₹{profit - 100}",
+            f"Bottom: 4, Profit: ₹{profit // 2}"
+        ]
+        
+        options = [correct_answer] + distractors
+        random.shuffle(options)
+        correct_idx = options.index(correct_answer)
+        
+        question = Question(
+            topic="Boxes & Sketches - Dice Logic + Profit & Loss (Cross-Concept)",
+            logical_trap="This combines dice rules with business calculations. Students must apply the dice rule (7-3=4) AND calculate profit separately.",
+            data_representation=f"```\nDice Logic: Opposite faces sum to 7\nIf top = 3, then bottom = 7 - 3 = 4\n\nProfit Calculation:\nTotal Cost = {num_dice} × ₹{cost_per_die} = ₹{total_cost}\nTotal Selling = {num_dice} × ₹{sell_per_die} = ₹{total_sell}\nProfit = ₹{total_sell} - ₹{total_cost} = ₹{profit}\n```",
+            question_text=question_text,
+            solution_steps=[
+                f"Cost: {num_dice} dice × ₹{cost_per_die} = ₹{total_cost}",
+                f"Selling: {num_dice} dice × ₹{sell_per_die} = ₹{total_sell}",
+                f"Profit: ₹{total_sell} - ₹{total_cost} = ₹{profit}",
+                f"Dice opposite rule: 7 - 3 = 4",
+                f"Answer: Bottom face = 4, Profit = ₹{profit}"
+            ],
+            answer=f"Bottom: 4, Profit: ₹{profit}",
+            options=options,
+            correct_option_index=correct_idx
+        )
+        return question
 
 
 class CubeCountingGenerator(QuestionGenerator):
@@ -179,7 +313,7 @@ class CubeCountingGenerator(QuestionGenerator):
     
     def generate(self) -> Question:
         """Generate a cube counting problem."""
-        problem_type = random.choice(["simple_removal", "layer_removal", "corner_removal", "edge_counting"])
+        problem_type = random.choice(["simple_removal", "layer_removal", "corner_removal", "edge_counting", "painted_cubes", "packing_problem"])
         
         if problem_type == "simple_removal":
             return self._generate_simple_removal()
@@ -187,8 +321,12 @@ class CubeCountingGenerator(QuestionGenerator):
             return self._generate_layer_removal()
         elif problem_type == "corner_removal":
             return self._generate_corner_removal()
-        else:
+        elif problem_type == "edge_counting":
             return self._generate_edge_counting()
+        elif problem_type == "painted_cubes":
+            return self._generate_painted_cubes()
+        else:
+            return self._generate_packing_problem()
     
     def _generate_simple_removal(self) -> Question:
         """Single cube removal from corner or edge."""
@@ -312,6 +450,96 @@ class CubeCountingGenerator(QuestionGenerator):
                 f"Visible (surface) cubes = {total} - {interior} = {answer}"
             ],
             answer=str(answer),
+            options=options,
+            correct_option_index=correct_idx
+        )
+        return question
+    
+    def _generate_painted_cubes(self) -> Question:
+        """Cross-concept: Cube counting + Geometry (painted faces)."""
+        size = 3
+        total = size ** 3
+        
+        # In a 3×3×3 cube with all surfaces painted:
+        # Corner cubes: 8 (3 faces painted)
+        # Edge cubes: 12 (2 faces painted)
+        # Face cubes: 6 (1 face painted)
+        # Interior: 1 (0 faces painted)
+        
+        corner_cubes = 8
+        edge_cubes = 12
+        face_cubes = 6
+        interior_cubes = 1
+        
+        cubes_with_2_faces = edge_cubes
+        
+        correct_answer = str(cubes_with_2_faces)
+        distractors = [str(corner_cubes), str(face_cubes), str(interior_cubes)]
+        
+        options = [correct_answer] + distractors
+        random.shuffle(options)
+        correct_idx = options.index(correct_answer)
+        
+        question = Question(
+            topic="Boxes & Sketches - Cube Counting (Painted Faces)",
+            logical_trap="Students must categorize cubes by position: corners have 3 painted faces, edges have 2, faces have 1, and interior has 0.",
+            data_representation=f"```\n3×3×3 painted cube analysis:\nCorner cubes (3 painted faces): 8\nEdge cubes (2 painted faces): 12\nFace cubes (1 painted face): 6\nInterior cubes (0 painted): 1\nTotal = 27\n```",
+            question_text=f"A 3×3×3 wooden cube is painted on all surfaces. Then it's cut into {total} unit cubes. How many unit cubes have exactly 2 painted faces?",
+            solution_steps=[
+                "Cubes with 2 painted faces are on the EDGES (not corners)",
+                "Each edge of a cube has 3 unit cubes",
+                "Corners (with 3 faces) are not counted",
+                "Middle cubes of edges (with 2 faces) count",
+                f"A cube has 12 edges, each contributes 1 cube with 2 faces",
+                f"Answer: {cubes_with_2_faces}"
+            ],
+            answer=str(cubes_with_2_faces),
+            options=options,
+            correct_option_index=correct_idx
+        )
+        return question
+    
+    def _generate_packing_problem(self) -> Question:
+        """Cross-concept: Cube counting + Volume calculation."""
+        box_dims = random.choice([(6, 6, 6), (8, 4, 8), (5, 5, 10)])
+        cube_size = random.choice([2, 3])
+        
+        cubes_length = box_dims[0] // cube_size
+        cubes_width = box_dims[1] // cube_size
+        cubes_height = box_dims[2] // cube_size
+        total_cubes = cubes_length * cubes_width * cubes_height
+        
+        box_volume = box_dims[0] * box_dims[1] * box_dims[2]
+        cube_volume = cube_size ** 3
+        used_volume = total_cubes * cube_volume
+        wasted_space = box_volume - used_volume
+        
+        correct_answer = f"Cubes: {total_cubes}, Wasted space: {wasted_space} cm³"
+        distractors = [
+            f"Cubes: {total_cubes + 2}, Wasted space: {wasted_space - 10}",
+            f"Cubes: {box_volume // cube_volume}, Wasted space: 0",
+            f"Cubes: {total_cubes - 1}, Wasted space: {wasted_space + cube_volume}"
+        ]
+        
+        options = [correct_answer] + distractors
+        random.shuffle(options)
+        correct_idx = options.index(correct_answer)
+        
+        question = Question(
+            topic="Boxes & Sketches - Cube Counting + Volume (Cross-Concept)",
+            logical_trap="When packing cubes, students must count cubes by dividing each dimension AND calculate leftover space (volume - used volume).",
+            data_representation=f"```\nBox dimensions: {box_dims[0]}cm × {box_dims[1]}cm × {box_dims[2]}cm\nBox volume = {box_volume} cm³\n\nCube size: {cube_size}cm\nCube volume = {cube_volume} cm³\n\nCubes along length: {cubes_length}\nCubes along width: {cubes_width}\nCubes along height: {cubes_height}\nTotal cubes = {total_cubes}\n\nUsed volume = {total_cubes} × {cube_volume} = {used_volume} cm³\nWasted space = {box_volume} - {used_volume} = {wasted_space} cm³\n```",
+            question_text=f"A box measures {box_dims[0]}×{box_dims[1]}×{box_dims[2]} cm. Unit cubes of size {cube_size}×{cube_size}×{cube_size} cm are packed into it.\nHow many cubes fit? How much space is wasted?",
+            solution_steps=[
+                f"Box volume = {box_dims[0]} × {box_dims[1]} × {box_dims[2]} = {box_volume} cm³",
+                f"Cubes along length = {box_dims[0]} ÷ {cube_size} = {cubes_length}",
+                f"Cubes along width = {box_dims[1]} ÷ {cube_size} = {cubes_width}",
+                f"Cubes along height = {box_dims[2]} ÷ {cube_size} = {cubes_height}",
+                f"Total cubes = {cubes_length} × {cubes_width} × {cubes_height} = {total_cubes}",
+                f"Used volume = {total_cubes} × {cube_volume} = {used_volume} cm³",
+                f"Wasted space = {box_volume} - {used_volume} = {wasted_space} cm³"
+            ],
+            answer=f"Cubes: {total_cubes}, Wasted space: {wasted_space} cm³",
             options=options,
             correct_option_index=correct_idx
         )
@@ -1945,12 +2173,13 @@ def main():
     print("=" * 80)
     print("CBSE CLASS 5 MATHEMATICS - STRICT LOGIC-BASED QUESTION GENERATOR")
     print("K.C. Nag Style (Comprehensive Coverage: All 7 Chapter Modules)")
+    print("Enhanced with Cross-Concept Integration & Multiple Variations")
     print("=" * 80)
     print()
     
-    # Generate 2 questions from each category
+    # Generate 3 questions from each category (expanded for more variation)
     for generator in generators:
-        for i in range(2):
+        for i in range(3):
             question = generator.generate()
             print(question.format_output())
             print()
