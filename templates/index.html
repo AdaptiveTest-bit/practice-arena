@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Class 5 Mathematics - Question Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📚 CBSE Class 5 Mathematics</h1>
+                <p class="subtitle">Strict Logic-Based Questions (K.C. Nag Style)</p>
+            </div>
+        </header>
+
+        <!-- Category Selector -->
+        <section class="category-section">
+            <h2>Select a Topic</h2>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Categories will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Question Card -->
+        <section class="question-section">
+            <div class="question-card" id="questionCard" style="display: none;">
+                <!-- Topic Badge -->
+                <div class="topic-badge" id="topicBadge"></div>
+
+                <!-- Question Container -->
+                <div class="question-container">
+                    <h3 class="question-title" id="questionTitle"></h3>
+
+                    <!-- Logical Trap -->
+                    <div class="logical-trap" id="logicalTrap">
+                        <strong>💡 The Logical Trap:</strong>
+                        <p id="trapText"></p>
+                    </div>
+
+                    <!-- Data Representation -->
+                    <div class="data-representation" id="dataRepresentationContainer">
+                        <strong>📊 Data Representation:</strong>
+                        <div id="dataRepresentation"></div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="question-text">
+                        <strong>❓ Question:</strong>
+                        <p id="questionText"></p>
+                    </div>
+
+                    <!-- MCQ Options -->
+                    <div class="mcq-options" id="mcqOptionsContainer" style="display: none;">
+                        <strong>Multiple Choice Options:</strong>
+                        <div id="optionsList" class="options-list"></div>
+                        <button class="btn btn-submit" id="submitBtn" onclick="submitAnswer()" style="margin-top: 20px;">
+                            Submit Answer
+                        </button>
+                    </div>
+
+                    <!-- Reveal Button (shown when no MCQ or after submit) -->
+                    <div class="reveal-section" id="revealSection">
+                        <button class="btn btn-reveal" id="revealBtn" onclick="revealAnswer()">
+                            Reveal Solution
+                        </button>
+                    </div>
+
+                    <!-- Solution (Hidden Initially) -->
+                    <div class="solution-container" id="solutionContainer" style="display: none;">
+                        <h4>✅ Step-by-Step Solution:</h4>
+                        <ol id="solutionSteps" class="solution-steps"></ol>
+
+                        <div class="final-answer">
+                            <strong>Answer:</strong>
+                            <p id="answerText"></p>
+                        </div>
+
+                        <!-- New Question Button -->
+                        <button class="btn btn-new" onclick="fetchNewQuestion()">
+                            New Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading" id="loadingSpinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading question...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <p>👆 Select a topic to get started</p>
+            </div>
+        </section>
+
+        <!-- Statistics -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="questionsGenerated">0</div>
+                <div class="stat-label">Questions Generated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="topicsCovered">7</div>
+                <div class="stat-label">Topics Covered</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
