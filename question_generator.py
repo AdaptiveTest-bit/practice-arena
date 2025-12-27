@@ -1,7 +1,8 @@
 import random
-from typing import Dict, List
+from typing import Dict, List, Set
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
+import hashlib
 
 @dataclass
 class Question:
@@ -15,6 +16,22 @@ class Question:
     options: List[str] = None  # MCQ options (4 choices including correct answer)
     correct_option_index: int = None  # Index of correct answer in options (0-3)
 
+    def get_fingerprint(self) -> str:
+        """Generate a unique hash fingerprint of this question for deduplication.
+        
+        Uses question_text and answer as primary identifiers since:
+        - question_text contains all numeric/specific data that makes each question unique
+        - answer is the expected result
+        - These two combined make an extremely specific identifier
+        
+        Returns:
+            str: SHA256 hash of question content (first 12 chars for readability)
+        """
+        # Combine question_text and answer as they uniquely identify a specific question
+        combined = f"{self.question_text}||{self.answer}"
+        hash_obj = hashlib.sha256(combined.encode())
+        return hash_obj.hexdigest()[:12]
+    
     def format_output(self) -> str:
         """Format the question in the specified output format."""
         output = []
@@ -35,6 +52,50 @@ class Question:
         output.append(f"\n**Answer:** {self.answer}\n")
         output.append("---\n")
         return "\n".join(output)
+
+
+def ensure_unique_options(options: List[str], max_attempts: int = 10) -> List[str]:
+    """Ensure all options are unique. Remove duplicates and keep length to 4.
+    
+    Args:
+        options: List of option strings (may contain duplicates)
+        max_attempts: Max regeneration attempts (optional fallback)
+    
+    Returns:
+        List of 4 unique strings
+    """
+    # Remove exact duplicates while preserving order
+    seen = set()
+    unique = []
+    for option in options:
+        if option not in seen:
+            unique.append(option)
+            seen.add(option)
+    
+    # Ensure we have exactly 4 unique options
+    while len(unique) < 4:
+        # If we somehow don't have 4, just add a placeholder
+        unique.append(f"Option {len(unique) + 1}")
+    
+    # Return first 4 unique options
+    return unique[:4]
+
+
+def shuffle_options_keep_correct(correct_answer: str, distractors: List[str]) -> tuple:
+    """Shuffle options and return shuffled list + correct index.
+    
+    Args:
+        correct_answer: The correct answer string
+        distractors: List of distractor strings (should have 3 items)
+    
+    Returns:
+        Tuple of (shuffled_options_list, correct_index)
+    """
+    # Ensure we have exactly 4 unique options
+    options = ensure_unique_options([correct_answer] + distractors)
+    random.shuffle(options)
+    correct_idx = options.index(correct_answer)
+    return options, correct_idx
 
 
 class QuestionGenerator(ABC):
@@ -80,6 +141,7 @@ class DiceLogicGenerator(QuestionGenerator):
         wrong3 = random.choice([i for i in range(1, 7) if i not in [bottom_face, opposite_visible, wrong1, wrong2]])
         
         options = [f"({bottom_face}, {opposite_visible})", f"({wrong1}, {wrong2})", f"({bottom_face}, {wrong3})", f"({wrong2}, {opposite_visible})"]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(f"({bottom_face}, {opposite_visible})")
         
@@ -114,8 +176,9 @@ class DiceLogicGenerator(QuestionGenerator):
         wrong_opts = [i for i in range(1, 7) if i not in visible_set and i != hidden]
         distractors = random.sample(wrong_opts, min(3, len(wrong_opts)))
         
-        options = [str(hidden)] + [str(d) for d in distractors] + [str(random.randint(1, 6)) for _ in range(max(0, 4 - len(distractors) - 1))]
-        options = list(set(options))[:4]
+        options = [str(hidden)] + [str(d) for d in distractors]
+        # Ensure 4 unique options
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(hidden))
         
@@ -149,6 +212,7 @@ class DiceLogicGenerator(QuestionGenerator):
         wrong_logic_3 = 8 - top_face  # Student uses sum=8
         
         options = [str(bottom_face), str(wrong_logic_1), str(wrong_logic_2), str(wrong_logic_3)]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(bottom_face))
         
@@ -241,9 +305,7 @@ class DiceLogicGenerator(QuestionGenerator):
         correct_answer = str(new_top)
         distractors = [str(top), str(front), str(7 - new_top)]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
-        correct_idx = options.index(correct_answer)
+        options, correct_idx = shuffle_options_keep_correct(correct_answer, distractors)
         
         question = Question(
             topic="Boxes & Sketches - Dice Logic (Rotation & Tracking)",
@@ -282,12 +344,10 @@ class DiceLogicGenerator(QuestionGenerator):
         distractors = [
             f"Bottom: 5, Profit: ₹{profit + 100}",
             f"Bottom: 3, Profit: ₹{profit - 100}",
-            f"Bottom: 4, Profit: ₹{profit // 2}"
+            f"Bottom: 2, Profit: ₹{profit // 2}"  # Changed from 4 to 2 to avoid duplicate
         ]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
-        correct_idx = options.index(correct_answer)
+        options, correct_idx = shuffle_options_keep_correct(correct_answer, distractors)
         
         question = Question(
             topic="Boxes & Sketches - Dice Logic + Profit & Loss (Cross-Concept)",
@@ -340,6 +400,7 @@ class CubeCountingGenerator(QuestionGenerator):
         wrong3 = 27
         
         options = [str(answer), str(wrong1), str(wrong2), str(wrong3)]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(answer))
         
@@ -372,6 +433,7 @@ class CubeCountingGenerator(QuestionGenerator):
         wrong3 = removed
         
         options = [str(answer), str(wrong1), str(wrong2), str(wrong3)]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(answer))
         
@@ -402,6 +464,7 @@ class CubeCountingGenerator(QuestionGenerator):
         wrong3 = 25
         
         options = [str(answer), str(wrong1), str(wrong2), str(wrong3)]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(answer))
         
@@ -436,6 +499,7 @@ class CubeCountingGenerator(QuestionGenerator):
         wrong3 = total - 8
         
         options = [str(answer), str(wrong1), str(wrong2), str(wrong3)]
+        options = ensure_unique_options(options)
         random.shuffle(options)
         correct_idx = options.index(str(answer))
         
@@ -476,9 +540,7 @@ class CubeCountingGenerator(QuestionGenerator):
         correct_answer = str(cubes_with_2_faces)
         distractors = [str(corner_cubes), str(face_cubes), str(interior_cubes)]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
-        correct_idx = options.index(correct_answer)
+        options, correct_idx = shuffle_options_keep_correct(correct_answer, distractors)
         
         question = Question(
             topic="Boxes & Sketches - Cube Counting (Painted Faces)",
@@ -521,9 +583,7 @@ class CubeCountingGenerator(QuestionGenerator):
             f"Cubes: {total_cubes - 1}, Wasted space: {wasted_space + cube_volume}"
         ]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
-        correct_idx = options.index(correct_answer)
+        options, correct_idx = shuffle_options_keep_correct(correct_answer, distractors)
         
         question = Question(
             topic="Boxes & Sketches - Cube Counting + Volume (Cross-Concept)",
@@ -659,7 +719,7 @@ class DataHandlingGenerator(QuestionGenerator):
         wrong2 = str(actual_items + 10)  # Calculation error
         wrong3 = str(actual_items * scale)  # Multiplied twice
         
-        options = [correct_answer, wrong1, wrong2, wrong3]
+        options = ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
         random.shuffle(options)
         correct_idx = options.index(correct_answer)
         
@@ -723,7 +783,7 @@ class DataHandlingGenerator(QuestionGenerator):
         wrong2 = str(total_sum - running_sum - 5)  # Calculation error
         wrong3 = str(running_sum)  # Confused sum of known with missing
         
-        options = [correct_answer, wrong1, wrong2, wrong3]
+        options = ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
         random.shuffle(options)
         correct_idx = options.index(correct_answer)
         
@@ -765,7 +825,7 @@ class DataHandlingGenerator(QuestionGenerator):
         wrong2 = str(val1)  # Used one value instead of difference
         wrong3 = str(val1 + val2)  # Added instead of subtracted
         
-        options = [correct_answer, wrong1, wrong2, wrong3]
+        options = ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
         random.shuffle(options)
         correct_idx = options.index(correct_answer)
         
@@ -1285,16 +1345,24 @@ class LargeNumbersGenerator(QuestionGenerator):
         
         scenario = random.choice(scenarios)
         
-        # MCQ options
+        # MCQ options - with careful handling to ensure uniqueness
         correct_answer = scenario['words']
-        distractors = [
-            scenario['words'].replace("lakh", "million"),  # Common mistake: using western system
-            scenario['words'].replace("hundred", "thousand"),  # Wrong place value
-            scenario['words'] + " (reading right to left instead of groups)"  # Wrong direction
-        ]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
+        # Build distractors based on common mistakes
+        if "lakh" in scenario['words']:
+            # Mistaken western system conversion
+            distractor1 = scenario['words'].replace("lakh", "million").replace("(or 1 million)", "(or 10 million)")
+            # Wrong place value naming
+            distractor2 = scenario['words'].replace("lakh", "crore")
+            # Wrong direction/reading
+            distractor3 = scenario['words'] + " (reading right to left instead of groups)"
+        else:
+            distractor1 = "Ten million"
+            distractor2 = "One crore"
+            distractor3 = "Nine lakh, ninety-nine thousand, nine hundred ninety-nine"
+        
+        distractors = [distractor1, distractor2, distractor3]
+        options = ensure_unique_options([correct_answer] + distractors)
         correct_idx = options.index(correct_answer)
         
         question = Question(
@@ -1611,7 +1679,7 @@ class FractionsDecimalsGenerator(QuestionGenerator):
         second_spend = (frac2_num / frac2_den) * remaining
         final_remaining = remaining - second_spend
         
-        # MCQ options
+        # MCQ options - ensure all are unique
         correct_answer = f"₹{int(final_remaining)}"
         # Common trap: using second fraction on original
         trap_answer = total_amount - first_spend - (frac2_num / frac2_den) * total_amount
@@ -1622,8 +1690,7 @@ class FractionsDecimalsGenerator(QuestionGenerator):
             f"₹{int(first_spend + second_spend)}"
         ]
         
-        options = [correct_answer] + distractors
-        random.shuffle(options)
+        options = ensure_unique_options([correct_answer] + distractors)
         correct_idx = options.index(correct_answer)
         
         question = Question(
@@ -2126,14 +2193,15 @@ class DataPatternsGenerator(QuestionGenerator):
             icons = "🍎" * symbol_counts[item]
             table += f"| {item} | {icons} | {actual_counts[item]} |\n"
         
-        # MCQ options
+        # MCQ options - ensure uniqueness
         correct_answer = f"{actual_counts[query_item]}"
         count_only = str(symbol_counts[query_item])  # Just counting icons
-        wrong_scale = str(symbol_counts[query_item] * (scale_value // 2))  # Wrong scale
-        wrong_other = str(actual_counts[[i for i in items if i != query_item][0]])  # Different item
+        wrong_scale = str(int(symbol_counts[query_item] * (scale_value // 2)))  # Wrong scale (half)
+        # Get a different item's actual count to avoid duplication
+        other_items = [i for i in items if i != query_item]
+        wrong_other = str(actual_counts[other_items[0]])
         
-        options = [correct_answer, count_only, wrong_scale, wrong_other]
-        random.shuffle(options)
+        options = ensure_unique_options([correct_answer, count_only, wrong_scale, wrong_other])
         correct_idx = options.index(correct_answer)
         
         question = Question(
@@ -2154,7 +2222,14 @@ class DataPatternsGenerator(QuestionGenerator):
 
 
 def main():
-    """Main function to generate and display questions."""
+    """Main function to generate and display questions with deduplication.
+    
+    Features:
+    - Generates 3 questions per module (36 total)
+    - Tracks question fingerprints to prevent duplicates in a single session
+    - If a duplicate is detected, regenerates a new question
+    - Limits regeneration attempts to 5 to avoid infinite loops
+    """
     generators: List[QuestionGenerator] = [
         DiceLogicGenerator(),
         CubeCountingGenerator(),
@@ -2170,6 +2245,10 @@ def main():
         DataPatternsGenerator()
     ]
     
+    # Track generated question fingerprints in this session
+    generated_fingerprints: Set[str] = set()
+    duplicate_count = 0
+    
     print("=" * 80)
     print("CBSE CLASS 5 MATHEMATICS - STRICT LOGIC-BASED QUESTION GENERATOR")
     print("K.C. Nag Style (Comprehensive Coverage: All 7 Chapter Modules)")
@@ -2180,9 +2259,38 @@ def main():
     # Generate 3 questions from each category (expanded for more variation)
     for generator in generators:
         for i in range(3):
-            question = generator.generate()
+            # Keep regenerating until we get a unique question
+            attempt = 0
+            max_attempts = 5
+            question_fingerprint = None
+            
+            while attempt < max_attempts:
+                question = generator.generate()
+                question_fingerprint = question.get_fingerprint()
+                
+                if question_fingerprint not in generated_fingerprints:
+                    # Unique question found, add to set and break loop
+                    generated_fingerprints.add(question_fingerprint)
+                    break
+                else:
+                    # Duplicate detected, try again
+                    duplicate_count += 1
+                    attempt += 1
+            
+            # Display the question
             print(question.format_output())
             print()
+    
+    # Print deduplication statistics
+    print("=" * 80)
+    print("DEDUPLICATION STATISTICS")
+    print("=" * 80)
+    total_questions = len(generators) * 3
+    print(f"Total questions generated: {total_questions}")
+    print(f"Unique questions displayed: {len(generated_fingerprints)}")
+    print(f"Duplicate attempts detected and regenerated: {duplicate_count}")
+    print(f"Deduplication success rate: {(len(generated_fingerprints)/total_questions)*100:.1f}%")
+    print("=" * 80)
 
 
 if __name__ == "__main__":

@@ -1,12 +1,30 @@
 // Global state
-let currentCategory = null;
+let sessionId = null;
+let currentChapter = null;
 let currentQuestionId = null;
 let questionsGenerated = 0;
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', () => {
-    loadCategories();
+document.addEventListener('DOMContentLoaded', async () => {
+    await createSession();
+    await loadCategories();
 });
+
+/**
+ * Create a new session for deduplication tracking
+ */
+async function createSession() {
+    try {
+        const response = await fetch('/api/session', {
+            method: 'POST'
+        });
+        const data = await response.json();
+        sessionId = data.sessionId;
+        console.log('Session created:', sessionId);
+    } catch (error) {
+        console.error('Error creating session:', error);
+    }
+}
 
 /**
  * Load available categories from API
@@ -38,14 +56,14 @@ async function loadCategories() {
 /**
  * Select a category and fetch a question
  */
-async function selectCategory(categoryId, buttonElement) {
+async function selectCategory(chapterId, buttonElement) {
     // Update active state
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     buttonElement.classList.add('active');
 
-    currentCategory = categoryId;
+    currentChapter = chapterId;
     await fetchNewQuestion();
 }
 
@@ -53,8 +71,13 @@ async function selectCategory(categoryId, buttonElement) {
  * Fetch a new question from the API
  */
 async function fetchNewQuestion() {
-    if (!currentCategory) {
-        alert('Please select a category first');
+    if (!currentChapter) {
+        alert('Please select a chapter first');
+        return;
+    }
+
+    if (!sessionId) {
+        alert('Session not initialized. Please refresh the page.');
         return;
     }
 
@@ -70,9 +93,15 @@ async function fetchNewQuestion() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                category: currentCategory
+                sessionId: sessionId,
+                chapter: currentChapter
             })
         });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`HTTP ${response.status}: ${errorData.detail || 'Failed to fetch question'}`);
+        }
 
         const data = await response.json();
 
@@ -81,12 +110,15 @@ async function fetchNewQuestion() {
             displayQuestion(data);
             questionsGenerated++;
             updateStats();
+            document.getElementById('questionCard').style.display = 'block';
         } else {
-            alert('Error fetching question: ' + data.error);
+            throw new Error(data.detail || 'Unknown error');
         }
     } catch (error) {
         console.error('Error fetching question:', error);
-        alert('Error loading question. Please try again.');
+        document.getElementById('questionCard').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'block';
+        alert('Error loading question: ' + error.message);
     } finally {
         // Hide loading state
         document.getElementById('loadingSpinner').style.display = 'none';
@@ -98,8 +130,8 @@ async function fetchNewQuestion() {
  */
 function displayQuestion(data) {
     // Update topic badge
-    document.getElementById('topicBadge').textContent = data.categoryName;
-    document.getElementById('topicBadge').style.background = getCategoryColor(data.category);
+    document.getElementById('topicBadge').textContent = data.chapterName;
+    document.getElementById('topicBadge').style.background = getCategoryColor(data.chapter);
 
     // Update question title
     document.getElementById('questionTitle').textContent = data.topic;
@@ -142,7 +174,7 @@ function displayQuestion(data) {
 
     // Handle MCQ options
     if (data.options && data.options.length > 0) {
-        displayMCQOptions(data.options, data.category);
+        displayMCQOptions(data.options, data.chapter);
         document.getElementById('mcqOptionsContainer').style.display = 'block';
         document.getElementById('revealSection').style.display = 'none';
     } else {
@@ -378,29 +410,29 @@ function parseMarkdownTable(markdown) {
 /**
  * Get category color
  */
-function getCategoryColor(category) {
+function getCategoryColor(chapter) {
     const colors = {
         // Boxes & Sketches
-        'dice': '#ef4444',
-        'cube': '#f59e0b',
+        'dice_logic': '#ef4444',
+        'cube_counting': '#f59e0b',
         'nets': '#8b5cf6',
         // Data Handling
-        'data': '#2563eb',
+        'data_handling': '#2563eb',
         // Shapes & Angles
-        'angles': '#ec4899',
+        'clock_angles': '#ec4899',
         'symmetry': '#06b6d4',
         'rotation': '#14b8a6',
         // Number Systems
-        'numbers': '#10b981',
-        'factors': '#059669',
+        'large_numbers': '#10b981',
+        'factors_multiples': '#059669',
         // Fractions & Decimals
-        'fractions': '#f97316',
+        'fractions_decimals': '#f97316',
         // Geometry & Measurement
-        'geometry': '#7c3aed',
+        'geometry_measurement': '#7c3aed',
         // Data & Patterns
-        'patterns': '#dc2626'
+        'data_patterns': '#dc2626'
     };
-    return colors[category] || '#2563eb';
+    return colors[chapter] || '#2563eb';
 }
 
 /**
