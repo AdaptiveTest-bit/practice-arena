@@ -2,7 +2,9 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
+from models.distractor import MisconceptionType
 
 
 class RotationStrategy(BaseChapterStrategy):
@@ -47,10 +49,33 @@ class RotationStrategy(BaseChapterStrategy):
         
         rotation = random.choice(list(rotations.keys()))
         correct_answer = f"Rotated {rotation}"
-        distractors = ["No change", "Reflected only", "Moved only"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPERATION_DIRECTION: 
+                "No change",  # Ignores rotation
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "Reflected only",  # Confuses rotation with reflection
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Moved only"  # Confuses with translation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPERATION_DIRECTION,
+            difficulty=1,
+            custom_description="Student ignores rotation instruction or confuses rotation direction with reflection/translation",
+            custom_why_effective="Basic transformation; students often report 'no change' when rotation occurs",
+            custom_how_to_avoid="Rotation changes orientation; 90° turns shape quarter turn; track how many degrees and which direction"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -66,7 +91,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -78,11 +106,24 @@ class RotationStrategy(BaseChapterStrategy):
         angle = random.choice(angles)
         
         correct_answer = f"Figure rotated {angle}°"
-        distractors = [f"Figure rotated {random.choice([a for a in angles if a != angle])}°", 
-                      "Figure reflected", "Figure translated"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"Figure rotated {random.choice([a for a in angles if a != angle])}°",  # Wrong angle
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Figure reflected",  # Confuses rotation with reflection
+            MisconceptionType.OPERATION_DIRECTION: 
+                "Figure translated"  # Confuses with translation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -99,7 +140,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.INCOMPLETE_REASONING, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -112,11 +156,24 @@ class RotationStrategy(BaseChapterStrategy):
         rotation_amount = random.choice([90, 180, 270])
         
         correct_answer = f"Rotated {rotation_amount}° around {axis}"
-        distractors = [f"Rotated {rotation_amount}° around different axis", 
-                      "Reflected in plane", "Translated in space"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"Rotated {rotation_amount}° around different axis",  # Wrong axis
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Reflected in plane",  # Confuses with reflection
+            MisconceptionType.OPERATION_DIRECTION: 
+                "Translated in space"  # Confuses with translation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.ANALYZE,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -133,7 +190,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.INCOMPLETE_REASONING, difficulty=3),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -149,10 +209,24 @@ class RotationStrategy(BaseChapterStrategy):
         angle = angle_map[end_position]
         
         correct_answer = f"{angle}°"
-        distractors = [f"{(angle + 90) % 360}°", f"{(angle + 180) % 360}°", "360°"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{(angle + 90) % 360}°",  # Off by 90 degrees
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{(angle + 180) % 360}°",  # Wrong calculation
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "360°"  # Full rotation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -169,7 +243,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.ARITHMETIC_ERROR, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -182,12 +259,24 @@ class RotationStrategy(BaseChapterStrategy):
         new_hour = (hour + steps) % 12 if (hour + steps) % 12 != 0 else 12
         
         correct_answer = f"{new_hour} o'clock"
-        distractors = [f"{(new_hour % 12) + 1 if new_hour != 12 else 1} o'clock", 
-                      f"{(new_hour - 1) if new_hour > 1 else 12} o'clock",
-                      "6 o'clock"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{(new_hour % 12) + 1 if new_hour != 12 else 1} o'clock",  # Off by one
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{(new_hour - 1) if new_hour > 1 else 12} o'clock",  # Wrong direction
+            MisconceptionType.OPERATION_DIRECTION: 
+                "6 o'clock"  # Opposite position
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -203,7 +292,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.ARITHMETIC_ERROR, difficulty=1),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -215,10 +307,24 @@ class RotationStrategy(BaseChapterStrategy):
         operation2 = "Reflect horizontally"
         
         correct_answer = f"{operation1}, then {operation2}"
-        distractors = [f"{operation2}, then {operation1}", "Just rotate", "Just reflect"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{operation2}, then {operation1}",  # Reverses order (order matters!)
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "Just rotate",  # Misses one step
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Just reflect"  # Misses one step
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -234,7 +340,10 @@ class RotationStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.OPERATION_DIRECTION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

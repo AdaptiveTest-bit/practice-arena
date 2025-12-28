@@ -2,6 +2,8 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
+from models.distractor import MisconceptionType
 import random
 
 
@@ -44,14 +46,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         remaining = original - removed
         
         correct_answer = f"{remaining}"
-        distractors = [
-            f"{original}",
-            f"{removed}",
-            f"{size * size}"  # Wrong calculation
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{original}",  # Shows original count, not remaining
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{removed}",    # Shows removed count, not remaining
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{size * size}" # Wrong calculation using size only
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=1,
+            custom_description="Student forgets to subtract removed cubes, providing only the count of what was removed",
+            custom_why_effective="Simple math problem with a clear subtraction step that students miss",
+            custom_how_to_avoid="Always subtract the removed amount from the original total"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.UNDERSTAND,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -69,7 +90,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -83,10 +107,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         remaining = original - layer_size
         
         correct_answer = f"{remaining}"
-        distractors = [f"{layer_size}", f"{original}", f"{remaining + layer_size}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{layer_size}",  # Shows layer size, not remaining
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC: 
+                f"{original}",     # Shows original, not remaining
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{remaining + layer_size}"  # Double-counted
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student counts the layer size instead of the remaining cubes after removal",
+            custom_why_effective="Combines 2D and 3D calculations; students often report intermediate step values",
+            custom_how_to_avoid="Always work through: calculate layer, then subtract from total"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -104,7 +151,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -118,10 +168,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         remaining = original - corners
         
         correct_answer = f"{remaining}"
-        distractors = [f"{corners}", f"{original}", f"{size * size * size - corners + 1}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{corners}",  # Shows corners count, not remaining
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC: 
+                f"{original}", # Shows original, not remaining
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{size * size * size - corners + 1}"  # Off-by-one error
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.CONSTRAINT_VIOLATION,
+            difficulty=3,
+            custom_description="Student misrembers or miscounts the number of corners on a cube (should be exactly 8)",
+            custom_why_effective="Spatial reasoning with a specific geometric constraint that's easy to forget",
+            custom_how_to_avoid="Remember: a cube always has exactly 8 corners (vertices), 12 edges, 6 faces"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.ANALYZE,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -139,7 +212,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -153,10 +229,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         total_edge_cubes = (12 * cubes_per_edge) - (12 + 8)
         
         correct_answer = f"{total_edge_cubes}"
-        distractors = [f"{12 * size}", f"{size * size * 6}", f"{size}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{12 * size}",  # Counts edges but not subtract corners
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC: 
+                f"{size * size * 6}",  # Counts all surface cubes
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                f"{size}"  # Just reports size
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student counts edges but forgets to subtract corners which are counted multiple times",
+            custom_why_effective="Multi-step spatial counting that requires understanding of overlap and deduplication",
+            custom_how_to_avoid="When counting edges, always remember corners belong to 3 edges each; subtract them appropriately"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -175,7 +274,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -188,9 +290,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         unpainted = (size - 2) ** 3
         
         correct_answer = f"{unpainted}"
-        distractors = [f"{original}", f"{original - unpainted}", f"{size * size * 6}"]
         
-        options, correct_idx = self.shuffle_options_keep_correct(correct_answer, distractors)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC: 
+                f"{original}",  # Shows all cubes, not unpainted
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{original - unpainted}",  # Shows painted count, not unpainted
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{size * size * 6}"  # Shows only surface formula
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=3,
+            custom_description="Student confuses painted (surface) cubes with unpainted (interior) cubes, reporting opposite value",
+            custom_why_effective="Classic K.C. Nag trap; students often compute painted correctly but answer wrong question",
+            custom_how_to_avoid="Read carefully: are we counting painted or unpainted? For unpainted interior: use (n-2)³"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.ANALYZE,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -208,7 +334,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -224,11 +353,33 @@ class CubeCountingStrategy(BaseChapterStrategy):
         cubes_fit = (large // small) ** 3
         
         correct_answer = f"{cubes_fit}"
-        distractors = [f"{large * small}", f"{(large + small) ** 3}", f"{large ** 3}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        random.shuffle(options)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{large * small}",  # Multiply instead of divide
+            MisconceptionType.OPERATION_SELECTION: 
+                f"{(large + small) ** 3}",  # Add instead of divide
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{large ** 3}"  # Shows large cube, not packing
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPERATION_SELECTION,
+            difficulty=3,
+            custom_description="Student chooses wrong operation: multiplies or adds dimensions instead of dividing",
+            custom_why_effective="Tests both spatial reasoning and operation selection; multiple plausible wrong operations",
+            custom_how_to_avoid="Remember: packing smaller into larger requires division: divide each dimension, then cube the result"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.ANALYZE,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -249,7 +400,10 @@ class CubeCountingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

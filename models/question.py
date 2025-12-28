@@ -4,22 +4,44 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from enum import Enum
 import hashlib
+from models.distractor import DistractorSet, TrapInfo
+from models.cognitive_levels import BloomInfo
 
 
 class ChapterEnum(str, Enum):
     """Enum of available chapters."""
-    DICE_LOGIC = "dice_logic"
-    CUBE_COUNTING = "cube_counting"
-    NETS = "nets"
-    DATA_HANDLING = "data_handling"
+    # Chapter 1: The Fish Tale
+    LARGE_NUMBERS = "large_numbers"
+    # Chapter 2: Shapes & Angles
     CLOCK_ANGLES = "clock_angles"
     SYMMETRY = "symmetry"
     ROTATION = "rotation"
-    LARGE_NUMBERS = "large_numbers"
-    FACTORS_MULTIPLES = "factors_multiples"
+    # Chapter 3: How Many Squares
+    FRACTION_AREA = "fraction_area"
+    # Chapter 4: Parts & Wholes
     FRACTIONS_DECIMALS = "fractions_decimals"
-    GEOMETRY_MEASUREMENT = "geometry_measurement"
+    # Chapter 5: Does it Look the Same
+    DICE_LOGIC = "dice_logic"
+    NETS = "nets"
+    # Chapter 6: Be My Multiple
+    FACTORS_MULTIPLES = "factors_multiples"
+    # Chapter 7: Can You See Pattern
     DATA_PATTERNS = "data_patterns"
+    # Chapter 8: Mapping Your Way
+    MAPPING = "mapping"
+    # Chapter 9: Boxes & Sketches
+    CUBE_COUNTING = "cube_counting"
+    GEOMETRY_MEASUREMENT = "geometry_measurement"
+    # Chapter 10: Tenths & Hundredths
+    # (FRACTIONS_DECIMALS covers this)
+    # Chapter 11: Area & Boundary
+    # (GEOMETRY_MEASUREMENT covers this)
+    # Chapter 12: Smart Charts
+    DATA_HANDLING = "data_handling"
+    # Chapter 13: Ways to Multiply/Divide
+    MULTIPLICATION_DIVISION = "multiplication_division"
+    # Chapter 14: How Big/Heavy
+    MEASUREMENT = "measurement"
 
 
 class Question(BaseModel):
@@ -34,6 +56,9 @@ class Question(BaseModel):
     options: Optional[List[str]] = Field(None, description="MCQ options (4 choices)")
     correct_option_index: Optional[int] = Field(None, ge=0, le=3, description="Index of correct answer")
     chapter: ChapterEnum = Field(..., description="Chapter/category")
+    distractor_info: Optional[DistractorSet] = Field(None, description="Phase 1: Pedagogical info about distractors")
+    trap_info: Optional[TrapInfo] = Field(None, description="Phase 2: Trap classification and difficulty metadata")
+    bloom_info: Optional[BloomInfo] = Field(None, description="Phase 3: Bloom's cognitive level and difficulty scaling")
     
     class Config:
         use_enum_values = True
@@ -87,6 +112,7 @@ class QuestionResponse(BaseModel):
 class CheckAnswerRequest(BaseModel):
     """Request body for answer checking."""
     selectedIndex: int = Field(..., ge=0, le=3)
+    studentId: Optional[str] = Field(None, description="Optional student ID for adaptive learning tracking")
 
 
 class CheckAnswerResponse(BaseModel):

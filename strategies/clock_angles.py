@@ -2,7 +2,9 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
+from models.distractor import MisconceptionType
 
 
 class ClockAnglesStrategy(BaseChapterStrategy):
@@ -42,10 +44,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         angle = hour * 30  # 360/12 = 30 degrees per hour
         
         correct_answer = f"{angle}°"
-        distractors = [f"{hour * 6}°", f"{hour * 60}°", f"{360 - angle}°"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{hour * 6}°",  # Confuses with minute calculation
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{hour * 60}°",  # Uses 60 instead of 30
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{360 - angle}°"  # Computes complement angle
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.ARITHMETIC_ERROR,
+            difficulty=1,
+            custom_description="Student uses 60 degrees per hour instead of 30; confuses minute/hour division",
+            custom_why_effective="Simple arithmetic error; students often multiply by wrong constant without verification",
+            custom_how_to_avoid="Remember: 360° ÷ 12 hours = 30° per hour; verify by checking that 12 hours = 360°"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -63,7 +88,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -75,10 +103,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         angle = (minutes // 5) * 30  # 60 minutes = 360°, so 5 min = 30°
         
         correct_answer = f"{angle}°"
-        distractors = [f"{minutes}°", f"{minutes * 6}°", f"{360 - angle}°"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{minutes}°",  # Confuses minute markers with degrees
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{minutes * 6}°",  # Uses wrong multiplier (6 instead of recognizing 30° pattern)
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{360 - angle}°"  # Computes complement angle
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.ARITHMETIC_ERROR,
+            difficulty=1,
+            custom_description="Student confuses minute count with degree measure; reports minutes instead of multiplying by 6",
+            custom_why_effective="Direct confusion between two different units; surface similarity causes errors",
+            custom_how_to_avoid="Remember: 60 minutes = 360°, so 1 minute = 6°; multiply minute count by 6 for degrees"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -95,7 +146,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -109,10 +163,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         angle_diff = abs(hour_angle - minute_angle)
         
         correct_answer = f"{hour_angle}°"
-        distractors = [f"{360 - hour_angle}°", f"{hour * 60}°", "180°"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{360 - hour_angle}°",  # Confuses with complement angle
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{hour * 60}°",  # Wrong multiplier
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                "180°"  # Assumes it's always opposite
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.ARITHMETIC_ERROR,
+            difficulty=2,
+            custom_description="Student computes complement angle instead of the actual angle between hands",
+            custom_why_effective="Requires careful attention to what's being asked; students often compute related but wrong value",
+            custom_how_to_avoid="Find both hand positions; subtract to get angle between them; verify answer makes sense"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -128,7 +205,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -140,10 +220,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         hour = angle // 30
         
         correct_answer = f"{hour}:00"
-        distractors = [f"{hour-1}:00", f"{hour+1}:00", f"{angle // 6}:00"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                f"{hour-1}:00",  # Off-by-one error
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{angle // 6}:00",  # Uses wrong divisor
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{hour+1}:00"  # Off by one in other direction
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPERATION_DIRECTION,
+            difficulty=2,
+            custom_description="Student divides by wrong number (6 instead of 30) when converting angle to time",
+            custom_why_effective="Requires correct operation; students confuse minute/hour division rules",
+            custom_how_to_avoid="Remember: Each hour = 30°; to find time, divide angle by 30 (not by 6 which is for minutes)"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -159,7 +262,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -172,10 +278,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         percent = int(fraction * 100)
         
         correct_answer = f"{hours}/12 of rotation ({percent}%)"
-        distractors = [f"{hours}/24 of rotation", f"{12-hours}/12 of rotation", "1 full rotation"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{hours}/24 of rotation",  # Uses 24 instead of 12 (confuses with 24-hour clock)
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{12-hours}/12 of rotation",  # Inverts the fraction
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "1 full rotation"  # Doesn't capture partial rotation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student forgets that clock has 12-hour cycle; uses 24-hour clock denominator instead",
+            custom_why_effective="Students often confuse clock (12 hours) with daily time (24 hours); both are familiar systems",
+            custom_how_to_avoid="Remember: Clock fractions use denominator 12, not 24; a full clock rotation = 12 hours"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -191,7 +320,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -204,11 +336,33 @@ class ClockAnglesStrategy(BaseChapterStrategy):
         result = ((start_hour + add_hours - 1) % 12) + 1
         
         correct_answer = f"{result}:00"
-        distractors = [f"{start_hour + add_hours}:00", f"{(start_hour + add_hours) % 12}:00", 
-                      f"{start_hour}:00"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{start_hour + add_hours}:00",  # Forgets modulo 12 rule
+            MisconceptionType.OPERATION_DIRECTION: 
+                f"{(start_hour + add_hours) % 12}:00",  # Wrong modulo application (off by one)
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{start_hour}:00"  # Doesn't add at all
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.CONSTRAINT_VIOLATION,
+            difficulty=2,
+            custom_description="Student forgets modulo 12 constraint on clock; reports time greater than 12",
+            custom_why_effective="Violates the fundamental constraint that clock has only 12 hours; easy oversight",
+            custom_how_to_avoid="After adding hours, check if result > 12; if yes, subtract 12 to get actual clock time"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -224,7 +378,10 @@ class ClockAnglesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

@@ -2,7 +2,9 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
+from models.distractor import MisconceptionType
 
 
 class SymmetryStrategy(BaseChapterStrategy):
@@ -43,11 +45,25 @@ class SymmetryStrategy(BaseChapterStrategy):
         
         test_letter = random.choice(symmetric_letters)
         correct_answer = f"{test_letter} - Symmetric"
-        distractors = [f"{test_letter} - Not symmetric", f"{random.choice(asymmetric_letters)} - Symmetric", 
-                      "None"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{test_letter} - Not symmetric",  # Denies correct symmetry
+            MisconceptionType.SIMILAR_CONCEPT_ERROR: 
+                f"{random.choice(asymmetric_letters)} - Symmetric",  # Identifies wrong letter
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "None"  # Doesn't answer properly
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -66,7 +82,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -79,11 +98,25 @@ class SymmetryStrategy(BaseChapterStrategy):
         
         test_word = random.choice(symmetric_words)
         correct_answer = f"{test_word} - Palindrome (Symmetric)"
-        distractors = [f"{test_word} - Not symmetric", f"{random.choice(asymmetric_words)} - Symmetric",
-                      "None"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{test_word} - Not symmetric",  # Denies correct palindrome
+            MisconceptionType.SIMILAR_CONCEPT_ERROR: 
+                f"{random.choice(asymmetric_words)} - Symmetric",  # Wrong word choice
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "None"  # Doesn't answer
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -101,7 +134,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -110,10 +146,25 @@ class SymmetryStrategy(BaseChapterStrategy):
     def _generate_shape_reflection(self) -> Question:
         """Reflect a shape across a line."""
         correct_answer = "Reflected shape matches pattern"
-        distractors = ["Reflected shape is rotated", "Reflected shape is flipped wrong", "No reflection"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Reflected shape is rotated",  # Confuses reflection with rotation
+            MisconceptionType.SIMILAR_CONCEPT_ERROR: 
+                "Reflected shape is flipped wrong",  # Reflects incorrectly
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "No reflection"  # Doesn't apply transformation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -130,7 +181,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -143,11 +197,24 @@ class SymmetryStrategy(BaseChapterStrategy):
         line_count = shapes[shape]
         
         correct_answer = f"{line_count} line(s)"
-        distractors = [f"{int(line_count) if isinstance(line_count, (int, float)) else 1} line(s)", 
-                      "0 lines", "No symmetry"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{int(line_count) if isinstance(line_count, (int, float)) else 1} line(s)",  # Misses some lines
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "0 lines",  # Says no symmetry
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                "No symmetry"  # Doesn't recognize concept
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -162,7 +229,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -175,10 +245,24 @@ class SymmetryStrategy(BaseChapterStrategy):
         order = shapes[shape]
         
         correct_answer = f"{order} (rotational order)"
-        distractors = ["0", "1", "2"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "0",  # Says no rotational symmetry
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "1",  # Off by one
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                "2"  # Wrong order
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -194,7 +278,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -206,10 +293,25 @@ class SymmetryStrategy(BaseChapterStrategy):
         symmetric_count = random.randint(2, total_shapes - 1)
         
         correct_answer = f"{symmetric_count} shapes"
-        distractors = [f"{symmetric_count - 1}", f"{symmetric_count + 1}", f"{total_shapes}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{symmetric_count - 1}",  # Misses one shape
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{symmetric_count + 1}",  # Counts extra
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                f"{total_shapes}"  # Counts all shapes instead
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -224,7 +326,10 @@ class SymmetryStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(MisconceptionType.PATTERN_MISIDENTIFICATION, difficulty=2),  # Phase 2
+        bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

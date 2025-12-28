@@ -7,7 +7,9 @@ Covers:
 """
 
 import random
+from models.distractor import MisconceptionType
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 from strategies.base import BaseChapterStrategy
 
 
@@ -59,15 +61,34 @@ class DataPatternsStrategy(BaseChapterStrategy):
 
         # MCQ options
         correct_answer = str(answer)
-        distractors = [
-            str(answer + 5),
-            str(answer - 5),
-            str(position * 10),
-        ]
+        
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.PATTERN_MISIDENTIFICATION: 
+                str(answer + 5),  # Wrong pattern, off by constant
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                str(answer - 5),  # Opposite error
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(position * 10)  # Simple multiplication instead of pattern
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
 
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
-
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.PATTERN_MISIDENTIFICATION,
+            difficulty=2,
+            custom_description="Student misidentifies pattern rule; tries simple addition instead of recognizing squares/triangular/Fibonacci",
+            custom_why_effective="Complex pattern recognition; multiple plausible wrong patterns exist; students often try simplest explanation",
+            custom_how_to_avoid="Check differences between consecutive terms; look for multiplication, squaring, or addition patterns; verify with multiple terms"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
+        
         question = Question(
             chapter=self.chapter,
             topic="Data & Patterns - Number Sequences",
@@ -82,6 +103,9 @@ class DataPatternsStrategy(BaseChapterStrategy):
             answer=str(answer),
             options=options,
             correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         self._validate_question(question)
         return question
@@ -112,15 +136,34 @@ class DataPatternsStrategy(BaseChapterStrategy):
 
         # MCQ options
         correct_answer = str(missing_value)
-        distractors = [
-            str(missing_value + 10),
-            str(missing_value - 10),
-            str(total - sum(values) + 20),
-        ]
+        
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(missing_value + 10),  # Adds extra to the answer
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                str(missing_value - 10),  # Subtracts from answer
+            MisconceptionType.LOGICAL_DISCONNECT: 
+                str(total - sum(values) + 20)  # Adds extra offset
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
 
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
-
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student adds the visible values but forgets to use the total constraint; reports sum instead of finding missing",
+            custom_why_effective="Requires backward calculation; students often compute intermediate result without completing the process",
+            custom_how_to_avoid="Always use the total as a constraint: Missing = Total - Sum of Known; verify by adding all values including missing"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
+        
         question = Question(
             chapter=self.chapter,
             topic="Data & Patterns - Missing Data in Tables",
@@ -135,6 +178,9 @@ class DataPatternsStrategy(BaseChapterStrategy):
             answer=str(missing_value),
             options=options,
             correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         self._validate_question(question)
         return question
@@ -157,19 +203,34 @@ class DataPatternsStrategy(BaseChapterStrategy):
 
         # MCQ options - ensure uniqueness
         correct_answer = f"{actual_counts[query_item]}"
-        count_only = str(symbol_counts[query_item])  # Just counting icons
-        wrong_scale = str(
-            int(symbol_counts[query_item] * (scale_value // 2))
-        )  # Wrong scale (half)
-        # Get a different item's actual count to avoid duplication
-        other_items = [i for i in items if i != query_item]
-        wrong_other = str(actual_counts[other_items[0]])
+        
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.PATTERN_MISIDENTIFICATION: 
+                str(symbol_counts[query_item]),  # Just counting icons, forgot scale
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(int(symbol_counts[query_item] * (scale_value // 2))),  # Wrong scale (half)
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                str(actual_counts[[i for i in items if i != query_item][0]])  # Different item's count
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
 
-        options = self.ensure_unique_options(
-            [correct_answer, count_only, wrong_scale, wrong_other]
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.PATTERN_MISIDENTIFICATION,
+            difficulty=1,
+            custom_description="Student counts pictograph icons instead of applying scale; misses the multiplication pattern",
+            custom_why_effective="Scale is clearly shown but students overlook it; basic pattern recognition that students often fail",
+            custom_how_to_avoid="Always check the legend/scale first; multiply icon count by scale value; never report just the icon count"
         )
-        correct_idx = options.index(correct_answer)
-
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.UNDERSTAND,
+            trap_difficulty=1
+        )
+        
         question = Question(
             chapter=self.chapter,
             topic="Data & Patterns - Pictographs with Non-Unitary Scale",
@@ -184,6 +245,9 @@ class DataPatternsStrategy(BaseChapterStrategy):
             answer=f"{actual_counts[query_item]}",
             options=options,
             correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         self._validate_question(question)
         return question

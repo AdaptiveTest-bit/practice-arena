@@ -2,7 +2,9 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
+from models.distractor import MisconceptionType
 
 
 class DataHandlingStrategy(BaseChapterStrategy):
@@ -43,14 +45,33 @@ class DataHandlingStrategy(BaseChapterStrategy):
             table += f"| {day} | {symbols} | {items} |\n"
         
         correct_answer = str(actual_items)
-        distractors = [
-            str(data[query_day]),
-            str(actual_items + 10),
-            str(actual_items * scale)
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(data[query_day]),  # Forgot to multiply by scale
+            MisconceptionType.ARITHMETIC_ERROR: 
+                str(actual_items + 10),  # Off-by-one arithmetic
+            MisconceptionType.OPERATION_SELECTION: 
+                str(actual_items * scale)  # Double multiplied
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student sees the scale (1 symbol = N items) but forgets to multiply; reports only symbol count",
+            custom_why_effective="Non-unitary scale is a classic trap; students often read the scale but apply it incorrectly",
+            custom_how_to_avoid="Always check the scale legend; multiply symbol count by scale; verify multiplication"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -68,7 +89,10 @@ class DataHandlingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -108,14 +132,33 @@ class DataHandlingStrategy(BaseChapterStrategy):
         
         query_cat = categories[missing_idx]
         correct_answer = str(missing_value)
-        distractors = [
-            str(missing_value + 10),
-            str(total_sum - running_sum - 5),
-            str(running_sum)
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                str(missing_value + 10),  # Off-by-10 error
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(total_sum - running_sum - 5),  # Subtraction error
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                str(running_sum)  # Shows known sum instead of missing
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.ARITHMETIC_ERROR,
+            difficulty=2,
+            custom_description="Student makes computational error when subtracting known sum from total; off-by-N mistakes",
+            custom_why_effective="Subtraction itself is error-prone; students often make mistakes in multi-step computation",
+            custom_how_to_avoid="Write out: Total = Known1 + Known2 + ... + Missing; Rearrange; Subtract step-by-step; Verify"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -131,7 +174,10 @@ class DataHandlingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -153,14 +199,33 @@ class DataHandlingStrategy(BaseChapterStrategy):
         table += f"| {item2} | {val2} |\n"
         
         correct_answer = str(difference)
-        distractors = [
-            str(difference + 5),
-            str(val1),
-            str(val1 + val2)
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.ARITHMETIC_ERROR: 
+                str(difference + 5),  # Off-by-5
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str(val1),             # Shows first value, not difference
+            MisconceptionType.OPERATION_SELECTION: 
+                str(val1 + val2)       # Adds instead of subtracts
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPERATION_SELECTION,
+            difficulty=1,
+            custom_description="Student adds quantities instead of subtracting when finding 'how many more/less' difference",
+            custom_why_effective="Simple error showing confusion about 'difference' vs 'total'; basic operation selection",
+            custom_how_to_avoid="'Difference' always means subtract: larger minus smaller; 'How many more/less' = subtraction"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.UNDERSTAND,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -177,7 +242,10 @@ class DataHandlingStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

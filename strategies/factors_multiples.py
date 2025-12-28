@@ -2,7 +2,9 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
+from models.distractor import MisconceptionType
 import math
 
 
@@ -45,13 +47,32 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         factors = [i for i in range(1, number + 1) if number % i == 0]
         correct_answer = f"{factors}"
         
-        # Create wrong options by missing/adding factors
-        wrong1 = str([i for i in range(1, number) if number % i == 0])  # Missing last
-        wrong2 = str([i for i in range(1, number + 1) if number % i == 0 and i != factors[-2]])  # Missing one
-        wrong3 = str([1, number])  # Only 1 and number
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str([i for i in range(1, number) if number % i == 0]),  # Missing the number itself
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                str([i for i in range(1, number + 1) if number % i == 0 and i != factors[-2]]),  # Missing a factor
+            MisconceptionType.ARITHMETIC_ERROR: 
+                str([1, number])  # Only 1 and the number
+        }
         
-        options = self.ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=1,
+            custom_description="Student forgets to include 1 and the number itself as factors of a number",
+            custom_why_effective="Common oversight; students often think only 'middle' factors count",
+            custom_how_to_avoid="Remember: 1 divides everything; the number divides itself; find ALL divisors with no remainder"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -72,7 +93,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -86,13 +110,32 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         multiples = [number * i for i in range(1, count + 1)]
         correct_answer = f"{multiples}"
         
-        # Wrong options
-        wrong1 = str([number * i for i in range(0, count)])  # Starting from 0
-        wrong2 = str([number * i for i in range(1, count)])  # One less
-        wrong3 = str([number * i for i in range(1, count + 2)])  # One more
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                str([number * i for i in range(0, count)]),  # Starting from 0
+            MisconceptionType.INCOMPLETE_REASONING: 
+                str([number * i for i in range(1, count)]),  # One less
+            MisconceptionType.ARITHMETIC_ERROR: 
+                str([number * i for i in range(1, count + 2)])  # One more
+        }
         
-        options = self.ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.CONSTRAINT_VIOLATION,
+            difficulty=1,
+            custom_description="Student starts multiples from 0 instead of the number itself (n×0=0 is not a 'first multiple')",
+            custom_why_effective="Basic constraint violation; 0 times anything is 0, but we don't list 0 as a multiple",
+            custom_how_to_avoid="Multiples start at n×1, not n×0; the first multiple is the number itself"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -110,7 +153,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -123,10 +169,33 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         
         is_divisible = number % divisor == 0
         correct_answer = f"{'Yes' if is_divisible else 'No'}, {number} is {'divisible' if is_divisible else 'not divisible'} by {divisor}"
-        wrong_answer = f"{'No' if is_divisible else 'Yes'}, {number} is {'not divisible' if is_divisible else 'divisible'} by {divisor}"
         
-        options = self.ensure_unique_options([correct_answer, wrong_answer, "Cannot determine", "Partially divisible"])
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"{'No' if is_divisible else 'Yes'}, {number} is {'not divisible' if is_divisible else 'divisible'} by {divisor}",  # Inverted answer
+            MisconceptionType.INCOMPLETE_REASONING: 
+                "Cannot determine",  # Unclear logic
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                "Partially divisible"  # Invalid concept
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=1,
+            custom_description="Student inverts the divisibility test result; says 'no' when answer is 'yes' or vice versa",
+            custom_why_effective="Simple Boolean confusion; testing divisibility is straightforward but students often flip the answer",
+            custom_how_to_avoid="Check remainder: 0 remainder = divisible; any other remainder = NOT divisible; verify before answering"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.REMEMBER,
+            trap_difficulty=1
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -142,7 +211,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -156,12 +228,32 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         lcm = (a * b) // math.gcd(a, b)
         correct_answer = f"LCM({a}, {b}) = {lcm}"
         
-        wrong1 = f"LCM({a}, {b}) = {a * b}"  # Product
-        wrong2 = f"LCM({a}, {b}) = {max(a, b)}"  # Larger number
-        wrong3 = f"LCM({a}, {b}) = {math.gcd(a, b)}"  # GCD instead
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.FORMULA_MISAPPLICATION: 
+                f"LCM({a}, {b}) = {a * b}",  # Product instead of LCM
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"LCM({a}, {b}) = {max(a, b)}",  # Just the larger number
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"LCM({a}, {b}) = {math.gcd(a, b)}"  # GCD instead of LCM
+        }
         
-        options = self.ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.FORMULA_MISAPPLICATION,
+            difficulty=2,
+            custom_description="Student multiplies the two numbers instead of finding their least common multiple",
+            custom_why_effective="Product is closest wrong answer; students often apply wrong formula when confused",
+            custom_how_to_avoid="LCM ≠ a×b; use prime factorization or list multiples; LCM is usually smaller than product"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -178,7 +270,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -192,12 +287,32 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         gcd = math.gcd(a, b)
         correct_answer = f"GCD({a}, {b}) = {gcd}"
         
-        wrong1 = f"GCD({a}, {b}) = {min(a, b)}"  # Smaller number
-        wrong2 = f"GCD({a}, {b}) = 1"  # Coprime
-        wrong3 = f"GCD({a}, {b}) = {(a * b) // math.lcm(a, b)}"  # LCM formula
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"GCD({a}, {b}) = {min(a, b)}",  # Just the smaller number
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"GCD({a}, {b}) = 1",  # Assumes coprime
+            MisconceptionType.FORMULA_MISAPPLICATION: 
+                f"GCD({a}, {b}) = {(a * b) // math.lcm(a, b)}"  # LCM-based formula
+        }
         
-        options = self.ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.INCOMPLETE_REASONING,
+            difficulty=2,
+            custom_description="Student reports just the smaller number instead of finding greatest common divisor",
+            custom_why_effective="Incomplete reasoning; students sometimes report the smaller input value instead of computing GCD",
+            custom_how_to_avoid="List all factors of both numbers; find COMMON ones; select GREATEST; verify by dividing both numbers"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -214,7 +329,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -239,12 +357,32 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
         factors.sort()
         correct_answer = f"{number} = {' × '.join(map(str, factors))}"
         
-        wrong1 = f"{number} = {factors[0]} × {number // factors[0]}"
-        wrong2 = f"{number} = 2 × {number // 2}"
-        wrong3 = f"{number} = {[i for i in range(1, number+1) if number % i == 0]}"
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"{number} = {factors[0]} × {number // factors[0]}",  # Partial factorization
+            MisconceptionType.CONSTRAINT_VIOLATION: 
+                f"{number} = 2 × {number // 2}",  # Only divides by 2 once
+            MisconceptionType.PATTERN_MISIDENTIFICATION: 
+                f"{number} = {[i for i in range(1, number+1) if number % i == 0]}"  # Lists all factors instead of primes
+        }
         
-        options = self.ensure_unique_options([correct_answer, wrong1, wrong2, wrong3])
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.CONSTRAINT_VIOLATION,
+            difficulty=2,
+            custom_description="Student lists all factors instead of only PRIME factors; includes composite numbers",
+            custom_why_effective="Students often confuse 'all factors' with 'prime factors'; constraint violation by including composites",
+            custom_how_to_avoid="Remember: Prime factorization uses ONLY prime numbers (2,3,5,7,...); no composite factors allowed"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -262,7 +400,10 @@ class FactorsMultiplesStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)

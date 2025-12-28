@@ -2,6 +2,7 @@
 
 from strategies.base import BaseChapterStrategy
 from models.question import Question, ChapterEnum
+from models.cognitive_levels import BloomLevel, BloomInfo
 import random
 
 
@@ -38,6 +39,8 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_standard_dice(self) -> Question:
         """Standard opposite faces (sum = 7) problem."""
+        from models.distractor import MisconceptionType
+        
         faces = random.choice([
             {"shown": "1, 2, 3", "answer": "6, 5, 4"},
             {"shown": "2, 5, 6", "answer": "5, 2, 1"},
@@ -45,14 +48,33 @@ class DiceLogicStrategy(BaseChapterStrategy):
         ])
         
         correct_answer = faces["answer"]
-        distractors = [
-            faces["shown"],
-            "7, 7, 7",
-            "1, 1, 1"
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION:
+                faces["shown"],  # Returns same faces instead of opposite
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC:
+                "7, 7, 7",  # Thinks all opposites are 7
+            MisconceptionType.ARITHMETIC_ERROR:
+                "1, 1, 1"  # Off-by-one or wrong calculation
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=3,
+            custom_description="Student returns the shown faces instead of calculating their opposites",
+            custom_why_effective="Requires understanding that 1↔6, 2↔5, 3↔4 are inverse pairs",
+            custom_how_to_avoid="Always calculate: opposite = 7 - shown_face"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -73,7 +95,10 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,  # Phase 1
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -81,18 +106,39 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_logic_trap(self) -> Question:
         """The K.C. Nag logical trap: wrong inference about dice."""
+        from models.distractor import MisconceptionType
+        
         shown_face = random.choice([1, 2, 3])
         correct_opposite = 7 - shown_face
         
         correct_answer = f"{correct_opposite}"
-        trap_answers = [
-            str(shown_face),
-            "7",
-            str(random.choice([1, 2, 3, 4, 5, 6]) if random.choice([1, 2, 3, 4, 5, 6]) != correct_opposite else 5)
-        ]
         
-        options = self.ensure_unique_options([correct_answer] + trap_answers)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION:
+                str(shown_face),  # Returns same face instead of opposite
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC:
+                "7",  # Thinks opposite is always 7
+            MisconceptionType.ARITHMETIC_ERROR:
+                str(random.choice([x for x in [1, 2, 3, 4, 5, 6] if x != correct_opposite]))
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=2,
+            custom_description="K.C. Nag Trap: Student returns the shown face value instead of its opposite",
+            custom_why_effective="Easy to confuse when not carefully thinking through the relationship",
+            custom_how_to_avoid="Use subtraction formula: opposite = 7 - shown"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -109,7 +155,10 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -117,17 +166,28 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_multiple_faces(self) -> Question:
         """Count visible/hidden faces after rolling."""
+        from models.distractor import MisconceptionType
+        
         rolls = random.randint(2, 4)
         correct_answer = f"{7 * rolls} (sum of all opposite pairs)"
         
-        distractors = [
-            f"{rolls * 3} (incorrect calculation)",
-            f"{rolls * 6} (wrong method)",
-            f"21 (fixed answer)"
-        ]
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.INCOMPLETE_REASONING:
+                f"{rolls * 3} (incorrect calculation)",  # Partial calculation
+            MisconceptionType.OPERATION_SELECTION:
+                f"{rolls * 6} (wrong method)",  # Uses max face value
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC:
+                "21 (fixed answer)"  # Hardcoded wrong answer
+        }
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -145,7 +205,15 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=self.create_trap_info(
+                MisconceptionType.OPPOSITE_CONFUSION,
+                difficulty=2,
+                custom_description="Student forgets that opposite faces of a die sum to 7; provides only bottom total without subtraction",
+                custom_why_effective="Requires understanding a geometric constraint of dice that students often don't know",
+                custom_how_to_avoid="Remember: Standard die has opposite faces summing to 7; top + bottom = 7 per die; multiply by number of dice"
+            )
         )
         
         self._validate_question(question)
@@ -153,6 +221,8 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_pattern_dice(self) -> Question:
         """Pattern recognition with dice faces."""
+        from models.distractor import MisconceptionType
+        
         patterns = [
             {"sequence": "1, 2, 3, 4, 5, 6", "next": "Repeats (1)"},
             {"sequence": "2, 4, 6, 1, 3, 5", "next": "Pattern breaks"}
@@ -160,10 +230,33 @@ class DiceLogicStrategy(BaseChapterStrategy):
         pattern = random.choice(patterns)
         
         correct_answer = pattern["next"]
-        distractors = ["7", "0", "Continues forever"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.PATTERN_MISIDENTIFICATION:
+                "7",  # Thinks sequence continues beyond 6
+            MisconceptionType.INCOMPLETE_REASONING:
+                "0",  # Wrong boundary thinking
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC:
+                "Continues forever"  # Doesn't recognize dice limits
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.PATTERN_MISIDENTIFICATION,
+            difficulty=2,
+            custom_description="Student doesn't recognize that dice only have faces 1-6",
+            custom_why_effective="Requires understanding of constraint: dice faces never exceed 6",
+            custom_how_to_avoid="Remember: A standard die only has faces numbered 1 through 6"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -178,7 +271,10 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -186,13 +282,39 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_rotation_dice(self) -> Question:
         """Dice rotation and spatial reasoning."""
+        from models.distractor import MisconceptionType
+        
         initial_face = random.choice([1, 2, 3, 4, 5, 6])
         rotations = random.randint(1, 3)
         
         correct_answer = f"Face {7 - initial_face} (rotated {rotations} times)"
-        distractors = [f"Face {initial_face}", f"Face {7 - initial_face} (wrong rotation)", "Unknown"]
         
-        options, correct_idx = self.shuffle_options_keep_correct(correct_answer, distractors)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION:
+                f"Face {initial_face}",  # Returns same face after rotation
+            MisconceptionType.INCOMPLETE_REASONING:
+                f"Face {7 - initial_face} (wrong rotation)",  # Right opposite, wrong explanation
+            MisconceptionType.CONSTRAINT_VIOLATION:
+                "Unknown"  # Gives up instead of calculating
+        }
+        
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=3,
+            custom_description="Student loses track of face identity during rotation",
+            custom_why_effective="Requires spatial reasoning and tracking state changes",
+            custom_how_to_avoid="Track each rotation carefully: after each turn, note which face is on top"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.ANALYZE,
+            trap_difficulty=3
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -210,7 +332,10 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
@@ -218,14 +343,40 @@ class DiceLogicStrategy(BaseChapterStrategy):
     
     def _generate_profit_dice(self) -> Question:
         """Dice with profit/loss twist (K.C. Nag integration)."""
+        from models.distractor import MisconceptionType
+        
         dice_value = random.choice([1, 2, 3, 4, 5, 6])
         profit_per_point = random.choice([10, 15, 20])
         
         correct_answer = f"₹{dice_value * profit_per_point}"
-        distractors = [f"₹{(7 - dice_value) * profit_per_point}", f"₹{7 * profit_per_point}", f"₹{dice_value}"]
         
-        options = self.ensure_unique_options([correct_answer] + distractors)
-        correct_idx = options.index(correct_answer)
+        # 🆕 PHASE 1: CATEGORIZED DISTRACTORS
+        misconception_map = {
+            MisconceptionType.OPPOSITE_CONFUSION: 
+                f"₹{(7 - dice_value) * profit_per_point}",  # Uses opposite face
+            MisconceptionType.UNIVERSAL_VS_SPECIFIC: 
+                f"₹{7 * profit_per_point}",                  # Uses sum not shown value
+            MisconceptionType.INCOMPLETE_REASONING: 
+                f"₹{dice_value}"                              # Forgot multiplication
+        }
+        
+        # 🆕 USE NEW HELPER
+        options, correct_idx, distractor_info = \
+            self.create_categorized_distractors(correct_answer, misconception_map)
+        
+        # 🆕 PHASE 2: TRAP INFO
+        trap_info = self.create_trap_info(
+            MisconceptionType.OPPOSITE_CONFUSION,
+            difficulty=2,
+            custom_description="Student confuses the shown face value with the opposite face",
+            custom_why_effective="Combines dice logic with arithmetic, two potential confusion sources",
+            custom_how_to_avoid="Use the correct shown value for the die, not its opposite"
+        )
+        # 🆕 Phase 3: Assign Bloom's cognitive level
+        bloom_info = self.create_bloom_info(
+            BloomLevel.APPLY,
+            trap_difficulty=2
+        )
         
         question = Question(
             chapter=self.chapter,
@@ -243,7 +394,10 @@ class DiceLogicStrategy(BaseChapterStrategy):
             ],
             answer=correct_answer,
             options=options,
-            correct_option_index=correct_idx
+            correct_option_index=correct_idx,
+            distractor_info=distractor_info,
+            trap_info=trap_info,  # Phase 2
+            bloom_info=bloom_info  # 🆕 Phase 3
         )
         
         self._validate_question(question)
