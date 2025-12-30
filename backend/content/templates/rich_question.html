@@ -1,0 +1,337 @@
+<div class="rich-question-container" data-question-id="{{ skeleton.parameters.get('target_number', 'q') }}">
+    
+    <!-- Header Section -->
+    <div class="question-header">
+        <span class="concept-badge">{{ skeleton.concept }}</span>
+        <span class="difficulty-badge difficulty-{{ skeleton.difficulty }}">
+            {{ skeleton.difficulty|upper }}
+        </span>
+        <span class="bloom-badge">{{ skeleton.bloom_level|title }}</span>
+    </div>
+    
+    <!-- Story Context Section -->
+    <div class="story-context card">
+        <h3>📖 The Story</h3>
+        <div class="story-content">
+            <p>
+                <strong>{{ story.story_character }}</strong> is <em>{{ story.story_action }}</em> 
+                in {{ story.story_setting }}.
+            </p>
+            <div class="real-world-relevance">
+                <strong>🎯 Why this matters:</strong> {{ story.real_world_relevance }}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Visual Hint Section -->
+    <div class="visual-section card">
+        <h3>📐 Visual Hint</h3>
+        <div class="visual-content">
+            <p>{{ story.visual_hint }}</p>
+            <!-- Placeholder for actual visual assets -->
+            <div class="visual-placeholder">
+                [Visual diagram would appear here]
+            </div>
+        </div>
+    </div>
+    
+    <!-- The Math Problem Section -->
+    <div class="problem-section card">
+        <h3>❓ The Problem</h3>
+        
+        <!-- Story-based problem statement -->
+        <div class="problem-narrative">
+            {{ story.number_placement }}
+        </div>
+        
+        <!-- Mathematical expression -->
+        <div class="math-expression latex-display">
+            {{ skeleton.latex_problem }}
+        </div>
+    </div>
+    
+    <!-- Concept Bridge Section -->
+    <div class="concept-bridge card">
+        <h3>🔗 How it Connects</h3>
+        <p>{{ story.concept_bridge }}</p>
+    </div>
+    
+    <!-- Student Answer Section -->
+    <div class="answer-section card">
+        <h3>✏️ Your Answer</h3>
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="student_answer_{{ skeleton.parameters.get('target_number', 'q') }}"
+                class="answer-input" 
+                placeholder="Type your answer here..."
+                autocomplete="off"
+            />
+            <button 
+                class="submit-button"
+                onclick="submitAnswer(this)"
+            >
+                Check Answer
+            </button>
+        </div>
+        <div class="feedback-area" style="display:none;"></div>
+    </div>
+    
+    <!-- Hints Section (Collapsible) -->
+    <details class="hints-section card">
+        <summary>💡 Hints</summary>
+        <div class="hints-content">
+            <p><strong>Hint 1:</strong> Think about what the problem is asking you to find.</p>
+            <p><strong>Hint 2:</strong> Look at the pattern or structure in the problem.</p>
+            <p><strong>Hint 3:</strong> {{ story.concept_bridge }}</p>
+        </div>
+    </details>
+    
+    <!-- Step-by-Step Solution (Collapsible) -->
+    <details class="solution-section card">
+        <summary>📚 Step-by-Step Solution</summary>
+        <div class="solution-content">
+            <ol class="steps-list">
+                {% for step in skeleton.steps %}
+                <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+            
+            <div class="explanation-box">
+                <strong>📝 Explanation:</strong>
+                <p>{{ skeleton.explanation }}</p>
+            </div>
+            
+            <div class="answer-box">
+                <strong>✓ Answer:</strong>
+                <p class="final-answer">{{ skeleton.solution }}</p>
+            </div>
+        </div>
+    </details>
+    
+    <!-- Extension Challenge (Collapsible) -->
+    <details class="extension-section card">
+        <summary>🚀 Challenge: Think Deeper</summary>
+        <div class="extension-content">
+            <p>{{ story.extension_question }}</p>
+            <p class="extension-hint">
+                This challenge helps you understand the concept at a deeper level. 
+                Try to answer without looking at the solution!
+            </p>
+        </div>
+    </details>
+    
+    <!-- Metadata Footer -->
+    <div class="metadata-footer">
+        <small>
+            Question ID: <code>{{ id }}</code> | 
+            Type: {{ skeleton.question_type }} | 
+            Validated: {% if round_trip_validated %}✓{% else %}✗{% endif %}
+        </small>
+    </div>
+    
+</div>
+
+<style scoped>
+.rich-question-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.question-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.concept-badge, .difficulty-badge, .bloom-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.concept-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.difficulty-easy {
+    background: #c8e6c9;
+    color: #388e3c;
+}
+
+.difficulty-medium {
+    background: #fff9c4;
+    color: #f57f17;
+}
+
+.difficulty-hard {
+    background: #ffccbc;
+    color: #d84315;
+}
+
+.difficulty-expert {
+    background: #ce93d8;
+    color: #6a1b9a;
+}
+
+.bloom-badge {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.card {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.story-context, .problem-section {
+    background: #fefce8;
+    border-left: 4px solid #ffd600;
+}
+
+.concept-bridge {
+    background: #e0f2f1;
+    border-left: 4px solid #00897b;
+}
+
+.answer-section {
+    background: #f3e5f5;
+    border-left: 4px solid #9c27b0;
+}
+
+.hints-section, .solution-section, .extension-section {
+    background: #f5f5f5;
+}
+
+details > summary {
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+    padding: 10px 0;
+}
+
+details > summary:hover {
+    color: #1976d2;
+}
+
+details[open] > summary {
+    margin-bottom: 15px;
+}
+
+.math-expression {
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin: 15px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.answer-input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.answer-input:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.submit-button {
+    padding: 12px 24px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-button:hover {
+    background: #1565c0;
+}
+
+.submit-button:active {
+    background: #0d47a1;
+}
+
+.steps-list {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.steps-list li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+.explanation-box, .answer-box {
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #4caf50;
+    margin-top: 15px;
+}
+
+.final-answer {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #4caf50;
+}
+
+.extension-hint {
+    font-style: italic;
+    color: #666;
+    margin-top: 10px;
+}
+
+.metadata-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    color: #999;
+}
+
+.metadata-footer code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+    .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .answer-input {
+        width: 100%;
+    }
+}
+</style>
