@@ -2,6 +2,7 @@
 
 import { FC, useCallback, useEffect, useMemo, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useStudent } from "@/lib/studentContext";
 import {
   ProgressBar,
   Timer,
@@ -102,6 +103,7 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
   sessionId,
   gradeLevel = 6,
 }) => {
+  const { student } = useStudent();
   const searchParams = useSearchParams();
   const chapterFromUrl = searchParams?.get("chapter") || undefined;
   
@@ -135,8 +137,8 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
 
         const api = getQuizAPIClient();
         
-        // Generate student ID
-        const studentId = `student_${Math.random().toString(36).substr(2, 9)}`;
+        // Use the actual registered student ID from context, ensure it's a string
+        const studentId = String(student?.id || `student_${Math.random().toString(36).substr(2, 9)}`);
         
         // Call real API endpoint with chapter if provided from URL
         const config = await api.startSession(
@@ -151,6 +153,13 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
           sessionConfig: config,
           flowState: "QUESTION",
         }));
+
+        console.log("📋 Session Config Loaded:", {
+          feedbackDepth: config.uiConfig?.feedbackDepth,
+          mode: config.mode,
+          classLevel: config.classLevel,
+          fullUiConfig: config.uiConfig,
+        });
 
         // Fetch first question
         await fetchNextQuestion(config.sessionId);
@@ -167,7 +176,7 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
     if (screenState.flowState === "LOADING" && !screenState.currentQuestion && !screenState.sessionConfig) {
       initializeQuiz();
     }
-  }, [sessionId, gradeLevel, chapterFromUrl]);
+  }, [sessionId, gradeLevel, chapterFromUrl, student]);
 
   // ...existing code...
 

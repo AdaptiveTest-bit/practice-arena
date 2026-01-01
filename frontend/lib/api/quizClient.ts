@@ -202,33 +202,31 @@ export class QuizAPIClient {
     chapterName?: string
   ): Promise<SessionStartResponse> {
     try {
-      const chapterId = this.getChapterId(chapterName);
-      
-      // Backend expects: student_id (int), chapter_id (int), class_level (int), subject (str)
+      // Backend expects: student_id (str), grade_level (int), mode (str), chapter (optional str)
       const payload = {
-        student_id: parseInt(studentId.replace(/\D/g, "") || "1"),
-        chapter_id: chapterId,
-        class_level: gradeLevel,
-        subject,
+        student_id: studentId,
+        grade_level: gradeLevel,
+        mode: subject, // subject maps to mode
+        chapter: chapterName,
       };
       
-      this.logCall("POST", "/practice/session/start", payload);
+      this.logCall("POST", "/quiz/session/start", payload);
 
       const response = await this.client.post(
-        "/practice/session/start",
+        "/quiz/session/start",
         payload
       );
 
-      // Backend returns snake_case, transform to camelCase for frontend
+      // Backend returns camelCase
       const data = response.data as any;
       console.log("[API] Session start response:", data);
       
-      if (!data.session_id) {
-        throw new Error(`Invalid session response: missing session_id. Received: ${JSON.stringify(data)}`);
+      if (!data.sessionId) {
+        throw new Error(`Invalid session response: missing sessionId. Received: ${JSON.stringify(data)}`);
       }
 
       return {
-        sessionId: String(data.session_id),
+        sessionId: String(data.sessionId),
         mode: "PRACTICE",
         classLevel: "3-5",
         uiConfig: {
@@ -275,63 +273,78 @@ export class QuizAPIClient {
    */
   async getNextQuestion(sessionId: string): Promise<NextQuestionResponse> {
     try {
-      this.logCall("POST", `/practice/session/${sessionId}/next-question`);
+      this.logCall("GET", `/quiz/${sessionId}/question`);
 
-      // Backend requires POST (not GET) for next-question endpoint
-      const response = await this.client.post<any>(
-        `/practice/session/${sessionId}/next-question`
+      // Backend requires GET for question endpoint
+      const response = await this.client.get<any>(
+        `/quiz/${sessionId}/question`
       );
 
       const data = response.data;
+      console.log("[API] Question response:", data);
       
-      // Transform backend's string array options into AnswerOption objects
-      if (data.options && Array.isArray(data.options)) {
-        data.options = data.options.map((optionText: string, index: number) => ({
-          id: `option_${index}`,
+      // ✅ Backend now returns camelCase with complete AnswerOption objects
+      // NO need to transform options - they're already properly formatted
+      
+      // Validate options are AnswerOption objects, not strings
+      let options = data.options || [];
+      if (options.length > 0 && typeof options[0] === 'string') {
+        // Fallback: if somehow we got strings, transform them
+        console.warn("[API] Options were strings, converting to AnswerOption objects");
+        options = options.map((optionText: string, index: number) => ({
+          id: String(index),
           label: optionText,
           displayType: "text" as const,
           commonMistake: false,
         }));
       }
 
-      // Transform snake_case fields to camelCase for rich content
+      // Build response using backend's camelCase field names
       const transformed = {
-        questionId: data.question_id,
-        topic: data.concept,
-        chapterId: String(data.chapter_id),
-        difficulty: this.mapDifficulty(data.difficulty),
-        bloomLevel: this.mapBloomLevel(data.bloom_level),
-        logicalTrapPresent: !!data.logical_trap,
-        estimatedTime: 120,
-        question: data.question_text,
-        options: data.options,
-        optionLayout: {
-          type: "single-select" as const,
-          columns: 1,
+        questionId: data.questionId,
+        topic: data.topic,
+        subtopic: data.subtopic,
+        chapterId: data.chapterId,
+        difficulty: data.difficulty, // ✅ Already enum from backend
+        bloomLevel: this.mapBloomLevel(data.bloomLevel),
+        logicalTrapPresent: data.logicalTrapPresent,
+        estimatedTime: data.estimatedTime || 120,
+        question: data.question,
+        questionContext: data.questionContext,
+        dataRepresentation: data.dataRepresentation,
+        options: options, // ✅ Already AnswerOption objects from backend
+        optionLayout: data.optionLayout || {
+          type: "grid" as const,
+          columns: 2,
           shuffle: false,
-          tileStyle: "button" as const,
+          tileStyle: "elevated" as const,
           tileSize: "medium" as const,
         },
-        hintStrategy: {
+        hintStrategy: data.hintStrategy || {
           available: true,
           allowedCount: 3,
           hints: [],
           showHintButton: true,
-          hintButtonPlacement: "bottom" as const,
+          hintButtonPlacement: "bottom_right" as const,
         },
-        renderingHints: {
-          emphasizeQuestion: false,
-          showVisualSteps: !!data.rich_html_content,
-          useGamification: false,
-          highlightDifficulty: false,
-          showTimeEstimate: false,
-          showTrapWarning: !!data.logical_trap,
+        renderingHints: data.renderingHints || {
+          showDifficulty: true,
+          showTimer: true,
+          showBloomLevel: true,
+          showHintCount: true,
+          showProgressBar: true,
+          enableAnimations: true,
+          enableSoundFeedback: false,
+          enableConfetti: true,
+          useAdaptiveLayout: true,
+          prioritizeAccessibility: false,
         },
-        richHtmlContent: data.rich_html_content,
-        richNarrative: data.rich_narrative,
-        visualHints: data.visual_hints,
-        correctAnswerId: "option_0", // Will be set by backend if available
-        attemptNumber: 1,
+        richHtmlContent: data.richHtmlContent,
+        richNarrative: data.richNarrative,
+        visualHints: data.visualHints,
+        misconceptionTag: data.misconceptionTag,
+        correctAnswerId: data.correctAnswerId,
+        attemptNumber: data.attemptNumber || 1,
       } as NextQuestionResponse;
 
       return transformed;
@@ -353,8 +366,10 @@ export class QuizAPIClient {
    * Helper to map bloom level string to enum
    */
   private mapBloomLevel(
-    bloomLevel: string
+    bloomLevel: string | undefined
   ): "recall" | "understand" | "apply" | "analyze" | "evaluate" | "create" {
+    if (!bloomLevel) return "recall"; // Default to recall if not provided
+    
     const mapping: Record<string, "recall" | "understand" | "apply" | "analyze" | "evaluate" | "create"> = {
       remember: "recall",
       understand: "understand",
@@ -406,7 +421,7 @@ export class QuizAPIClient {
         time_taken_seconds: timeSpent,
       };
       
-      const endpoint = `/practice/session/${sessionId}/submit-answer`;
+      const endpoint = `/quiz/${sessionId}/answer`;
       this.logCall("POST", endpoint, payload);
       
       if (process.env.NODE_ENV === "development") {
@@ -419,71 +434,100 @@ export class QuizAPIClient {
       );
 
       const data = response.data;
+      console.log("[API] Submit answer response:", data);
       
+      // ✅ Backend now returns camelCase field names
       // Transform backend response to frontend format
       const transformed: SubmitAnswerResponse = {
         // Core Result
-        isCorrect: data.is_correct || false,
-        correctAnswerId: `option_${data.correct_index ?? 0}`,
-        correctAnswerLabel: data.answer || "",
+        isCorrect: data.isCorrect || false,
+        correctAnswerId: data.correctAnswerId || `${selectedIndex}`,
+        correctAnswerLabel: data.solution?.summary || "",
         
         // Student's Attempt
-        selectedAnswerId: `option_${selectedIndex}`,
+        selectedAnswerId: answerId,
         selectedAnswerLabel: "", // Will be filled from question data if available
-        attemptNumber: 1,
+        attemptNumber: data.attemptNumber || 1,
         timeSpent: timeSpent || 0,
         
         // Adaptive Insights
-        misconceptionDetected: undefined,
-        logicalTrapTriggered: false,
-        trapDetails: undefined,
-        
-        // Solution
-        solution: data.solution_steps ? {
-          steps: (data.solution_steps || []).map((step: string, index: number) => ({
-            order: index + 1,
-            description: step,
-            reasoning: "",
-          })),
-          summary: data.answer || "",
-          keyInsight: `Concept: ${data.concept}`,
+        misconceptionDetected: data.misconceptionDetected ? {
+          explanation: data.misconceptionDetected.explanation || "",
+          name: data.misconceptionDetected.type || "Unknown",
+        } : undefined,
+        logicalTrapTriggered: data.logicalTrapTriggered || false,
+        trapDetails: data.trapDetails ? {
+          type: data.trapDetails.type || "logical-trap",
+          explanation: data.trapDetails.explanation || "",
         } : undefined,
         
-        // Mastery Update - Use accuracy as proxy for mastery score
-        masteryScore: {
-          previous: 0,
-          current: Math.round((data.concept_accuracy || 0) * 100),
-          delta: Math.round((data.concept_accuracy || 0) * 100),
+        // Solution
+        solution: data.solution ? {
+          steps: (data.solution.steps || []).map((step: any, index: number) => ({
+            order: index + 1,
+            description: typeof step === 'string' ? step : step.explanation || step.description || "",
+            reasoning: "",
+          })),
+          summary: data.solution.summary || "",
+          keyInsight: `Bloom Level: ${data.bloomLevel || "Unknown"}`,
+        } : undefined,
+        
+        // Mastery Update
+        masteryScore: data.masteryScore ? {
+          previous: data.masteryScore.previous || 0,
+          current: data.masteryScore.current || 0,
+          delta: data.masteryScore.delta || 0,
           method: "adaptive-assessment",
+        } : {
+          previous: 0,
+          current: data.isCorrect ? 10 : 0,
+          delta: data.isCorrect ? 10 : 0,
+          method: "correct-answer",
         },
         
         // Streak Update
-        streakUpdate: undefined,
+        streakUpdate: data.streakUpdate ? {
+          current: data.streakUpdate.current || 0,
+          previous: data.streakUpdate.previous || 0,
+          milestone: data.streakUpdate.milestone,
+        } : undefined,
         
         // Performance Metrics
         metrics: {
-          accuracy: data.overall_accuracy || 0,
-          mastery: data.concept_accuracy || 0,
-          confidence: (data.concept_accuracy || 0) > 0.7 ? "high" : (data.concept_accuracy || 0) > 0.4 ? "medium" : "low",
+          accuracy: data.isCorrect ? 100 : 0,
+          mastery: data.masteryScore?.current || 0,
+          confidence: (data.masteryScore?.current || 0) > 70 ? "high" : (data.masteryScore?.current || 0) > 40 ? "medium" : "low",
         },
         
         // Feedback Configuration
-        feedback: {
+        feedback: data.feedback ? {
+          showCorrectAnswer: true,
+          showSolution: data.feedback.showSolution || true,
+          showExplanation: true,
+          showWhyCorrect: true,
+          showMisconception: data.feedback.showMisconception || false,
+          showTrapWarning: data.feedback.showTrapWarning || false,
+          tone: data.isCorrect ? "celebratory" : "corrective" as const,
+          mainMessage: data.isCorrect ? "Correct!" : "Incorrect",
+          depth: data.feedback.depthLevel === "detailed" ? "detailed" : "moderate" as const,
+          nextAction: data.isCorrect ? "continue" : "repeat" as const,
+          enableGamification: true,
+        } : {
           showCorrectAnswer: true,
           showSolution: true,
           showExplanation: true,
           showWhyCorrect: true,
           showMisconception: false,
-          showTrapWarning: false,
-          tone: data.is_correct ? "celebratory" : "corrective" as const,
-          mainMessage: data.is_correct ? "Correct!" : "Incorrect",
+          showTrapWarning: data.logicalTrapTriggered || false,
+          tone: data.isCorrect ? "celebratory" : "corrective" as const,
+          mainMessage: data.isCorrect ? "Correct!" : "Incorrect",
           depth: "moderate" as const,
-          nextAction: data.is_correct ? "continue" : "repeat" as const,
+          nextAction: data.isCorrect ? "continue" : "repeat" as const,
           enableGamification: true,
         },
         
         // Motivational Signal
-        motivationTrigger: data.is_correct ? {
+        motivationTrigger: data.isCorrect ? {
           type: "first-correct" as const,
           message: "Great job! Keep it up!",
           celebrationLevel: "moderate" as const,
@@ -495,9 +539,9 @@ export class QuizAPIClient {
         
         // Adaptive Sequencing Hint
         nextQuestionHints: {
-          difficulty: data.is_correct ? "harder" : "same",
-          topic: data.concept || "unknown",
-          reason: data.is_correct ? "You got this right, let's increase difficulty" : "Let's reinforce this concept",
+          difficulty: data.isCorrect ? "harder" : "same",
+          topic: data.topic || "unknown",
+          reason: data.isCorrect ? "You got this right, let's increase difficulty" : "Let's reinforce this concept",
           estimatedSuccessProbability: 0.7,
         },
       };
@@ -721,15 +765,17 @@ export class QuizAPIClient {
    * 3. All concepts: ≥80% accuracy each
    * 4. No problematic misconceptions (2+ same type = problem)
    * 
+  /**
+   * Check if session is complete and get analysis
    * @param sessionId - Current session ID
    * @returns Completion status with detailed analysis
    */
   async checkSessionCompletion(sessionId: string): Promise<SessionCompletionResponse> {
     try {
-      this.logCall("GET", `/practice/session/${sessionId}/check-completion`);
+      this.logCall("POST", `/quiz/${sessionId}/end`);
 
-      const response = await this.client.get<any>(
-        `/practice/session/${sessionId}/check-completion`
+      const response = await this.client.post<any>(
+        `/quiz/${sessionId}/end`
       );
 
       const data = response.data;

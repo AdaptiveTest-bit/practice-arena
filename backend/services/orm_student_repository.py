@@ -10,7 +10,7 @@ from sqlalchemy import desc, func
 import uuid
 
 # Import Phase 1 database models
-from database import SessionLocal, PracticeSession, StudentSessionState, get_practice_session
+from database import SessionLocal, PracticeSession, StudentSessionState, get_practice_session, Student
 from models.student_progress import StudentProgress, AttemptResult, MisconceptionEncounter
 from models.distractor import MisconceptionType
 from models.cognitive_levels import BloomLevel
@@ -18,10 +18,9 @@ from models.cognitive_levels import BloomLevel
 
 # Legacy imports (for backward compatibility - will be refactored in Phase 3)
 try:
-    from database import Student, StudentMastery, QuestionAttempt, StudentProgressRecord, Chapter, get_session
+    from database import StudentMastery, QuestionAttempt, StudentProgressRecord, Chapter, get_session
 except ImportError:
     # These old models don't exist in Phase 1 database, using placeholder
-    Student = None
     StudentMastery = None
     QuestionAttempt = None
     StudentProgressRecord = None
@@ -57,17 +56,19 @@ class ORMStudentRepository:
             student_id (UUID string)
         """
         try:
+            from database import Student
+            
             user_id = str(uuid.uuid4())
             
             # Create student in database
             student = Student(
                 user_id=user_id,
-                email=f"{student_name.lower().replace(' ', '.')}_{user_id[:8]}@edtech.local",
                 name=student_name,
+                email=f"{student_name.lower().replace(' ', '.')}_{user_id[:8]}@edtech.local",
+                chapter=chapter,
                 total_xp=0,
                 current_streak=0,
-                best_streak=0,
-                created_at=datetime.utcnow()
+                best_streak=0
             )
             
             self.db.add(student)
@@ -81,6 +82,32 @@ class ORMStudentRepository:
             self.db.rollback()
             print(f"❌ Error creating student: {e}")
             raise
+    
+    def register_student(self, name: str, chapter: str = "Factors & Multiples") -> Dict:
+        """
+        Register a new student (API endpoint wrapper for create_student).
+        
+        Args:
+            name: Student name
+            chapter: Starting chapter
+            
+        Returns:
+            Dict with success, studentId, name, chapter
+        """
+        try:
+            student_id = self.create_student(name, chapter)
+            return {
+                "success": True,
+                "studentId": student_id,
+                "name": name,
+                "chapter": chapter
+            }
+        except Exception as e:
+            print(f"❌ Registration failed: {e}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
     
     def get_student(self, student_id: str) -> Optional[StudentProgress]:
         """
@@ -101,25 +128,27 @@ class ORMStudentRepository:
             # Get chapter info
             chapter_name = self._get_current_chapter(student.id)
             
-            # Get progress
-            attempts = self.db.query(QuestionAttempt).filter(
-                QuestionAttempt.student_id == student.id
+            # Get progress - use PracticeSession model to get student attempts/correct answers
+            sessions = self.db.query(PracticeSession).filter(
+                PracticeSession.student_id == student.id
             ).all()
             
-            correct_count = len([a for a in attempts if a.is_correct])
+            # Aggregate correct count and total from all sessions
+            total_attempts = sum(s.total_questions_attempted for s in sessions)
+            total_correct = sum(s.total_questions_correct for s in sessions)
             
             # Calculate Bloom level (returns lowercase enum value)
-            bloom_level = self._calculate_bloom_level(correct_count, len(attempts))
+            bloom_level = self._calculate_bloom_level(total_correct, total_attempts)
             # Convert to lowercase for enum
             bloom_level_lower = bloom_level.lower()
             
             return StudentProgress(
                 student_id=str(student.id),
                 chapter=chapter_name,
-                total_attempts=len(attempts),
-                total_correct=correct_count,
-                overall_percentage=(correct_count / len(attempts) * 100) if attempts else 0.0,
-                current_bloom_level=bloom_level_lower
+                current_bloom_level=bloom_level_lower,
+                total_attempts=total_attempts,
+                total_correct=total_correct,
+                overall_percentage=((total_correct / total_attempts * 100) if total_attempts > 0 else 0),
             )
             
         except Exception as e:
@@ -228,23 +257,16 @@ class ORMStudentRepository:
             return "create"
     
     def _get_current_chapter(self, student_id: int) -> str:
-        """Get the most recent chapter the student worked on"""
+        """Get the current chapter for a student"""
         try:
-            attempt = self.db.query(QuestionAttempt).filter(
-                QuestionAttempt.student_id == student_id
-            ).order_by(desc(QuestionAttempt.answered_at)).first()
-            
-            if attempt:
-                chapter = self.db.query(Chapter).filter(
-                    Chapter.id == attempt.chapter_id
-                ).first()
-                return chapter.name if chapter else "Unknown"
-            
-            return "Ch1: The Fish Tale"
-            
+            # Get from Student model directly
+            student = self.db.query(Student).filter(Student.id == student_id).first()
+            if student:
+                return student.chapter
+            return "Factors & Multiples"
         except Exception as e:
             print(f"❌ Error getting current chapter: {e}")
-            return "Ch1: The Fish Tale"
+            return "Factors & Multiples"
     
     def _update_chapter_progress(self, student_id: int, chapter_id: int, is_correct: bool):
         """Update chapter-level progress"""
@@ -378,6 +400,32 @@ class ORMStudentRepository:
         except Exception as e:
             print(f"❌ Error getting statistics: {e}")
             return {}
+
+    def get_session(self, session_id: int) -> Optional[PracticeSession]:
+        """
+        Retrieve a practice session by ID from the database.
+        
+        Used by SessionAdapter.get_hint() as fallback when session not in memory.
+        
+        Args:
+            session_id: Integer practice session ID
+            
+        Returns:
+            PracticeSession object if found, None otherwise
+        """
+        try:
+            session = self.db.query(PracticeSession).filter(
+                PracticeSession.id == session_id
+            ).first()
+            
+            if session:
+                return session
+            else:
+                return None
+                
+        except Exception as e:
+            print(f"⚠️ Error retrieving session {session_id}: {e}")
+            return None
     
     def close(self):
         """Close database session"""

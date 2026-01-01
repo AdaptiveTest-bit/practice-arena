@@ -95,6 +95,20 @@ export const FeedbackPanel: FC<FeedbackPanelProps> = ({
     [configParser]
   );
 
+  // DEBUG: Log what we're receiving
+  useMemo(() => {
+    console.log("FeedbackPanel DEBUG:", {
+      feedbackDepth,
+      configParserConfig: configParser.constructor.name,
+      isCorrect: response.isCorrect,
+      hasMisconception: !!response.misconceptionDetected,
+      misconceptionData: response.misconceptionDetected,
+      logicalTrapTriggered: response.logicalTrapTriggered,
+      trapDetails: response.trapDetails,
+      fullResponse: response,
+    });
+  }, [feedbackDepth, response, configParser]);
+
   // Color scheme based on correctness
   const colorScheme = useMemo(() => {
     if (response.isCorrect) {

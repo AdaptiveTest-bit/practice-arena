@@ -195,6 +195,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
       )}
 
       {/* Rich Content - K.C. Nag Narrative, Diagrams, and Visual Hints */}
+      {/* Note: Visual representations are hidden until after submission (pedagogical strategy) */}
       {(question.richNarrative || question.richHtmlContent || question.visualHints) && (
         <RichQuestionContent
           richNarrative={question.richNarrative}
@@ -202,6 +203,7 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           visualHints={question.visualHints}
           chapter={question.chapterId}
           showNarrative={true}
+          isAnswered={isAnswered}
         />
       )}
 
@@ -219,24 +221,29 @@ export const QuestionCard: FC<QuestionCardProps> = ({
         )}
       </div>
 
-      {/* Media Display */}
-      {hasMedia && (
-        <div className="bg-gray-50 rounded-2xl p-6 flex items-center justify-center min-h-[200px]">
-          {question.dataRepresentation?.primary && (
-            <div className="w-full text-center">
-              <img
-                src={question.dataRepresentation.primary.url}
-                alt={question.dataRepresentation.primary.alt}
-                className="max-w-full max-h-[300px] object-contain rounded-lg mx-auto"
-                loading="lazy"
-              />
-              {question.dataRepresentation.primary.caption && question.dataRepresentation.primary.showCaption && (
-                <p className="mt-2 text-sm text-gray-600">
-                  {question.dataRepresentation.primary.caption}
-                </p>
-              )}
-            </div>
-          )}
+      {/* Media Display - Only show AFTER answer submitted (pedagogical strategy) */}
+      {isAnswered && hasMedia && (
+        <div className="bg-gradient-to-b from-blue-50 to-indigo-50 rounded-2xl p-6 flex items-center justify-center min-h-[200px] border-2 border-blue-100 animate-fadeIn">
+          <div className="w-full">
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3 text-center">
+              📐 Solution Visualization
+            </p>
+            {question.dataRepresentation?.primary && (
+              <div className="text-center">
+                <img
+                  src={question.dataRepresentation.primary.url}
+                  alt={question.dataRepresentation.primary.alt}
+                  className="max-w-full max-h-[300px] object-contain rounded-lg mx-auto"
+                  loading="lazy"
+                />
+                {question.dataRepresentation.primary.caption && question.dataRepresentation.primary.showCaption && (
+                  <p className="mt-3 text-sm text-gray-600 bg-white bg-opacity-60 p-2 rounded-lg">
+                    {question.dataRepresentation.primary.caption}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

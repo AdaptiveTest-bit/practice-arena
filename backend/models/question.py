@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from enum import Enum
 import hashlib
-from models.distractor import DistractorSet, TrapInfo
-from models.cognitive_levels import BloomInfo
+from .distractor import DistractorSet, TrapInfo
+from .cognitive_levels import BloomInfo
 
 
 class ChapterEnum(str, Enum):

@@ -13,6 +13,8 @@ interface RichQuestionContentProps {
   chapter?: string;
   /** Whether to show narrative inline */
   showNarrative?: boolean;
+  /** Whether question has been answered (for showing post-answer visuals) */
+  isAnswered?: boolean;
 }
 
 /**
@@ -39,6 +41,7 @@ export const RichQuestionContent: FC<RichQuestionContentProps> = ({
   visualHints,
   chapter,
   showNarrative = true,
+  isAnswered = false,
 }) => {
   // Check if we have any rich content to display
   const hasRichContent = useMemo(
@@ -83,11 +86,11 @@ export const RichQuestionContent: FC<RichQuestionContentProps> = ({
         </div>
       )}
 
-      {/* HTML Diagram/Visual Content */}
-      {richHtmlContent && (
-        <div className="bg-white rounded-xl p-4 border border-indigo-100 overflow-x-auto">
-          <p className="text-sm font-semibold text-indigo-900 mb-3">
-            🎨 Visual Representation
+      {/* HTML Diagram/Visual Content - Only after submission */}
+      {isAnswered && richHtmlContent && (
+        <div className="bg-gradient-to-b from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-100 overflow-x-auto animate-fadeIn">
+          <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3">
+            🎨 Solution Diagram
           </p>
           <div
             className="text-center space-y-4"
@@ -96,11 +99,13 @@ export const RichQuestionContent: FC<RichQuestionContentProps> = ({
         </div>
       )}
 
-      {/* Progressive Visual Hints */}
-      {visualHints && visualHints.length > 0 && (
+      {/* Progressive Visual Hints - Hidden pre-answer (handled by HintDrawer on-demand) */}
+      {/* Visual hints are now shown progressively through HintDrawer component */}
+      {/* This implements pedagogical best practice: progressive revelation */}
+      {isAnswered && visualHints && visualHints.length > 0 && (
         <div className="bg-white rounded-xl p-4 border border-indigo-100">
           <p className="text-sm font-semibold text-indigo-900 mb-3">
-            💡 Visual Hints
+            💡 Reference Hints (if needed next time)
           </p>
           <div className="space-y-2">
             {visualHints.map((hint, index) => (

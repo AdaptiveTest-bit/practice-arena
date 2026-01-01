@@ -12,11 +12,14 @@ from datetime import datetime
 import uuid
 import json
 
+from config.logging_config import get_logger
 from models.question import ChapterEnum
 from factory import QuestionGeneratorFactory
 from services.adaptive_learning_service import AdaptiveLearningService
 from services.orm_student_repository import get_repository, ORMStudentRepository
 from services.misconception_analyzer import MisconceptionDetector
+
+logger = get_logger(__name__)
 
 
 class SessionAdapter:
@@ -138,7 +141,11 @@ class SessionAdapter:
     
     def get_next_question(self, session_id: str) -> Dict[str, Any]:
         """
-        Get next question in the quiz sequence.
+        Get next question in the quiz sequence with ADAPTIVE ROUTING.
+        
+        🆕 PHASE 2 ENHANCEMENT: 
+        Uses adaptive_engine to recommend next chapter based on student mastery.
+        Automatically routes to different chapters as student progresses.
         
         Args:
             session_id: Session ID
@@ -160,71 +167,181 @@ class SessionAdapter:
             raise ValueError(f"Session {session_id} not found")
         
         session = self._sessions[session_id]
-        chapter = session["chapter"]
+        student_id = session.get("student_id")
         grade_level = session["grade_level"]
+        
+        # 🆕 PHASE 2: GET ADAPTIVE ROUTING RECOMMENDATION
+        try:
+            student = self.repository.get_student(student_id)
+            if student:
+                # Get adaptive recommendation from adaptive_engine
+                recommendation = self.adaptive_service.adaptive_engine.generate_learning_recommendation(student)
+                next_chapter = recommendation.get("recommended_chapter", session["chapter"])
+                
+                # Track chapter transitions for analytics
+                if next_chapter != session["chapter"]:
+                    session["chapter"] = next_chapter
+                    if "chapter_transitions" not in session:
+                        session["chapter_transitions"] = []
+                    session["chapter_transitions"].append({
+                        "from": session.get("previous_chapter", session["chapter"]),
+                        "to": next_chapter,
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "reason": recommendation.get("reason", "adaptive_progression"),
+                        "student_status": recommendation.get("performance_status", "unknown")
+                    })
+                    session["previous_chapter"] = session["chapter"]
+                    print(f"✨ Adaptive routing: Student {student_id} routed from {session['chapter_transitions'][-1]['from']} → {next_chapter}")
+            else:
+                next_chapter = session["chapter"]
+        except Exception as e:
+            # Fallback to current chapter if adaptive routing fails
+            print(f"⚠️ Adaptive routing failed: {e}, using current chapter")
+            next_chapter = session["chapter"]
+        
+        chapter = next_chapter
         
         # Generate question using factory
         try:
             strategy = QuestionGeneratorFactory.create(chapter)
             question = strategy.generate()  # Use generate() method, not generate_question()
             question_id = str(uuid.uuid4())
-            
+
             # 🔧 SCALE DIFFICULTY BASED ON GRADE LEVEL
             # Grade 3-4: difficulty 1-2 (easy)
             # Grade 5-6: difficulty 2-3 (medium)
             # Grade 7-8: difficulty 3-4 (hard)
             # Grade 9-10: difficulty 4-5 (very hard)
             base_difficulty = max(1, (grade_level - 2) // 2)  # Maps: 3->1, 4->1, 5->2, 6->2, etc.
-            # Add some variance based on performance
             attempted = session.get("attempted_count", 0)
             correct = session.get("correct_count", 0)
             accuracy = (correct / attempted * 100) if attempted > 0 else 50
-            
-            # If student is doing well (>70% accuracy), increase difficulty
+
             if accuracy > 70 and attempted > 3:
                 difficulty = min(5, base_difficulty + 1)
-            # If student is struggling (<30% accuracy), decrease difficulty
             elif accuracy < 30 and attempted > 3:
                 difficulty = max(1, base_difficulty - 1)
             else:
                 difficulty = base_difficulty
-            
+
             # Override with question's own difficulty if it has one
-            if hasattr(question, 'difficulty') and question.difficulty:
+            if hasattr(question, "difficulty") and question.difficulty:
                 # Blend: 60% from student progression, 40% from question difficulty
                 difficulty = int(difficulty * 0.6 + question.difficulty * 0.4)
+
+            # --- Normalize options (fix duplicate labels / inconsistent correct index) ---
+            # Some strategies may occasionally output duplicate option labels (e.g., several "9").
+            # The frontend keys and correctness are index-based, so duplicates are confusing and
+            # can make feedback look wrong. If duplicates are detected, rebuild options from
+            # distractor_info (which provides correct_answer + distractors) and re-align correct index.
+            try:
+                if hasattr(question, "options") and question.options:
+                    opts = [str(o) for o in question.options]
+                    if len(opts) != len(set(opts)):
+                        if hasattr(question, "distractor_info") and question.distractor_info:
+                            reconstructed = [
+                                str(question.distractor_info.correct_answer),
+                                *[str(d.value) for d in getattr(question.distractor_info, "distractors", [])],
+                            ]
+                            # Only accept if it yields 4 unique options
+                            if len(reconstructed) == 4 and len(set(reconstructed)) == 4:
+                                question.options = reconstructed
+                                # Ensure correct index points to correct_answer
+                                question.correct_option_index = 0
+            except Exception as e:
+                logger.warning(f"Option normalization skipped due to error: {e}")
+
+            # 1. Extract distractor information for options
+            try:
+                formatted_options = self._format_options_with_misconceptions(
+                    question.options,
+                    question.distractor_info if hasattr(question, 'distractor_info') else None,
+                    question.trap_info if hasattr(question, 'trap_info') else None
+                )
+            except Exception as e:
+                logger.error(f"Error in _format_options_with_misconceptions: {e}", exc_info=True)
+                raise
             
-            # ⚠️ CRITICAL: Store the actual question object so we can retrieve it later
-            # This ensures that when the user submits an answer, we check against the SAME question
-            if "question_cache" not in session:
-                session["question_cache"] = {}
-            session["question_cache"][question_id] = question
+            # 2. Extract data representation (tables, diagrams, etc.)
+            try:
+                data_representation = self._extract_data_representation(question)
+            except Exception as e:
+                logger.error(f"Error in _extract_data_representation: {e}", exc_info=True)
+                raise
             
-            # Track this question in session
-            session["questions_asked"].append({
-                "question_id": question_id,
-                "question_text": question.question_text,
-                "chapter": chapter,
-                "correct_option_index": question.correct_option_index,  # Store correct index
-            })
+            # 3. Build hint strategy with visual hints
+            try:
+                hint_strategy = self._build_hint_strategy(question)
+            except Exception as e:
+                logger.error(f"Error in _build_hint_strategy: {e}", exc_info=True)
+                raise
             
-            response_dict = {
-                "questionId": question_id,
-                "topic": question.topic if hasattr(question, 'topic') else chapter,
-                "difficulty": difficulty,
-                "question": question.question_text,
-                "options": self._format_options(question.options),
-                "optionLayout": "grid",
-                "estimatedTime": 60,  # seconds
-                "misconceptionTag": question.misconception_category if hasattr(question, 'misconception_category') else None,
-                "logicalTrapPresent": bool(question.logical_trap if hasattr(question, 'logical_trap') else False),
-                # 🆕 Rich content from Hybrid Neuro-Symbolic Pipeline
-                "richNarrative": question.rich_narrative if hasattr(question, 'rich_narrative') else None,
-                "richHtmlContent": question.rich_html_content if hasattr(question, 'rich_html_content') else None,
-                "visualHints": question.visual_hints if hasattr(question, 'visual_hints') else None,
-            }
+            # 4. Convert difficulty integer to enum
+            try:
+                difficulty_enum = self._convert_difficulty_to_enum(difficulty)
+            except Exception as e:
+                logger.error(f"Error in _convert_difficulty_to_enum: {e}", exc_info=True)
+                raise
+            
+            # 5. Extract chapter ID
+            try:
+                chapter_id = self._get_chapter_id(chapter)
+            except Exception as e:
+                logger.error(f"Error in _get_chapter_id: {e}", exc_info=True)
+                raise
+            
+            # 6. Get subtopic if available
+            try:
+                subtopic = self._extract_subtopic(question)
+            except Exception as e:
+                logger.error(f"Error in _extract_subtopic: {e}", exc_info=True)
+                raise
+            
+            # 7. Build rendering hints
+            try:
+                rendering_hints = self._build_rendering_hints(question)
+            except Exception as e:
+                logger.error(f"Error in _build_rendering_hints: {e}", exc_info=True)
+                raise
+            
+            try:
+                response_dict = {
+                    "questionId": question_id,
+                    "topic": question.topic if hasattr(question, 'topic') else chapter,
+                    "subtopic": subtopic,
+                    "chapterId": chapter_id,
+                    "difficulty": difficulty_enum,  # ✅ Now enum, not integer
+                    "question": question.question_text,
+                    "questionContext": self._extract_question_context(question),
+                    "dataRepresentation": data_representation,
+                    "options": formatted_options,  # ✅ Now with misconception data
+                    "optionLayout": self._build_option_layout(),
+                    "estimatedTime": 60,  # seconds
+                    "misconceptionTag": question.misconception_category if hasattr(question, 'misconception_category') else None,
+                    "logicalTrapPresent": bool(question.logical_trap if hasattr(question, 'logical_trap') else False),
+                    # 🔗 Bloom's cognitive level (for adaptive sequencing)
+                    # Note: bloom_level is already converted to string by Pydantic (use_enum_values=True)
+                    "bloomLevel": question.bloom_info.bloom_level if (hasattr(question, 'bloom_info') and question.bloom_info) else "remember",
+                    # ✅ Hint strategy with visual hints transformed to HintItem objects
+                    "hintStrategy": hint_strategy,
+                    # ✅ Rendering hints for frontend configuration
+                    "renderingHints": rendering_hints,
+                    # 🆕 Rich content from Hybrid Neuro-Symbolic Pipeline
+                    "richNarrative": question.rich_narrative if hasattr(question, 'rich_narrative') else None,
+                    "richHtmlContent": question.rich_html_content if hasattr(question, 'rich_html_content') else None,
+                    "visualHints": question.visual_hints if hasattr(question, 'visual_hints') else None,
+                    # ✅ Additional data for feedback and analytics
+                    "correctAnswerId": str(question.correct_option_index),
+                    "attemptNumber": len(session["answers_submitted"]),
+                }
+            except Exception as e:
+                import traceback
+                logger.error(f"Error building response_dict: {traceback.format_exc()}")
+                raise
             return response_dict
         except Exception as e:
+            import traceback
+            logger.error(f"Full traceback for question generation error: {traceback.format_exc()}")
             raise ValueError(f"Failed to generate question for {chapter}: {str(e)}")
     
     # ============================================================================
@@ -593,16 +710,239 @@ class SessionAdapter:
             "totalQuestionsAttempted": student.total_attempts if hasattr(student, 'total_attempts') else 0,
         }
     
-    def _format_options(self, options: List[str]) -> List[Dict[str, str]]:
-        """Format options for frontend."""
+    def _format_options(self, options: List[str]) -> List[Dict[str, Any]]:
+        """Format options for frontend as AnswerOption objects."""
         return [
             {
                 "id": str(i),
                 "label": opt,
                 "displayType": "text",
+                "commonMistake": False,
+                # Optional fields (set to None by default)
+                "icon": None,
+                "imageUrl": None,
+                "misconceptionTarget": None,
+                "isTrap": False,
+                "trapExplanation": None,
+                "selectionFrequency": None,
             }
             for i, opt in enumerate(options)
         ]
+    
+    def _format_options_with_misconceptions(
+        self, 
+        options: List[str], 
+        distractor_info=None,
+        trap_info=None
+    ) -> List[Dict[str, Any]]:
+        """Format options with misconception and trap data extracted from distractor_info and trap_info."""
+        formatted = []
+
+        # Support both older trap_info shapes (with trap_indices) and TrapInfo model (single trap for the question)
+        trap_indices = None
+        trap_description = None
+        try:
+            if trap_info is not None:
+                trap_indices = getattr(trap_info, "trap_indices", None)
+                trap_description = getattr(trap_info, "description", None)
+        except Exception:
+            trap_indices = None
+            trap_description = None
+
+        for i, opt in enumerate(options):
+            option_dict = {
+                "id": str(i),
+                "label": opt,
+                "displayType": "text",
+                "commonMistake": False,
+                "icon": None,
+                "imageUrl": None,
+                "misconceptionTarget": None,  # Will be populated below as object with {id, name, explanation}
+                "isTrap": False,  # Will be populated below
+                "trapExplanation": None,
+                "selectionFrequency": None,
+            }
+
+            # Extract misconception data if available
+            if distractor_info and hasattr(distractor_info, 'distractors'):
+                for distractor in distractor_info.distractors:
+                    if distractor.value == opt:
+                        misconception_type = (
+                            distractor.misconception_type.value 
+                            if hasattr(distractor.misconception_type, 'value') 
+                            else str(distractor.misconception_type)
+                        )
+                        option_dict["misconceptionTarget"] = {
+                            "id": f"misconception_{i}_{misconception_type}",
+                            "name": misconception_type.replace("_", " ").title(),
+                            "explanation": distractor.why_wrong or f"This represents a {misconception_type} misconception",
+                        }
+                        option_dict["commonMistake"] = True
+                        break
+
+            # Extract trap data
+            # - If trap_indices exists: mark those indices as traps
+            # - Else if trap_info exists (TrapInfo model): keep logicalTrapPresent at question-level,
+            #   but do not force an option-level trap unless indices are provided.
+            if trap_indices is not None:
+                try:
+                    if i in trap_indices:
+                        option_dict["isTrap"] = True
+                        option_dict["trapExplanation"] = trap_description or "This is a logical trap"
+                except Exception:
+                    pass
+
+            formatted.append(option_dict)
+
+        return formatted
+    
+    def _extract_data_representation(self, question) -> Dict[str, Any]:
+        """Extract data representation (tables, diagrams) from question."""
+        if not hasattr(question, 'data_representation') or not question.data_representation:
+            return None
+        
+        data_rep = question.data_representation
+        
+        # Detect representation type
+        repr_type = "text"
+        if "```" in data_rep:
+            repr_type = "code"
+        elif "|" in data_rep:
+            repr_type = "table"
+        elif any(char in data_rep for char in ["●", "○", "■", "□"]):
+            repr_type = "diagram"
+        
+        return {
+            "type": repr_type,
+            "url": None,  # Backend sends text/markdown, not URL
+            "alt": f"Visual representation for {question.topic}",
+            "caption": f"Data: {question.topic}",
+            "content": data_rep,  # Raw markdown/text content
+        }
+    
+    def _build_hint_strategy(self, question) -> Dict[str, Any]:
+        """Build hint strategy with visual hints transformed to HintItem objects."""
+        hints = []
+        
+        # Extract visual hints if available
+        if hasattr(question, 'visual_hints') and question.visual_hints:
+            hints = [
+                {
+                    "id": f"hint_{i}",
+                    "order": i,
+                    "type": "visual",
+                    "content": hint_text,
+                    "severity": ["light", "moderate", "heavy"][min(i, 2)],  # ✅ Use enum string, not int
+                }
+                for i, hint_text in enumerate(question.visual_hints)
+            ]
+        
+        # Fallback generic hints if none available
+        if not hints:
+            hints = [
+                {
+                    "id": "hint_0",
+                    "order": 0,
+                    "type": "conceptual",
+                    "content": "Break down the problem into smaller parts.",
+                    "severity": "light",  # ✅ Use enum string
+                },
+                {
+                    "id": "hint_1",
+                    "order": 1,
+                    "type": "visual",
+                    "content": "Look for patterns or relationships in the numbers.",
+                    "severity": "moderate",  # ✅ Use enum string
+                },
+                {
+                    "id": "hint_2",
+                    "order": 2,
+                    "type": "process",
+                    "content": "Work through the calculation step by step.",
+                    "severity": "heavy",  # ✅ Use enum string
+                },
+            ]
+        
+        return {
+            "available": len(hints) > 0,
+            "allowedCount": min(3, len(hints)),
+            "hints": hints,
+            "showHintButton": True,
+            "hintButtonPlacement": "bottom_right",
+        }
+    
+    def _convert_difficulty_to_enum(self, difficulty: int) -> str:
+        """Convert integer difficulty (1-5) to enum string."""
+        if difficulty <= 2:
+            return "easy"
+        elif difficulty == 3:
+            return "medium"
+        else:
+            return "hard"
+    
+    def _get_chapter_id(self, chapter: str) -> str:
+        """Extract chapter ID from chapter string."""
+        chapter_mapping = {
+            "large_numbers": "ch_1_large_numbers",
+            "dice_logic": "ch_2_dice_logic",
+            "cube_counting": "ch_3_cube_counting",
+            "nets": "ch_4_nets",
+            "data_handling": "ch_5_data_handling",
+            "clock_angles": "ch_6_clock_angles",
+            "symmetry": "ch_7_symmetry",
+            "rotation": "ch_8_rotation",
+            "factors_multiples": "ch_9_factors_multiples",
+            "fractions_decimals": "ch_10_fractions_decimals",
+        }
+        return chapter_mapping.get(chapter, f"ch_{chapter}")
+    
+    def _extract_subtopic(self, question) -> str:
+        """Extract subtopic from question if available."""
+        if hasattr(question, 'subtopic') and question.subtopic:
+            return question.subtopic
+        
+        # Fallback: use topic as subtopic
+        if hasattr(question, 'topic') and question.topic:
+            return question.topic
+        
+        return None
+    
+    def _build_rendering_hints(self, question) -> Dict[str, bool]:
+        """Build rendering hints configuration for frontend."""
+        return {
+            "showDifficulty": True,
+            "showTimer": True,
+            "showBloomLevel": True,
+            "showHintCount": True,
+            "showProgressBar": True,
+            "enableAnimations": True,
+            "enableSoundFeedback": True,
+            "enableConfetti": True,
+            "useAdaptiveLayout": True,
+            "prioritizeAccessibility": False,
+        }
+    
+    def _extract_question_context(self, question) -> str:
+        """Extract additional context for the question."""
+        if hasattr(question, 'question_context') and question.question_context:
+            return question.question_context
+        
+        # Fallback: use rich_narrative as context
+        if hasattr(question, 'rich_narrative') and question.rich_narrative:
+            return question.rich_narrative[:200]  # First 200 chars
+        
+        return None
+    
+    def _build_option_layout(self) -> Dict[str, Any]:
+        """Build option layout configuration for frontend."""
+        return {
+            "type": "grid",
+            "columns": 2,
+            "shuffle": False,
+            "tileStyle": "elevated",
+            "tileSize": "medium",
+        }
+
     
     def _format_solution_steps(self, question) -> List[Dict[str, str]]:
         """Format solution steps for frontend."""

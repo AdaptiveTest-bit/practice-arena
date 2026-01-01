@@ -32,6 +32,9 @@ from content.renderer import RichQuestionRenderer
 # Import question bank components
 from services.question_bank_loader import QuestionBank, QuestionConstructor
 
+# Import caching
+from core.skeleton_cache import get_skeleton_cache
+
 
 class FactorsMultiplesIntegrated(BaseChapterStrategy):
     """
@@ -53,6 +56,7 @@ class FactorsMultiplesIntegrated(BaseChapterStrategy):
         self.sympy_generator = FactorsMultiplesGenerator()
         self.story_generator = KCNagStoryGeneratorLocal()
         self.renderer = RichQuestionRenderer()
+        self.skeleton_cache = get_skeleton_cache()  # Initialize cache
         
         # INTEGRATION: Initialize question bank (60% of questions from here)
         try:

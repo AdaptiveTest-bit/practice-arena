@@ -220,19 +220,22 @@ export interface NextQuestionResponse {
 // ============================================================================
 
 export interface MisconceptionInfo {
-  id: string;
-  name: string;
-  category: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  category?: string;
   explanation: string;
   correctionExample?: string;
   learnMoreUrl?: string;
+  count?: number;
 }
 
 export interface LogicalTrapInfo {
-  id: string;
-  type: "distractor" | "common-mistake" | "similar-operation" | "order-of-operations";
+  id?: string;
+  type?: "distractor" | "common-mistake" | "similar-operation" | "order-of-operations" | string;
   explanation: string;
   preventionStrategy?: string;
+  difficulty?: string;
 }
 
 export interface SolutionStep {
@@ -574,16 +577,11 @@ export interface ConceptMasteryStatus {
   status: string;
 }
 
-export interface MisconceptionInfo {
-  type: string;
-  count: number;
-}
-
 export interface CompletionAnalysis {
   difficulty_mastery: Record<number, DifficultyMasteryStatus>;
   bloom_mastery: Record<string, BloomMasteryStatus>;
   concept_mastery: Record<string, ConceptMasteryStatus>;
-  problem_misconceptions: MisconceptionInfo[];
+  problem_misconceptions: Array<{ type: string; count: number }>;
 }
 
 export interface SessionSummary {

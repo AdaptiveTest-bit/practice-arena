@@ -213,3 +213,134 @@ async def health_check(
             "status": "unhealthy",
             "error": str(e),
         }
+
+
+@router.get(
+    "/cache/stats",
+    summary="Get Cache Statistics",
+    description="Monitor skeleton cache performance and hit rates"
+)
+async def get_cache_stats():
+    """Get caching statistics."""
+    from core.skeleton_cache import get_skeleton_cache
+    from datetime import datetime
+
+    cache = get_skeleton_cache()
+    stats = cache.stats()
+
+    return {
+        "status": "operational",
+        "skeleton_cache": stats,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+
+@router.get(
+    "/cache/story-stats",
+    summary="Get Story Cache Statistics",
+    description="Monitor story cache performance and hit rates"
+)
+async def get_story_cache_stats():
+    """Get story cache statistics."""
+    try:
+        from core.story_cache import get_story_cache
+        from datetime import datetime
+        
+        cache = get_story_cache()
+        stats = cache.stats()
+        
+        return {
+            "status": "operational",
+            "story_cache": stats,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+@router.get(
+    "/cache/options-stats",
+    summary="Get Options Cache Statistics",
+    description="Monitor options/distractors cache performance and hit rates"
+)
+async def get_options_cache_stats():
+    """Get options cache statistics."""
+    try:
+        from core.options_cache import get_options_cache
+        from datetime import datetime
+        
+        cache = get_options_cache()
+        stats = cache.stats()
+        
+        return {
+            "status": "operational",
+            "options_cache": stats,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+@router.get(
+    "/cache/all-stats",
+    summary="Get All Cache Statistics",
+    description="Monitor all caching layers (skeleton, story, options)"
+)
+async def get_all_cache_stats():
+    """Get statistics for all cache layers."""
+    try:
+        from core.skeleton_cache import get_skeleton_cache
+        from core.story_cache import get_story_cache
+        from core.options_cache import get_options_cache
+        from datetime import datetime
+        
+        skeleton_cache = get_skeleton_cache()
+        story_cache = get_story_cache()
+        options_cache = get_options_cache()
+        
+        return {
+            "status": "operational",
+            "caches": {
+                "skeleton": skeleton_cache.stats(),
+                "story": story_cache.stats(),
+                "options": options_cache.stats()
+            },
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+@router.get(
+    "/cache/question-stats",
+    summary="Get Question Cache Statistics",
+    description="Monitor full question cache performance (Redis + PostgreSQL)"
+)
+async def get_question_cache_stats():
+    """Get question cache statistics."""
+    try:
+        from services.question_cache_service import get_question_cache_service
+        from datetime import datetime
+        
+        service = get_question_cache_service()
+        stats = service.stats()
+        
+        return {
+            "status": "operational",
+            "question_cache": stats,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }

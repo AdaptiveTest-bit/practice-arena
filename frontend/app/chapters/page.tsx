@@ -1,6 +1,8 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { useStudent } from '@/lib/studentContext'
+import { StudentRegistrationModal } from '@/components/StudentRegistrationModal'
 
 const CHAPTERS = [
 	{
@@ -102,6 +104,17 @@ const CHAPTERS = [
 ]
 
 export default function ChaptersPage() {
+	const { student, clearStudent } = useStudent()
+	const [showRegistration, setShowRegistration] = useState(false)
+	const [selectedChapter, setSelectedChapter] = useState<string | null>(null)
+
+	const handleChapterClick = (chapterId: string) => {
+		if (!student) {
+			setSelectedChapter(chapterId)
+			setShowRegistration(true)
+		}
+	}
+
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 md:py-16 md:px-6 relative overflow-hidden">
 			{/* Subtle animated background elements */}
@@ -136,9 +149,18 @@ export default function ChaptersPage() {
 
 				{/* Chapter Grid */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-					{CHAPTERS.map((chapter) => (
-						<Link key={chapter.id} href={`/practice?chapter=${chapter.id}`} className="group">
-							<div className="relative h-full">
+					{CHAPTERS.map((chapter) => {
+						const href = student ? `/practice?chapter=${chapter.id}` : '#'
+						const Component = student ? Link : 'div'
+						
+						return (
+							<Component
+								key={chapter.id}
+								href={href}
+								onClick={() => !student && handleChapterClick(chapter.id)}
+								className={student ? 'group' : 'group cursor-pointer'}
+							>
+								<div className="relative h-full">
 								{/* Card with gradient border */}
 								<div
 									className={`relative bg-gradient-to-br ${chapter.color} rounded-3xl p-1 h-full shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105`}
@@ -176,13 +198,12 @@ export default function ChaptersPage() {
 											</svg>
 										</div>
 									</div>
+									</div>
 								</div>
-							</div>
-						</Link>
-					))}
-				</div>
-
-				{/* Footer Stats */}
+							</Component>
+						)
+					})}
+				</div>				{/* Footer Stats */}
 				<div className="text-center pt-8 border-t border-gray-300">
 					<p className="text-gray-700 text-sm font-semibold">
 						<span className="text-blue-600 text-lg font-black">
@@ -190,8 +211,34 @@ export default function ChaptersPage() {
 						</span>{' '}
 						• Comprehensive CBSE Mathematics Curriculum
 					</p>
+					{student && (
+						<div className="flex items-center justify-center gap-4 mt-4">
+							<p className="text-gray-600 text-sm">
+								Logged in as: <span className="font-bold text-blue-600">{student.name}</span>
+							</p>
+							<button
+								onClick={clearStudent}
+								className="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+							>
+								Logout
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
+
+			{/* Registration Modal */}
+			<StudentRegistrationModal
+				isOpen={showRegistration}
+				onClose={() => {
+					setShowRegistration(false)
+					setSelectedChapter(null)
+				}}
+				chapter={
+					CHAPTERS.find((c) => c.id === selectedChapter)?.name ||
+					'Ch1: The Fish Tale'
+				}
+			/>
 		</div>
 	)
 }

@@ -67,9 +67,13 @@ export class ConfigParser {
 
   /**
    * Feedback Configuration
+   * 
+   * For practice mode: Default to "detailed" to show misconceptions + traps
+   * For assessment mode: Backend will override to "minimal"
    */
   getFeedbackDepth(): "minimal" | "moderate" | "detailed" {
-    return this.config?.feedbackDepth ?? "moderate";
+    if (!this.config) return "detailed";
+    return this.config.feedbackDepth ?? "detailed";
   }
 
   /**

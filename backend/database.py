@@ -36,6 +36,36 @@ Base = declarative_base()
 # ORM MODELS
 # ============================================================================
 
+class Student(Base):
+    """
+    Represents a student user in the system.
+    
+    Tracks:
+    - Student name and registration info
+    - Currently active chapter
+    - Registration timestamp
+    - Profile data for personalization
+    """
+    __tablename__ = "students"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String(36), unique=True, index=True, nullable=True)  # UUID
+    name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, nullable=True)
+    chapter = Column(String(255), default="Factors & Multiples")
+    total_xp = Column(Integer, default=0)
+    current_streak = Column(Integer, default=0)
+    best_streak = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, onupdate=lambda: datetime.utcnow())
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=lambda: datetime.utcnow())
+    
+    # Relationships
+    sessions = relationship("PracticeSession", back_populates="student", lazy="select")
+    
+    def __repr__(self):
+        return f"<Student(id={self.id}, name='{self.name}', chapter='{self.chapter}')>"
+
+
 class PracticeSession(Base):
     """
     Represents a single practice session for a student on a chapter.
@@ -55,7 +85,7 @@ class PracticeSession(Base):
     id = Column(Integer, primary_key=True, index=True)
     
     # Student & Course Info
-    student_id = Column(Integer, nullable=False, index=True)  # FK to users.students
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False, index=True)
     chapter_id = Column(Integer, nullable=False, index=True)  # FK to curriculum.chapters
     class_level = Column(Integer, nullable=False, default=5)  # Class level (e.g., 5)
     subject = Column(String(50), nullable=False, default="Mathematics")  # Subject name
@@ -121,6 +151,9 @@ class PracticeSession(Base):
     # Metadata
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow, index=True)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    # Relationships
+    student = relationship("Student", back_populates="sessions", lazy="select")
     
     def __repr__(self):
         return f"<PracticeSession(id={self.id}, student={self.student_id}, chapter={self.chapter_id}, status={self.status})>"

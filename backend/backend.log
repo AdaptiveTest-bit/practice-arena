@@ -1,4 +1,175 @@
+{"message": "\u2705 Content generation routes registered (Hybrid Neuro-Symbolic)", "timestamp": "2026-01-01T17:54:58.255956", "level": "INFO", "module": "app_main", "function": "<module>", "line": 610, "environment": "production"}
+{"message": "Starting K.C. Nag Practice Engine v2.0.0", "timestamp": "2026-01-01T17:54:58.274098", "level": "INFO", "module": "app_main", "function": "<module>", "line": 620, "environment": "production"}
+{"message": "Listening on 0.0.0.0:5002", "timestamp": "2026-01-01T17:54:58.274162", "level": "INFO", "module": "app_main", "function": "<module>", "line": 621, "environment": "production"}
+INFO:     Started server process [79248]
+INFO:     Waiting for application startup.
+{"message": "============================================================", "timestamp": "2026-01-01T17:54:58.287253", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 47, "environment": "production"}
+{"message": "\ud83d\ude80 Starting application...", "timestamp": "2026-01-01T17:54:58.287293", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 48, "environment": "production"}
+{"message": "============================================================", "timestamp": "2026-01-01T17:54:58.287319", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 49, "environment": "production"}
+{"message": "Configuration loaded", "debug": false, "host": "0.0.0.0", "port": 5002, "log_level": "INFO", "cache_enabled": false, "database_url": "localhost:5432/edtech_mvp", "timestamp": "2026-01-01T17:54:58.287355", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 52, "environment": "production"}
+{"message": "\u2699\ufe0f  Initializing Database...", "timestamp": "2026-01-01T17:54:58.287383", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 67, "environment": "production"}
+{"message": "Database connection check failed: current transaction is aborted, commands ignored until end of transaction block\n", "timestamp": "2026-01-01T17:54:58.315718", "level": "WARNING", "module": "database", "function": "pool_pre_ping", "line": 51, "environment": "production"}
+{"message": "\u2705 Database connection verified", "timestamp": "2026-01-01T17:54:58.316726", "level": "INFO", "module": "database", "function": "init_db", "line": 85, "environment": "production"}
+{"message": "\u2705 Database initialized", "timestamp": "2026-01-01T17:54:58.316766", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 69, "environment": "production"}
+{"message": "\u2699\ufe0f  Initializing Question Strategies...", "timestamp": "2026-01-01T17:54:58.316792", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 67, "environment": "production"}
+{"message": "\u2705 Registered 16 INTEGRATED question generation strategies (K.C. Nag + Adaptive)", "timestamp": "2026-01-01T17:54:58.316889", "level": "INFO", "module": "app_main", "function": "register_question_strategies", "line": 160, "environment": "production"}
+{"message": "\u2705 Question Strategies initialized", "timestamp": "2026-01-01T17:54:58.316913", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 69, "environment": "production"}
+{"message": "\u2699\ufe0f  Initializing Core Services...", "timestamp": "2026-01-01T17:54:58.316934", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 67, "environment": "production"}
+Warning: Could not initialize Phase 1 services: No module named 'services.session_manager'
+{"message": "\u2705 QuestionService initialized", "timestamp": "2026-01-01T17:54:58.317020", "level": "INFO", "module": "app_main", "function": "init_services", "line": 171, "environment": "production"}
+{"message": "\u2705 AdaptiveLearningService initialized with PostgreSQL backend", "timestamp": "2026-01-01T17:54:58.317097", "level": "INFO", "module": "app_main", "function": "init_services", "line": 176, "environment": "production"}
+{"message": "\u2705 Core Services initialized", "timestamp": "2026-01-01T17:54:58.317122", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 69, "environment": "production"}
+{"message": "============================================================", "timestamp": "2026-01-01T17:54:58.317159", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 75, "environment": "production"}
+{"message": "\u2705 Application started successfully", "timestamp": "2026-01-01T17:54:58.317180", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 76, "environment": "production"}
+{"message": "============================================================", "timestamp": "2026-01-01T17:54:58.317199", "level": "INFO", "module": "lifecycle", "function": "startup", "line": 77, "environment": "production"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5002 (Press CTRL+C to quit)
+{"message": "Incoming request", "request_id": "5e511719-e74a-428b-a7b1-ad9274a2405c", "method": "POST", "path": "/api/quiz/test-session-123/answer", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:09.663433", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Answer processing error: Session test-session-123 not found", "timestamp": "2026-01-01T17:55:09.665149", "level": "WARNING", "module": "app_main", "function": "submit_quiz_answer", "line": 396, "environment": "production"}
+{"message": "Response sent", "request_id": "5e511719-e74a-428b-a7b1-ad9274a2405c", "status_code": 400, "duration_ms": 2.17, "timestamp": "2026-01-01T17:55:09.665539", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58232 - "POST /api/quiz/test-session-123/answer HTTP/1.1" 400 Bad Request
+{"message": "Incoming request", "request_id": "d916cbf0-5d2d-4688-a83b-9f05cb866aa5", "method": "POST", "path": "/api/quiz/test-session-123/answer", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:17.984353", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Answer processing error: Session test-session-123 not found", "timestamp": "2026-01-01T17:55:17.986614", "level": "WARNING", "module": "app_main", "function": "submit_quiz_answer", "line": 396, "environment": "production"}
+{"message": "Response sent", "request_id": "d916cbf0-5d2d-4688-a83b-9f05cb866aa5", "status_code": 400, "duration_ms": 3.09, "timestamp": "2026-01-01T17:55:17.987123", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58235 - "POST /api/quiz/test-session-123/answer HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:58246 - "OPTIONS /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "19ac3fa0-5ab9-4e9b-9cbd-ee5c01209dd2", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:33.328260", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 13", "timestamp": "2026-01-01T17:55:33.329335", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "19ac3fa0-5ab9-4e9b-9cbd-ee5c01209dd2", "status_code": 200, "duration_ms": 1.6, "timestamp": "2026-01-01T17:55:33.329791", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58246 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "18b631d5-0543-4a7f-9e90-e38ef6ccd482", "method": "GET", "path": "/api/quiz/2b80baee-39f9-4c5c-a0cf-29772f1ee5f7/question", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:33.332976", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+⚠️ Adaptive routing failed: 'StudentProgress' object has no attribute 'get_top_misconceptions', using current chapter
+✓ Question bank loaded: 30 questions available
+  By difficulty: {1: 15, 2: 11, 3: 4, 4: 0, 5: 0}
+  By Bloom's level: {'REMEMBER': 5, 'UNDERSTAND': 16, 'APPLY': 6, 'ANALYZE': 3}
+⚠ Warning: No questions at difficulty levels [4, 5]
+{"message": "Question retrieval error: Failed to generate question for factors_multiples: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T17:55:33.456282", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "18b631d5-0543-4a7f-9e90-e38ef6ccd482", "status_code": 404, "duration_ms": 123.88, "timestamp": "2026-01-01T17:55:33.456837", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58246 - "GET /api/quiz/2b80baee-39f9-4c5c-a0cf-29772f1ee5f7/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "2de8e72a-9ea4-4a2e-a35d-e9412fffaeaf", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:38.151327", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 13", "timestamp": "2026-01-01T17:55:38.152124", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "2de8e72a-9ea4-4a2e-a35d-e9412fffaeaf", "status_code": 200, "duration_ms": 1.22, "timestamp": "2026-01-01T17:55:38.152514", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58246 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "93bd5341-b8a9-4047-9426-abcfb2c8f0b4", "method": "GET", "path": "/api/quiz/c595bfc9-02d0-4d46-8ab3-a8ddbd1508b6/question", "client": "127.0.0.1", "timestamp": "2026-01-01T17:55:38.155030", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+⚠️ Adaptive routing failed: 'StudentProgress' object has no attribute 'get_top_misconceptions', using current chapter
+✓ Question bank loaded: 30 questions available
+  By difficulty: {1: 15, 2: 11, 3: 4, 4: 0, 5: 0}
+  By Bloom's level: {'REMEMBER': 5, 'UNDERSTAND': 16, 'APPLY': 6, 'ANALYZE': 3}
+⚠ Warning: No questions at difficulty levels [4, 5]
+{"message": "Question retrieval error: Failed to generate question for factors_multiples: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T17:55:38.205501", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "93bd5341-b8a9-4047-9426-abcfb2c8f0b4", "status_code": 404, "duration_ms": 50.94, "timestamp": "2026-01-01T17:55:38.205936", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58246 - "GET /api/quiz/c595bfc9-02d0-4d46-8ab3-a8ddbd1508b6/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "af359864-9a53-43f1-a73c-4da7f8a34e8f", "method": "GET", "path": "/api/health/startup", "client": "127.0.0.1", "timestamp": "2026-01-01T17:57:31.450141", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Response sent", "request_id": "af359864-9a53-43f1-a73c-4da7f8a34e8f", "status_code": 200, "duration_ms": 3.32, "timestamp": "2026-01-01T17:57:31.453011", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58266 - "GET /api/health/startup HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "d96600c3-8623-43d3-9e36-039db725e6bc", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T17:57:41.845749", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Warning: Invalid chapter 'Factors and Multiples', using default 'large_numbers'
+{"message": "Started session for student test_user_123", "timestamp": "2026-01-01T17:57:41.849429", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "d96600c3-8623-43d3-9e36-039db725e6bc", "status_code": 200, "duration_ms": 4.31, "timestamp": "2026-01-01T17:57:41.849961", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58270 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "555c4d5b-92f4-464d-aef5-885d175e3212", "method": "GET", "path": "/api/quiz/cdce0846-8cb7-4c25-9b90-7839721a6524/question", "client": "127.0.0.1", "timestamp": "2026-01-01T17:57:41.852507", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
 Traceback (most recent call last):
-  File "/Users/kunalranjan/edtech/question-generator/backend/app_refactored.py", line 10, in <module>
-    from fastapi import FastAPI, HTTPException, Request
-ModuleNotFoundError: No module named 'fastapi'
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 123, in get_student
+    student = self.db.query(Student).filter(Student.id == int(student_id)).first()
+                                                          ~~~^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'test_user_123'
+❌ Error getting student: invalid literal for int() with base 10: 'test_user_123'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T17:57:41.856280", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "555c4d5b-92f4-464d-aef5-885d175e3212", "status_code": 404, "duration_ms": 4.2, "timestamp": "2026-01-01T17:57:41.856682", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58271 - "GET /api/quiz/cdce0846-8cb7-4c25-9b90-7839721a6524/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "1ad36ebe-a903-4944-8f45-a6604b651718", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T17:58:58.460031", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T17:58:58.461423", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "1ad36ebe-a903-4944-8f45-a6604b651718", "status_code": 200, "duration_ms": 1.83, "timestamp": "2026-01-01T17:58:58.461833", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58287 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "6502b386-5942-4c12-9aa0-e351a63fc3bf", "method": "GET", "path": "/api/quiz/4949106d-b5f1-423b-a6c5-ee93ff7c2831/question", "client": "127.0.0.1", "timestamp": "2026-01-01T17:58:58.463651", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    correct_count = len([a for a in attempts if a.is_correct])
+                                                ^^^^^^^^^^^^
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T17:58:58.469599", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "6502b386-5942-4c12-9aa0-e351a63fc3bf", "status_code": 404, "duration_ms": 6.3, "timestamp": "2026-01-01T17:58:58.469942", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58288 - "GET /api/quiz/4949106d-b5f1-423b-a6c5-ee93ff7c2831/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "87233c73-00ab-4f94-9f9d-53fca14453e8", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:01:14.128653", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:01:14.130720", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "87233c73-00ab-4f94-9f9d-53fca14453e8", "status_code": 200, "duration_ms": 2.95, "timestamp": "2026-01-01T18:01:14.131239", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58315 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "6d8fa95f-c4f9-4492-8f2f-d5c2038538b8", "method": "GET", "path": "/api/quiz/a5c513e6-fd46-420d-b98a-fae50fdb2149/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:01:14.133255", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    correct_count = len([a for a in attempts if a.is_correct])
+                                                ^^^^^^^^^^^^
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:01:14.138146", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "6d8fa95f-c4f9-4492-8f2f-d5c2038538b8", "status_code": 404, "duration_ms": 5.36, "timestamp": "2026-01-01T18:01:14.138595", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58316 - "GET /api/quiz/a5c513e6-fd46-420d-b98a-fae50fdb2149/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "de4836f4-8409-4f53-8ea3-8e3fc64e8286", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:04:51.466174", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:04:51.469075", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "de4836f4-8409-4f53-8ea3-8e3fc64e8286", "status_code": 200, "duration_ms": 3.99, "timestamp": "2026-01-01T18:04:51.469684", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58344 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "f5afcace-a93b-4f5d-91f4-0342ffd1fe74", "method": "GET", "path": "/api/quiz/04c453b2-e791-40b4-93cb-76cc6942756f/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:04:51.472205", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    # Aggregate correct count and total from all sessions
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:04:51.480530", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "f5afcace-a93b-4f5d-91f4-0342ffd1fe74", "status_code": 404, "duration_ms": 8.73, "timestamp": "2026-01-01T18:04:51.480879", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58345 - "GET /api/quiz/04c453b2-e791-40b4-93cb-76cc6942756f/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "438388a7-8933-4130-82e4-1c9aaa444c64", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:05:58.809859", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:05:58.811185", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "438388a7-8933-4130-82e4-1c9aaa444c64", "status_code": 200, "duration_ms": 1.8, "timestamp": "2026-01-01T18:05:58.811592", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58357 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "73b417ee-52c5-42d9-b795-b0e6ad597618", "method": "GET", "path": "/api/quiz/6e0d27b1-120e-47da-8721-3fc5cbf6cee7/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:05:58.813547", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    # Aggregate correct count and total from all sessions
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:05:58.816735", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "73b417ee-52c5-42d9-b795-b0e6ad597618", "status_code": 404, "duration_ms": 3.5, "timestamp": "2026-01-01T18:05:58.817000", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58358 - "GET /api/quiz/6e0d27b1-120e-47da-8721-3fc5cbf6cee7/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "0983c474-c725-43a7-b29e-4cd28be6a710", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:06:49.380916", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:06:49.381981", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "0983c474-c725-43a7-b29e-4cd28be6a710", "status_code": 200, "duration_ms": 1.63, "timestamp": "2026-01-01T18:06:49.382410", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58371 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "6d94af5e-0345-42b7-a568-72b46f4c6bbe", "method": "GET", "path": "/api/quiz/cf055fa0-24e5-4c22-9935-9e0dd9f70f61/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:06:49.384079", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    # Aggregate correct count and total from all sessions
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:06:49.387882", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "6d94af5e-0345-42b7-a568-72b46f4c6bbe", "status_code": 404, "duration_ms": 4.14, "timestamp": "2026-01-01T18:06:49.388204", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58372 - "GET /api/quiz/cf055fa0-24e5-4c22-9935-9e0dd9f70f61/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "131a77ef-afa1-4999-8b6a-66a83dcf81ef", "method": "GET", "path": "/api/health/startup", "client": "127.0.0.1", "timestamp": "2026-01-01T18:08:47.988283", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Response sent", "request_id": "131a77ef-afa1-4999-8b6a-66a83dcf81ef", "status_code": 200, "duration_ms": 1.37, "timestamp": "2026-01-01T18:08:47.989617", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58506 - "GET /api/health/startup HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "16c72267-cc9a-4d25-9bc4-1b363d1b5ae3", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:09:04.137270", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:09:04.138789", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "16c72267-cc9a-4d25-9bc4-1b363d1b5ae3", "status_code": 200, "duration_ms": 1.94, "timestamp": "2026-01-01T18:09:04.139178", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58509 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "9cb8f0b8-a312-4070-a20d-59ae3ecbfe9a", "method": "GET", "path": "/api/quiz/f9912458-270e-4485-b765-de5a8b963c4b/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:09:04.459110", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    # Aggregate correct count and total from all sessions
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:09:04.462014", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "9cb8f0b8-a312-4070-a20d-59ae3ecbfe9a", "status_code": 404, "duration_ms": 3.26, "timestamp": "2026-01-01T18:09:04.462326", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58510 - "GET /api/quiz/f9912458-270e-4485-b765-de5a8b963c4b/question HTTP/1.1" 404 Not Found
+{"message": "Incoming request", "request_id": "a23323bf-37e9-4a7c-9287-cbf3c19ba529", "method": "POST", "path": "/api/quiz/session/start", "client": "127.0.0.1", "timestamp": "2026-01-01T18:09:08.353841", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+{"message": "Started session for student 5", "timestamp": "2026-01-01T18:09:08.354885", "level": "INFO", "module": "app_main", "function": "start_quiz_session", "line": 344, "environment": "production"}
+{"message": "Response sent", "request_id": "a23323bf-37e9-4a7c-9287-cbf3c19ba529", "status_code": 200, "duration_ms": 1.73, "timestamp": "2026-01-01T18:09:08.355524", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58512 - "POST /api/quiz/session/start HTTP/1.1" 200 OK
+{"message": "Incoming request", "request_id": "33966b26-14b5-47d5-b69a-421e0d0e0ba6", "method": "GET", "path": "/api/quiz/00f95569-dab1-434f-8b6e-b404bd64ea0d/question", "client": "127.0.0.1", "timestamp": "2026-01-01T18:09:18.534551", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 29, "environment": "production"}
+Traceback (most recent call last):
+  File "/Users/kunalranjan/edtech/question-generator/backend/services/orm_student_repository.py", line 136, in get_student
+    # Aggregate correct count and total from all sessions
+AttributeError: 'PracticeSession' object has no attribute 'is_correct'
+❌ Error getting student: 'PracticeSession' object has no attribute 'is_correct'
+{"message": "Question retrieval error: Failed to generate question for large_numbers: 'BloomInfo' object has no attribute 'level'", "timestamp": "2026-01-01T18:09:18.537502", "level": "WARNING", "module": "app_main", "function": "get_quiz_question", "line": 367, "environment": "production"}
+{"message": "Response sent", "request_id": "33966b26-14b5-47d5-b69a-421e0d0e0ba6", "status_code": 404, "duration_ms": 3.44, "timestamp": "2026-01-01T18:09:18.537950", "level": "INFO", "module": "middleware", "function": "dispatch", "line": 47, "environment": "production"}
+INFO:     127.0.0.1:58513 - "GET /api/quiz/00f95569-dab1-434f-8b6e-b404bd64ea0d/question HTTP/1.1" 404 Not Found

@@ -25,12 +25,45 @@ from core.lifecycle import lifespan_context
 from core.database import init_db
 from core.cache import get_cache_manager
 from core.exceptions import NotFoundError, ValidationError
-from routes.practice_routes import router as practice_router
 from routes.content_routes import router as content_router
 
 from models.question import ChapterEnum
+from pydantic import BaseModel
 
 logger = get_logger(__name__)
+
+
+# ============================================================================
+# PYDANTIC REQUEST/RESPONSE MODELS FOR STUDENT MANAGEMENT
+# ============================================================================
+
+class StudentRegistrationRequest(BaseModel):
+    """Request to register a new student."""
+    name: str
+    chapter: Optional[str] = "Ch1: The Fish Tale"
+
+
+class StudentProgressResponse(BaseModel):
+    """Response with student progress information."""
+    success: bool
+    studentId: str
+    name: str
+    chapter: str
+    currentBloomLevel: str
+    attemptCount: int
+    correctCount: int
+    accuracyRate: float
+    misconceptionsEncountered: List[str]
+
+
+class MisconceptionReportResponse(BaseModel):
+    """Response with misconception analysis."""
+    success: bool
+    studentId: str
+    totalAttempts: int
+    misconceptionsDetected: Dict[str, int]
+    frequentMisconceptions: List[Dict[str, Any]]
+    recommendedTopics: List[str]
 
 
 # ============================================================================
@@ -80,40 +113,51 @@ async def init_database():
 
 
 async def register_question_strategies():
-    """Register all question generation strategies."""
+    """Register all question generation strategies - INTEGRATED with K.C. Nag & Adaptive."""
     from factory import QuestionGeneratorFactory
-    from strategies.large_numbers import LargeNumbersStrategy
-    from strategies.dice_logic import DiceLogicStrategy
-    from strategies.cube_counting import CubeCountingStrategy
-    from strategies.nets import NetsStrategy
-    from strategies.data_handling import DataHandlingStrategy
-    from strategies.clock_angles import ClockAnglesStrategy
-    from strategies.symmetry import SymmetryStrategy
-    from strategies.rotation import RotationStrategy
-    from strategies.factors_multiples import FactorsMultiplesStrategy
-    from strategies.fractions_decimals import FractionsDecimalsStrategy
-    from strategies.geometry_measurement import GeometryMeasurementStrategy
-    from strategies.data_patterns import DataPatternsStrategy
+    # ============================================================================
+    # INTEGRATED HYBRID NEURO-SYMBOLIC STRATEGIES (All 16 chapters)
+    # ============================================================================
+    from strategies.factors_multiples_integrated import FactorsMultiplesIntegrated
+    from strategies.large_numbers_integrated import LargeNumbersIntegrated
+    from strategies.clock_angles_integrated import ClockAnglesIntegrated
+    from strategies.symmetry_integrated import SymmetryIntegrated
+    from strategies.rotation_integrated import RotationIntegrated
+    from strategies.fraction_area_integrated import FractionAreaIntegrated
+    from strategies.fractions_decimals_integrated import FractionsDecimalsIntegrated
+    from strategies.dice_logic_integrated import DiceLogicIntegrated
+    from strategies.nets_integrated import NetsIntegrated
+    from strategies.cube_counting_integrated import CubeCountingIntegrated
+    from strategies.geometry_measurement_integrated import GeometryMeasurementIntegrated
+    from strategies.data_patterns_integrated import DataPatternsIntegrated
+    from strategies.mapping_integrated import MappingIntegrated
+    from strategies.data_handling_integrated import DataHandlingIntegrated
+    from strategies.measurement_integrated import MeasurementIntegrated
+    from strategies.multiplication_division_integrated import MultiplicationDivisionIntegrated
     
     chapters = [
-        (ChapterEnum.LARGE_NUMBERS, LargeNumbersStrategy),
-        (ChapterEnum.DICE_LOGIC, DiceLogicStrategy),
-        (ChapterEnum.CUBE_COUNTING, CubeCountingStrategy),
-        (ChapterEnum.NETS, NetsStrategy),
-        (ChapterEnum.DATA_HANDLING, DataHandlingStrategy),
-        (ChapterEnum.CLOCK_ANGLES, ClockAnglesStrategy),
-        (ChapterEnum.SYMMETRY, SymmetryStrategy),
-        (ChapterEnum.ROTATION, RotationStrategy),
-        (ChapterEnum.FACTORS_MULTIPLES, FactorsMultiplesStrategy),
-        (ChapterEnum.FRACTIONS_DECIMALS, FractionsDecimalsStrategy),
-        (ChapterEnum.GEOMETRY_MEASUREMENT, GeometryMeasurementStrategy),
-        (ChapterEnum.DATA_PATTERNS, DataPatternsStrategy),
+        (ChapterEnum.FACTORS_MULTIPLES, FactorsMultiplesIntegrated),
+        (ChapterEnum.LARGE_NUMBERS, LargeNumbersIntegrated),
+        (ChapterEnum.CLOCK_ANGLES, ClockAnglesIntegrated),
+        (ChapterEnum.SYMMETRY, SymmetryIntegrated),
+        (ChapterEnum.ROTATION, RotationIntegrated),
+        (ChapterEnum.FRACTION_AREA, FractionAreaIntegrated),
+        (ChapterEnum.FRACTIONS_DECIMALS, FractionsDecimalsIntegrated),
+        (ChapterEnum.DICE_LOGIC, DiceLogicIntegrated),
+        (ChapterEnum.NETS, NetsIntegrated),
+        (ChapterEnum.CUBE_COUNTING, CubeCountingIntegrated),
+        (ChapterEnum.GEOMETRY_MEASUREMENT, GeometryMeasurementIntegrated),
+        (ChapterEnum.DATA_PATTERNS, DataPatternsIntegrated),
+        (ChapterEnum.MAPPING, MappingIntegrated),
+        (ChapterEnum.DATA_HANDLING, DataHandlingIntegrated),
+        (ChapterEnum.MEASUREMENT, MeasurementIntegrated),
+        (ChapterEnum.MULTIPLICATION_DIVISION, MultiplicationDivisionIntegrated),
     ]
     
     for chapter, strategy in chapters:
         QuestionGeneratorFactory.register(chapter, strategy)
     
-    logger.info(f"✅ Registered {len(chapters)} question generation strategies")
+    logger.info(f"✅ Registered {len(chapters)} INTEGRATED question generation strategies (K.C. Nag + Adaptive)")
 
 
 async def init_services():
@@ -157,6 +201,48 @@ async def health_check(settings: Dict = Depends(get_settings)):
         "version": settings.API_VERSION,
         "debug": settings.DEBUG
     }
+
+
+@app.get("/api/health/startup")
+async def startup_status():
+    """Check if all services are initialized correctly.
+    
+    Returns:
+        Status of each initialization component
+    """
+    try:
+        from services.adaptive_learning_service import AdaptiveLearningService
+        service: AdaptiveLearningService = app.state.adaptive_service
+        question_service = app.state.question_service
+        
+        # Verify services exist
+        services_ready = {
+            "adaptive_service": service is not None,
+            "question_service": question_service is not None,
+            "repository": service.repository is not None if service else False,
+        }
+        
+        all_ready = all(services_ready.values())
+        
+        return {
+            "status": "ready" if all_ready else "initializing",
+            "services": services_ready,
+            "message": "All services initialized" if all_ready else "Some services not yet initialized"
+        }
+    except AttributeError as e:
+        logger.error(f"Service not initialized: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Services not initialized - check backend logs"
+        }
+    except Exception as e:
+        logger.error(f"Unexpected error in startup check: {e}")
+        return {
+            "status": "error",
+            "error": type(e).__name__,
+            "message": str(e)
+        }
 
 
 # ============================================================================
@@ -233,8 +319,8 @@ class SessionStartRequest(BaseModel):
 class SubmitAnswerRequest(BaseModel):
     """Request to submit an answer."""
     question_id: str
-    answer_id: str
-    time_spent: int
+    selected_index: int
+    time_taken_seconds: Optional[int] = None
 
 
 @app.post("/api/quiz/session/start")
@@ -291,7 +377,7 @@ async def submit_quiz_answer(session_id: str, request: SubmitAnswerRequest):
     
     Args:
         session_id: The session ID
-        request: Answer submission with question_id, answer_id, time_spent
+        request: Answer submission with question_id, selected_index, time_taken_seconds
     
     Returns:
         Feedback with correctness, mastery score, and misconceptions
@@ -301,8 +387,8 @@ async def submit_quiz_answer(session_id: str, request: SubmitAnswerRequest):
         response = adapter.submit_answer(
             session_id=session_id,
             question_id=request.question_id,
-            answer_id=request.answer_id,
-            time_spent=request.time_spent
+            answer_id=request.selected_index,
+            time_spent=request.time_taken_seconds or 0
         )
         logger.info(f"Processed answer for session {session_id}")
         return response
@@ -363,12 +449,161 @@ async def end_quiz_session(session_id: str):
 
 
 # ============================================================================
-# ROUTE REGISTRATION
+# STUDENT MANAGEMENT ENDPOINTS (NEW)
 # ============================================================================
 
-# Register practice routes
-app.include_router(practice_router)
-logger.info("✅ Practice routes registered")
+@app.post("/api/student/register")
+async def register_student(request: StudentRegistrationRequest):
+    """Register a new student.
+    
+    Request body:
+    {
+        "name": "Student Name",
+        "chapter": "Ch1: The Fish Tale"
+    }
+    
+    Returns:
+        {"student_id": "uuid", "name": "Student Name", "chapter": "Ch1: The Fish Tale"}
+    """
+    from services.adaptive_learning_service import AdaptiveLearningService
+    service: AdaptiveLearningService = app.state.adaptive_service
+    
+    try:
+        # Validate request
+        if not request.name or request.name.strip() == "":
+            logger.warning("Registration attempt with empty name")
+            raise ValueError("Student name cannot be empty")
+        
+        # Register student
+        result = service.repository.register_student(
+            name=request.name.strip(),
+            chapter=request.chapter or "Ch1: The Fish Tale"
+        )
+        
+        # Check if registration succeeded
+        if isinstance(result, dict) and result.get("success") is False:
+            error_msg = result.get("error", "Unknown error")
+            logger.error(f"Registration failed for {request.name}: {error_msg}")
+            raise HTTPException(
+                status_code=400,
+                detail=f"Registration failed: {error_msg}"
+            )
+        
+        # Extract student_id from result (could be dict or string)
+        student_id = result.get("studentId") if isinstance(result, dict) else result
+        
+        logger.info(f"✅ Registered new student {student_id}: {request.name}")
+        
+        return {
+            "success": True,
+            "student_id": str(student_id),
+            "studentId": str(student_id),  # camelCase for frontend compatibility
+            "name": request.name,
+            "chapter": request.chapter or "Ch1: The Fish Tale"
+        }
+    except ValueError as ve:
+        logger.error(f"Validation error: {ve}")
+        raise HTTPException(status_code=400, detail=str(ve))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Unexpected error registering student {request.name}: {type(e).__name__}: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Server error: {type(e).__name__}"
+        )
+
+
+@app.get("/api/student/{student_id}/progress", response_model=StudentProgressResponse)
+async def get_student_progress(student_id: str):
+    """Get detailed progress report for a student.
+    
+    Path parameters:
+        student_id: The student ID
+    
+    Returns:
+        StudentProgressResponse with learning metrics and progress
+    """
+    from services.adaptive_learning_service import AdaptiveLearningService
+    service: AdaptiveLearningService = app.state.adaptive_service
+    
+    try:
+        student = service.repository.get_student(student_id)
+        if not student:
+            raise HTTPException(status_code=404, detail=f"Student {student_id} not found")
+        
+        logger.info(f"Retrieved progress for student {student_id}")
+        
+        return StudentProgressResponse(
+            success=True,
+            studentId=student_id,
+            name="Student",
+            chapter=student.chapter or "Ch1: The Fish Tale",
+            currentBloomLevel=student.current_bloom_level,
+            attemptCount=student.total_attempts,
+            correctCount=student.total_correct,
+            accuracyRate=student.overall_percentage / 100 if student.overall_percentage > 0 else 0,
+            misconceptionsEncountered=[]
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error retrieving student progress: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/student/{student_id}/misconceptions", response_model=MisconceptionReportResponse)
+async def get_misconception_report(student_id: str):
+    """Get detailed misconception analysis for a student.
+    
+    Path parameters:
+        student_id: The student UUID
+    
+    Returns:
+        MisconceptionReportResponse with misconception patterns and recommendations
+    """
+    from services.adaptive_learning_service import AdaptiveLearningService
+    service: AdaptiveLearningService = app.state.adaptive_service
+    
+    try:
+        student = service.repository.get_student(student_id)
+        if not student:
+            raise HTTPException(status_code=404, detail=f"Student {student_id} not found")
+        
+        # Get misconception report
+        dashboard = service.get_student_dashboard(student_id)
+        report = dashboard.get("report", {})
+        
+        # Count misconceptions
+        misconceptions_map = {}
+        for attempt in service.repository.get_student_attempts(student_id):
+            if attempt.misconception_revealed:
+                key = attempt.misconception_revealed.value
+                misconceptions_map[key] = misconceptions_map.get(key, 0) + 1
+        
+        logger.info(f"Retrieved misconception report for student {student_id}")
+        
+        return MisconceptionReportResponse(
+            success=True,
+            studentId=student_id,
+            totalAttempts=student.total_attempts,
+            misconceptionsDetected=misconceptions_map,
+            frequentMisconceptions=[
+                {"misconception": k, "count": v} 
+                for k, v in sorted(misconceptions_map.items(), key=lambda x: x[1], reverse=True)[:5]
+            ],
+            recommendedTopics=dashboard.get("recommended_interventions", [])
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error retrieving misconception report: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============================================================================
+# ROUTE REGISTRATION
+# ============================================================================
 
 # Register content generation routes (Rich Questions via Hybrid Neuro-Symbolic)
 app.include_router(content_router)
