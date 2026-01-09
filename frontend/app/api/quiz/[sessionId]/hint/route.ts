@@ -1,9 +1,9 @@
 export async function GET(
   request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params
+    const { sessionId } = await params
     const { searchParams } = new URL(request.url)
     const questionId = searchParams.get('question_id')
     const hintIndex = searchParams.get('hint_index') || '0'

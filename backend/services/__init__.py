@@ -1,8 +1,8 @@
 # Services package
-from .deduplication import DeduplicationService
+# Note: Most services moved to domain/ directories
+# Remaining services that haven't been migrated yet
 from .question_service import QuestionService
 
 __all__ = [
-    "DeduplicationService",
     "QuestionService"
 ]

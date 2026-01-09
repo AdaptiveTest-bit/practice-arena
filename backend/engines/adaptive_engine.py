@@ -5,10 +5,10 @@ Determines next question based on student profile, Bloom's levels, and misconcep
 
 from typing import List, Optional, Tuple, Dict
 from enum import Enum
-from models.question import Question
-from models.cognitive_levels import BloomLevel
+from api.models.quiz import Question
+from api.models.cognitive_levels import BloomLevel
 from models.student_profile import StudentProfile, PerformanceStatus, LearningPhase
-from models.distractor import MisconceptionType
+from api.models.distractor import MisconceptionType
 import random
 
 
@@ -162,32 +162,139 @@ class AdaptiveEngine:
         
         return question
     
+    def _normalize_misconception_type(self, raw: object) -> Optional[MisconceptionType]:
+        """Normalize raw misconception identifiers into `MisconceptionType`.
+
+        Bank/YAML content sometimes emits slightly different strings (case, spaces, hyphens).
+        This helper keeps the adaptive selection path resilient.
+        """
+        if raw is None:
+            return None
+        if isinstance(raw, MisconceptionType):
+            return raw
+
+        s = str(raw).strip()
+        if not s:
+            return None
+
+        # 1) Direct enum value match
+        try:
+            return MisconceptionType(s)
+        except Exception:
+            pass
+
+        # 2) Common normalizations
+        normalized = (
+            s.upper()
+            .replace(" ", "_")
+            .replace("-", "_")
+        )
+        try:
+            return MisconceptionType(normalized)
+        except Exception:
+            return None
+
+    def _extract_misconception_types(self, q: Question) -> set[MisconceptionType]:
+        """Best-effort extraction of misconception types a question can diagnose.
+
+        Supports multiple historical/question-bank shapes:
+        - Bank payload: q.misconception_info OR q.payload["misconception_info"] OR q.meta["misconception_info"]
+        - Legacy: q.distractor_info.misconception_map (dict)
+        - DistractorSet-style: q.distractor_info.distractors[*].misconception_type
+
+        Returns a set of MisconceptionType values.
+        """
+        types: set[MisconceptionType] = set()
+
+        def _ingest_mis_info(mis_info_obj: object) -> None:
+            if not isinstance(mis_info_obj, list):
+                return
+            for entry in mis_info_obj:
+                # Expected modern shape: {"type": "...", "value": "..."}
+                if isinstance(entry, dict):
+                    raw = entry.get("type") or entry.get("misconception_type")
+                    mt = self._normalize_misconception_type(raw)
+                    if mt:
+                        types.add(mt)
+                    continue
+
+                # Older/badged shapes: allow raw strings/enums in list
+                mt = self._normalize_misconception_type(entry)
+                if mt:
+                    types.add(mt)
+
+        # 1) Bank payload format (preferred)
+        _ingest_mis_info(getattr(q, "misconception_info", None))
+
+        # Sometimes the Question is a wrapper around a stored payload dict
+        payload = getattr(q, "payload", None)
+        if isinstance(payload, dict):
+            _ingest_mis_info(payload.get("misconception_info"))
+
+        meta = getattr(q, "meta", None)
+        if isinstance(meta, dict):
+            _ingest_mis_info(meta.get("misconception_info"))
+
+        # 2) Legacy distraction map: {MisconceptionType: value} or {"TYPE": "value"}
+        d_info = getattr(q, "distractor_info", None)
+        m_map = getattr(d_info, "misconception_map", None) if d_info else None
+        if isinstance(m_map, dict):
+            for k in m_map.keys():
+                mt = self._normalize_misconception_type(k)
+                if mt:
+                    types.add(mt)
+
+        # 3) DistractorSet-style list
+        distractors = getattr(d_info, "distractors", None) if d_info else None
+        if isinstance(distractors, list):
+            for d in distractors:
+                raw = getattr(d, "misconception_type", None)
+                mt = self._normalize_misconception_type(raw)
+                if mt:
+                    types.add(mt)
+
+        return types
+
     def _apply_misconception_strategy(
         self,
         student: StudentProfile,
         questions: List[Question]
     ) -> Optional[Question]:
         """
-        Target questions that address student's detected misconceptions
-        If multiple misconceptions detected, prioritize remediation
+        Target questions that address student's detected misconceptions.
+
+        Only triggers remediation if the misconception was detected with meaningful frequency
+        (historical intent: "if > 2 detections").
         """
         top_misconceptions = student.get_top_misconceptions(limit=3)
-        
+
         if not top_misconceptions:
             return None  # No misconceptions to remediate
-        
-        # Get top misconception type
-        primary_misconception = top_misconceptions[0][0]
-        
-        # Find questions targeting this misconception
+
+        # Expected shape: List[Tuple[MisconceptionType, int]]
+        primary_type_raw, primary_count = top_misconceptions[0]
+
+        # Gate remediation: don't overfit to a single accidental wrong click
+        try:
+            count = int(primary_count)
+        except Exception:
+            count = 0
+
+        if count <= 2:
+            return None
+
+        primary_type = self._normalize_misconception_type(primary_type_raw)
+        if not primary_type:
+            return None
+
         matching_questions = [
             q for q in questions
-            if q.distractor_info and primary_misconception in q.distractor_info.misconception_map
+            if primary_type in self._extract_misconception_types(q)
         ]
-        
+
         if matching_questions:
             return random.choice(matching_questions)
-        
+
         return None
     
     def adjust_difficulty(
@@ -281,6 +388,64 @@ class AdaptiveEngine:
         
         return recommendation
     
+    def get_next_recommendation(self, student: StudentProfile):
+        """Backward-compatible recommendation API.
+
+        Some callers (e.g. `domain.adaptive_learning.service.AdaptiveLearningService`) expect
+        `AdaptiveEngine.get_next_recommendation(student)` to exist and return an object with:
+        - recommendation_type
+        - reasoning
+        - recommended_difficulty
+        - recommended_bloom_level
+
+        The modern flow in this repo primarily uses `generate_learning_recommendation`, but we
+        keep this shim to avoid runtime AttributeError.
+        """
+
+        class _Rec:
+            def __init__(
+                self,
+                *,
+                recommendation_type: str,
+                reasoning: str,
+                recommended_difficulty: float,
+                recommended_bloom_level: BloomLevel,
+            ):
+                self.recommendation_type = recommendation_type
+                self.reasoning = reasoning
+                self.recommended_difficulty = recommended_difficulty
+                self.recommended_bloom_level = recommended_bloom_level
+
+            def to_dict(self) -> dict:
+                return {
+                    "recommendation_type": self.recommendation_type,
+                    "reasoning": self.reasoning,
+                    "recommended_difficulty": self.recommended_difficulty,
+                    "recommended_bloom_level": getattr(self.recommended_bloom_level, "value", str(self.recommended_bloom_level)),
+                }
+
+        chapter = getattr(student, "current_chapter", None) or "Chapter 1"
+        target_bloom = getattr(student, "current_bloom_level", None)
+        try:
+            if not isinstance(target_bloom, BloomLevel):
+                target_bloom = BloomLevel.REMEMBER
+        except Exception:
+            target_bloom = BloomLevel.REMEMBER
+
+        try:
+            next_bloom = self.select_next_bloom_level(student, chapter)
+        except Exception:
+            next_bloom = target_bloom or BloomLevel.REMEMBER
+
+        recommended_difficulty = getattr(student, "difficulty_adjustment", 1.0) or 1.0
+
+        return _Rec(
+            recommendation_type="adaptive",
+            reasoning=f"Next Bloom level: {getattr(next_bloom, 'value', str(next_bloom))}",
+            recommended_difficulty=float(recommended_difficulty),
+            recommended_bloom_level=next_bloom,
+        )
+
     def _get_next_bloom_level(self, current_level: BloomLevel) -> Optional[BloomLevel]:
         """Get the next Bloom's level in progression"""
         bloom_order = [

@@ -162,12 +162,6 @@ export const QuestionCard: FC<QuestionCardProps> = ({
     [configParser, question.difficulty]
   );
 
-  // Check if should show media
-  const hasMedia = useMemo(
-    () => question.dataRepresentation !== undefined,
-    [question.dataRepresentation]
-  );
-
   // Get difficulty display label
   const difficultyLabel = useMemo(() => {
     if (typeof question.difficulty === "number") {
@@ -220,32 +214,6 @@ export const QuestionCard: FC<QuestionCardProps> = ({
           </p>
         )}
       </div>
-
-      {/* Media Display - Only show AFTER answer submitted (pedagogical strategy) */}
-      {isAnswered && hasMedia && (
-        <div className="bg-gradient-to-b from-blue-50 to-indigo-50 rounded-2xl p-6 flex items-center justify-center min-h-[200px] border-2 border-blue-100 animate-fadeIn">
-          <div className="w-full">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3 text-center">
-              📐 Solution Visualization
-            </p>
-            {question.dataRepresentation?.primary && (
-              <div className="text-center">
-                <img
-                  src={question.dataRepresentation.primary.url}
-                  alt={question.dataRepresentation.primary.alt}
-                  className="max-w-full max-h-[300px] object-contain rounded-lg mx-auto"
-                  loading="lazy"
-                />
-                {question.dataRepresentation.primary.caption && question.dataRepresentation.primary.showCaption && (
-                  <p className="mt-3 text-sm text-gray-600 bg-white bg-opacity-60 p-2 rounded-lg">
-                    {question.dataRepresentation.primary.caption}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Options Grid */}
       <div>

@@ -1,0 +1,1160 @@
+[
+  {
+    "strategy": "large_numbers_integrated",
+    "timestamp": "2026-01-02T20:05:37.513513",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "K.C. Nag approach: Understanding that each position represents a different power of 10 is crucial. N",
+      "K.C. Nag principle: Make profit/loss real. A shopkeeper buys goods at CP and sells at SP. If SP is h",
+      "Understanding Indian numbering (lakh, crore) is essential for students in India. These are cultural ",
+      "K.C. Nag: Compare numbers like comparing heights. Taller person > shorter person. Bigger number > sm",
+      "K.C. Nag: Rounding is about approximation for practical use. When shopping, we often think in round "
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "OPPOSITE_CONFUSION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING",
+      "ARITHMETIC_ERROR"
+    ],
+    "difficulties_covered": [
+      1,
+      2
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "factors_multiples_integrated",
+    "timestamp": "2026-01-02T20:05:37.652612",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Let's find all the factors of 62. A factor is a number that divides 62 with no remainder. We need to",
+      "A multiple of 4 is any number you get by multiplying 4 by a whole number (1, 2, 3, ...). The first m",
+      "To check if 191 is divisible by 3, we use the divisibility rule: Sum of digits is divisible by 3. A ",
+      "To find the LCM (Least Common Multiple) of 4 and 12, we look for the smallest positive number that i",
+      "Let's find all the factors of 44. A factor is a number that divides 44 with no remainder. We need to",
+      "Let's find all the factors of 7. A factor is a number that divides 7 with no remainder. We need to t",
+      "To check if 718 is divisible by 3, we use the divisibility rule: Sum of digits is divisible by 3. A ",
+      "To check if 230 is divisible by 3, we use the divisibility rule: Sum of digits is divisible by 3. A ",
+      "To check if 920 is divisible by 5, we use the divisibility rule: Last digit is 0 or 5. A number is d",
+      "To find the LCM (Least Common Multiple) of 14 and 12, we look for the smallest positive number that "
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "OPPOSITE_CONFUSION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING",
+      "ARITHMETIC_ERROR",
+      "FORMULA_MISAPPLICATION"
+    ],
+    "difficulties_covered": [
+      1,
+      2,
+      3
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "fractions_decimals_integrated",
+    "timestamp": "2026-01-02T20:05:38.085268",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Sneha's conversion problem: 1/4 of the class participated in the event. Express as decimal percentag",
+      "Ananya's ordering problem: Three water containers are filled to levels: 0.75, 2/3, 0.4. Which is mos",
+      "Priya's question: You've completed 3/15 of your homework. Write in simplest form.",
+      "Karan's ordering problem: Three water containers are filled to levels: 2/3, 0.2, 5/6. Which is most ",
+      "Priya's question: You have 10 pieces of a chocolate bar broken into 20 equal pieces. Simplify the fr",
+      "Ananya's ordering problem: Arrange these prices in increasing order: 5/6, 2/3, 0.25 rupees",
+      "Ananya's ordering problem: Three water containers are filled to levels: 1/3, 0.75, 0.4. Which is mos",
+      "Ravi's question: 3 out of 18 students prefer tea. Express as simplified fraction.",
+      "Rohan's question: 2 out of 12 students prefer tea. Express as simplified fraction.",
+      "Arjun's conversion problem: A shopkeeper sells items at 3/5 of the original price. Express as decima"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "data_patterns_integrated",
+    "timestamp": "2026-01-02T20:05:38.089558",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Sneha's formula challenge: Priya has a pattern where multiply position by 2, then add 1. Find the 8t",
+      "Sneha's formula challenge: Priya has a pattern where subtract position from 10. Find the 7th number ",
+      "Priya's formula challenge: Priya has a pattern where multiply position by 3, then subtract 2. Find t",
+      "Sneha's rule identification: Priya analyzes numbers: [1, 8, 27, 64, 125]. Which mathematical rule is",
+      "Dev's rule identification: A sequence shows: [2, 6, 12, 20, 30]. What formula creates this pattern?",
+      "Dev's pattern challenge: Priya observes a data pattern: 2, 4, 8, 16, 32. If the pattern continues, w",
+      "Dev's rule identification: A sequence shows: [1, 3, 5, 7, 9]. What formula creates this pattern?",
+      "Sneha's pattern challenge: A sequence follows a rule: 1, 4, 9, 16, 25 ... Continue the pattern. What",
+      "Sneha's pattern challenge: Arjun sees a pattern in numbers: 2, 5, 8, 11, 14. What's the next number?",
+      "Dev's pattern challenge: A sequence follows a rule: 1, 1, 2, 3, 5, 8 ... Continue the pattern. What "
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "LOGICAL_DISCONNECT",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "clock_angles_integrated",
+    "timestamp": "2026-01-02T20:05:38.093625",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "K.C. Nag approach: Understanding how clock hands move is key. The hour hand doesn't wait at the hour",
+      "K.C. Nag approach: Understanding rate of change is powerful! When both hands move at different speed",
+      "K.C. Nag approach: Reverse thinking is powerful! If we know how to calculate angles from time, we ca"
+    ],
+    "unique_misconceptions": [
+      "ARITHMETIC_ERROR",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [
+      1,
+      2
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "symmetry_integrated",
+    "timestamp": "2026-01-02T20:05:38.097431",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "K.C. Nag approach: Some shapes have many symmetry lines! Count carefully by testing each possible fo",
+      "K.C. Nag approach: Finding a line of symmetry requires careful visualization. Imagine folding the sh",
+      "K.C. Nag approach: Understanding symmetry requires careful observation. A shape has line symmetry if"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [
+      1,
+      2
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "rotation_integrated",
+    "timestamp": "2026-01-02T20:05:38.100689",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "K.C. Nag approach: Counterclockwise rotation goes OPPOSITE to clock hands. Remember: clockwise is to",
+      "K.C. Nag approach: Rotation moves a point around a center. Clockwise rotation follows the direction ",
+      "K.C. Nag approach: Rotation is completely defined by two things: the center point and the angle. Cha"
+    ],
+    "unique_misconceptions": [
+      "OPERATION_DIRECTION",
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [
+      2,
+      3
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "fraction_area_integrated",
+    "timestamp": "2026-01-02T20:05:38.103789",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "K.C. Nag approach: When finding a fraction OF another fraction, MULTIPLY them. 'Of' in math means \u00d7.",
+      "K.C. Nag approach: To find a fraction, count the shaded parts (numerator) and total parts (denominat",
+      "K.C. Nag approach: Equal parts means EXACTLY the same area. Before using a shape for fractions, alwa"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [
+      1,
+      2,
+      3
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "dice_logic_integrated",
+    "timestamp": "2026-01-02T20:05:38.106869",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Priya's dice logic: A die follows the rule: sum to 7. You can see face 3 is on top. What's on the bo",
+      "Sneha's dice logic: Arjun has a Custom A custom die with specific opposite pairs: 1-2, 3-4, 5-6. If ",
+      "Arjun's visibility count: Priya has A single die sitting on a table. How many faces can she see in t",
+      "Dev's dice rotation challenge: A left roll of a die: started with 5 on top. After the roll, which fa",
+      "Arjun's visibility count: Dev is counting the visible faces on Two dice stacked vertically. Can you ",
+      "Priya's dice rotation challenge: Dev performs a left rotation of a die. Initial: 5 on top. Final: ? ",
+      "Dev's visibility count: Dev is counting the visible faces on Two dice stacked vertically. Can you co",
+      "Dev's visibility count: A game board shows Three dice in a row on a table. How many cube faces are v",
+      "Arjun's dice rotation challenge: Dev performs a right rotation of a die. Initial: 3 on top. Final: ?",
+      "Priya's dice rotation challenge: A right roll of a die: started with 3 on top. After the roll, which"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "LOGICAL_DISCONNECT",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "nets_integrated",
+    "timestamp": "2026-01-02T20:05:38.109971",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Sneha's net matching challenge: A packaging designer has drawn a 3D cube pattern and several 2D nets",
+      "Dev's net matching challenge: Arjun's teacher shows him a 3D cube with specific markings and asks hi",
+      "Dev's net validation: A toy manufacturer has a straight line template. When folded, should it create",
+      "Sneha's net validation: A packaging company needs to check if a design pattern can fold into a cube-",
+      "Sneha's net validation: A toy manufacturer has a straight line template. When folded, should it crea",
+      "Sneha's fold prediction: A toy company marks two corners of a cube net before folding. When folded i",
+      "Dev's net matching challenge: A toy factory needs to match 3D cubes to their net templates. Given a ",
+      "Arjun's fold prediction: A toy company marks two corners of a cube net before folding. When folded i",
+      "Priya's net validation: A toy manufacturer has a cross-shape template. When folded, should it create"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "LOGICAL_DISCONNECT",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "mapping_integrated",
+    "timestamp": "2026-01-02T20:05:38.113511",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Priya's grid distance challenge: A robot moves from coordinates (1, 2) to (4, 6) on a grid. Moving o",
+      "Arjun's map calculation: Using a Regional Map with scale 2 cm = 10 km, 5 cm on the map equals how ma",
+      "Dev's map calculation: On a Local Area Map, the scale is 1 cm = 500 m. Two places are 4 cm apart on ",
+      "Arjun's coordinate challenge: If we mark a hospital on a grid, with 3 units right and 4 units up fro",
+      "Sneha's coordinate challenge: On a coordinate map, the a library is located at position (7, 3). What",
+      "Sneha's coordinate challenge: A map shows a hospital at x = 3 and y = 4. What are the coordinates?",
+      "Priya's map calculation: On a Local Area Map, the scale is 1 cm = 500 m. Two places are 4 cm apart o",
+      "Arjun's map calculation: On a Regional Map, the scale is 2 cm = 10 km. Two places are 5 cm apart on ",
+      "Arjun's coordinate challenge: A map shows a library at x = 7 and y = 3. What are the coordinates?"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "LOGICAL_DISCONNECT",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "cube_counting_integrated",
+    "timestamp": "2026-01-02T20:05:38.116532",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Arjun's hidden cube problem: A decorative structure has 64 cubes (4\u00d74\u00d74). The outside is decorated, ",
+      "Arjun's hidden cube problem: A large cube is made of 64 smaller cubes (4\u00d74\u00d74). The outer surface is ",
+      "Vikram's cube counting problem: A toy has building blocks arranged as a 3 \u00d7 2 \u00d7 2 rectangular stack.",
+      "Arjun's hidden cube problem: A 4\u00d74\u00d74 Rubik's cube has cubes that you can see and cubes hidden inside",
+      "Rahul's surface area problem: A decorative wall uses unit cubes in a 5 \u00d7 5 \u00d7 3 arrangement. How many",
+      "Ananya's cube counting problem: A classroom storage unit has shelves arranged as 2 rows, 3 columns, ",
+      "Vikram's surface area problem: A wooden block structure is 3 units long, 4 units wide, and 3 units t",
+      "Ananya's cube counting problem: A chocolate bar is divided into a 2 \u00d7 2 \u00d7 2 cube structure. How many",
+      "Sneha's hidden cube problem: A large cube is made of 27 smaller cubes (3\u00d73\u00d73). The outer surface is ",
+      "Sneha's hidden cube problem: A cube stack is 3\u00d73\u00d73. The outside layers are visible, but some are hid"
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "geometry_measurement_integrated",
+    "timestamp": "2026-01-02T20:05:38.119828",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Ananya's geometry problem: A square room has square with side 12 cm. The carpenter needs to know the",
+      "Rohan's geometry problem: An architect is designing a triangle room with triangle with base 10 cm an",
+      "Karan's geometry problem: A farmer has a triangle with base 7 cm and height 4 cm. He wants to know t",
+      "Priya's geometry problem: A painter needs to paint a rectangle wall with rectangle with length 10 cm",
+      "Anaya's geometry problem: An architect is designing a square room with square with side 9 cm. What i",
+      "Anaya's geometry problem: A painter needs to paint a rectangle wall with rectangle with length 8 cm ",
+      "Karan's geometry problem: A school is creating a triangle garden with triangle with base 5 cm and he",
+      "Vikram's measurement problem: A cloth roll has a length of 1 km to meters. Express in m.",
+      "Sneha's geometry problem: A rectangle playground has dimensions of rectangle with length 8 cm and wi",
+      "Priya's measurement problem: A cloth roll has a length of 4 m to centimeters. Express in cm."
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [
+      2
+    ],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  },
+  {
+    "strategy": "multiplication_division_integrated",
+    "timestamp": "2026-01-02T20:05:38.123509",
+    "total_attempts": 10,
+    "successful": 10,
+    "failed": 10,
+    "errors": [
+      {
+        "attempt": 1,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 2,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 3,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 4,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 5,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 6,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 7,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 8,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 9,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      },
+      {
+        "attempt": 10,
+        "error": "'BloomInfo' object has no attribute 'level'",
+        "traceback": "Traceback (most recent call last):\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/tools/audit_generators.py\", line 108, in test_generator\n    results[\"bloom_levels_covered\"].add(question.bloom_info.level.name)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/kunalranjan/edtech/practice-arena/practice-arena/backend/venv/lib/python3.13/site-packages/pydantic/main.py\", line 891, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'BloomInfo' object has no attribute 'level'\n"
+      }
+    ],
+    "sample_questions": [],
+    "unique_stories": [
+      "Vikram's word problem: Mary buys 8 boxes of cookies. Each box has 7 cookies. How many cookies in tot",
+      "Priya's division problem: Ravi has 73 candies to share equally among 6 friends. Each friend gets som",
+      "Dev's multiplication problem: Ravi arranges 9 rows of chairs with 8 chairs in each row. How many cha",
+      "Priya's word problem: Mary buys 8 boxes of cookies. Each box has 9 cookies. How many cookies in tota",
+      "Ananya's division problem: The school distributes 54 pencils equally to 12 classrooms. Each classroo",
+      "Rahul's word problem: Raj buys 6 notebooks at $11 each. His brother buys 11 pens at $6 each. How muc",
+      "Priya's division problem: The school distributes 76 pencils equally to 9 classrooms. Each classroom ",
+      "Rohan's division problem: A baker has 42 cookies and wants to pack them into boxes of 10. How many f",
+      "Dev's multiplication problem: A bakery makes 12 batches of 9 cookies each. How many cookies in total",
+      "Vikram's word problem: David has 57 marbles to share equally among 6 friends. How many marbles does "
+    ],
+    "unique_misconceptions": [
+      "CONSTRAINT_VIOLATION",
+      "FORMULA_CONFUSION",
+      "INCOMPLETE_REASONING"
+    ],
+    "difficulties_covered": [],
+    "bloom_levels_covered": [],
+    "production_ready": true,
+    "notes": [
+      "\u2705 PRODUCTION READY"
+    ]
+  }
+]

@@ -42,13 +42,37 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
         pass  # Not all databases support these pragmas
 
 
-@event.listens_for(engine, "connect")
-def pool_pre_ping(dbapi_conn, connection_record):
-    """Verify connection is alive before using."""
+# NOTE: This handler is currently named pool_pre_ping but it is not SQLAlchemy's
+# built-in pool_pre_ping. It's our own safety check to detect poisoned connections.
+# Using the 'checkout' event lets us reset failed transaction state *before* handing
+# the connection to application code.
+@event.listens_for(engine, "checkout")
+def pool_pre_ping(dbapi_conn, connection_record, connection_proxy):
+    """Verify connection is alive before using.
+
+    Also resets any aborted transaction state so we don't propagate
+    psycopg2.errors.InFailedSqlTransaction to the next user of the pooled connection.
+    """
+    cursor = None
     try:
-        dbapi_conn.cursor().execute("SELECT 1")
+        # Reset failed transaction state if any
+        try:
+            dbapi_conn.rollback()
+        except Exception:
+            pass
+
+        cursor = dbapi_conn.cursor()
+        cursor.execute("SELECT 1")
     except Exception as e:
+        # This connection is unusable; tell the pool to discard it.
         logger.warning(f"Database connection check failed: {e}")
+        raise
+    finally:
+        try:
+            if cursor is not None:
+                cursor.close()
+        except Exception:
+            pass
 
 
 def get_db() -> Generator[Session, None, None]:

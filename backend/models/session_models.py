@@ -3,8 +3,8 @@
 from pydantic import BaseModel
 from typing import Optional, Dict, List, Any
 from enum import Enum
-from models.distractor import DistractorSet, TrapInfo
-from models.cognitive_levels import BloomInfo
+from api.models.distractor import DistractorSet, TrapInfo
+from api.models.cognitive_levels import BloomInfo
 
 
 class BloomLevel(str, Enum):

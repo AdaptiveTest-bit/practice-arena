@@ -31,7 +31,7 @@ export function StudentDashboard() {
 
     setLoading(true)
     try {
-      const response = await fetch(`/api/student/${student.id}/progress`)
+      const response = await fetch(`/api/student/${student.studentId}/progress`)
       if (response.ok) {
         const data = await response.json()
         setStats(data)

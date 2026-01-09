@@ -1,0 +1,142 @@
+version: 1
+description: "Quality rubric for generated questions - ensures production-grade output"
+
+# ==================== REQUIRED FIELDS ====================
+required_question_fields:
+  - chapter
+  - topic
+  - question_text
+  - options
+  - correct_option_index
+  - answer
+  - solution_steps
+  - distractor_info
+  - meta
+  - misconception_info
+
+required_meta_fields:
+  - subject
+  - grade
+  - chapter
+  - chapter_id
+  - concept_id
+  - concept_key
+  - difficulty
+  - bloom_level
+
+required_misconception_fields:
+  - option_index
+  - is_correct
+  - value
+
+# ==================== VALIDATION CHECKS ====================
+checks:
+  # Basic structure
+  - name: options_count
+    rule: len(options) == 4
+    message: "MCQ must have exactly 4 options"
+    
+  - name: options_non_empty
+    rule: all(opt.strip() for opt in options)
+    message: "All options must be non-empty"
+    
+  - name: correct_index_in_range
+    rule: 0 <= correct_option_index < len(options)
+    message: "Correct option index must be within options range"
+    
+  - name: answer_matches_correct_option
+    rule: answer == options[correct_option_index] or answer in options[correct_option_index]
+    message: "Answer must match the correct option"
+    
+  # Misconception coverage
+  - name: misconception_covers_all_options
+    rule: len(misconception_info) == len(options)
+    message: "Each option must have misconception info"
+    
+  - name: misconception_indices_match
+    rule: sorted([m.option_index for m in misconception_info]) == list(range(len(options)))
+    message: "Misconception indices must cover all options"
+    
+  - name: exactly_one_correct
+    rule: sum(1 for m in misconception_info if m.is_correct) == 1
+    message: "Exactly one option must be marked as correct"
+    
+  # Meta validation
+  - name: valid_difficulty
+    rule: 1 <= meta.difficulty <= 5
+    message: "Difficulty must be 1-5"
+    
+  - name: valid_bloom_level
+    rule: meta.bloom_level in ['REMEMBER', 'UNDERSTAND', 'APPLY', 'ANALYZE', 'EVALUATE', 'CREATE']
+    message: "Bloom level must be valid"
+    
+  - name: valid_concept_key
+    rule: meta.concept_key in VALID_CONCEPT_KEYS
+    message: "Concept key must be from taxonomy"
+    
+  # Content quality
+  - name: question_text_length
+    rule: 10 <= len(question_text) <= 1000
+    message: "Question text must be between 10-1000 characters"
+    
+  - name: options_unique
+    rule: len(set(options)) == len(options)
+    message: "All options must be unique"
+    
+  - name: solution_steps_present
+    rule: len(solution_steps) >= 2
+    message: "At least 2 solution steps required"
+
+# ==================== VALID CONCEPT KEYS (Class 5 Factors & Multiples) ====================
+VALID_CONCEPT_KEYS:
+  - divisibility
+  - prime_composite
+  - factors
+  - multiples
+  - factor_pairs
+  - gcd
+  - lcm
+  - prime_factorization
+  - word_problem
+  - assertion_reason
+  - error_analysis
+
+# ==================== QUALITY SCORING ====================
+quality_scoring:
+  excellent:
+    min_score: 90
+    criteria:
+      - has_rich_narrative
+      - has_visual_hints
+      - has_trap_info
+      - has_bloom_info
+      - distractors_have_teaching_points
+      
+  good:
+    min_score: 70
+    criteria:
+      - has_solution_steps
+      - has_distractor_info
+      - has_meta
+      - has_misconception_info
+      
+  acceptable:
+    min_score: 50
+    criteria:
+      - has_question_text
+      - has_options
+      - has_answer
+
+# ==================== PEDAGOGICAL REQUIREMENTS ====================
+pedagogical_requirements:
+  distractors:
+    - must_target_misconception: true
+    - must_have_teaching_point: true
+    - must_have_why_wrong: true
+    
+  bloom_alignment:
+    REMEMBER: ["recall", "recognize", "identify", "list", "name"]
+    UNDERSTAND: ["explain", "classify", "compare", "interpret"]
+    APPLY: ["compute", "solve", "calculate", "use", "find"]
+    ANALYZE: ["analyze", "differentiate", "examine", "evaluate reason"]
+    EVALUATE: ["judge", "critique", "assess", "which is correct"]

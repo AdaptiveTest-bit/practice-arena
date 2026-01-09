@@ -213,6 +213,27 @@ export interface NextQuestionResponse {
     timeSpent: number;
     misconceptionDetected?: string;
   };
+  
+  // Adaptive learning metadata (concept mastery progress)
+  adaptive?: {
+    conceptId: string;
+    reason: string;
+    mastery: {
+      current_level: string;
+      attempts: number;
+      accuracy: number;
+    };
+    progress: {
+      total_concepts: number;
+      mastered_count: number;
+      learning_count: number;
+      not_started_count: number;
+      completion_percentage: number;
+      concepts_mastered: string[];
+      concepts_learning: string[];
+      concepts_not_started: string[];
+    };
+  };
 }
 
 // ============================================================================
@@ -228,6 +249,10 @@ export interface MisconceptionInfo {
   correctionExample?: string;
   learnMoreUrl?: string;
   count?: number;
+  // Misconception feedback fields from backend
+  whyWrong?: string;
+  teachingPoint?: string;
+  selectedValue?: string;
 }
 
 export interface LogicalTrapInfo {

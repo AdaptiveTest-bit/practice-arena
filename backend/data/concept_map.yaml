@@ -1,0 +1,55 @@
+# Curated concept taxonomy mapping (human label -> canonical concept_id)
+#
+# IMPORTANT: Use ONLY frontend chapter keys (large_numbers, fractions_decimals, etc.)
+# These are the canonical keys used throughout the system.
+#
+# Chapter Keys (Frontend → NCERT):
+#   large_numbers      = Chapter 1: The Fish Tale
+#   fractions_decimals = Chapter 6: Parts & Wholes
+#   factors_multiples  = Chapter 9: Be My Multiple
+#   data_patterns      = Chapter 10: Can You See Pattern
+
+math:
+  # =========================================================================
+  # Chapter 1: The Fish Tale - Large Numbers
+  # =========================================================================
+  large_numbers:
+    place_value: "MATH_C05_CH01_PLACE_VALUE"
+    comparing: "MATH_C05_CH01_COMPARING"
+    rounding: "MATH_C05_CH01_ROUNDING"
+    operations: "MATH_C05_CH01_OPERATIONS"
+    estimation: "MATH_C05_CH01_ESTIMATION"
+
+  # =========================================================================
+  # Chapter 6: Parts & Wholes - Fractions & Decimals
+  # =========================================================================
+  fractions_decimals:
+    fraction_decimal_conversion: "MATH_C05_CH06_CONVERSION"
+    equivalent_fractions: "MATH_C05_CH06_EQUIVALENT"
+    comparison: "MATH_C05_CH06_COMPARISON"
+    fraction_operations: "MATH_C05_CH06_FRAC_OPS"
+    decimals: "MATH_C05_CH06_DECIMALS"
+
+  # =========================================================================
+  # Chapter 9: Be My Multiple - Factors & Multiples
+  # =========================================================================
+  factors_multiples:
+    factors: "MATH_C05_CH09_FACTORS"
+    find_factors: "MATH_C05_CH09_FACTORS"  # Generator alias
+    multiples: "MATH_C05_CH09_MULTIPLES"
+    find_multiples: "MATH_C05_CH09_MULTIPLES"  # Generator alias
+    hcf: "MATH_C05_CH09_HCF"
+    gcd: "MATH_C05_CH09_HCF"  # Generator alias (GCD = HCF)
+    lcm: "MATH_C05_CH09_LCM"
+    divisibility: "MATH_C05_CH09_DIVISIBILITY"
+    prime_numbers: "MATH_C05_CH09_PRIME"
+    prime_factorization: "MATH_C05_CH09_PRIME"  # Generator alias
+
+  # =========================================================================
+  # Chapter 10: Can You See Pattern - Data Patterns
+  # =========================================================================
+  data_patterns:
+    sequences: "MATH_C05_CH10_SEQUENCES"
+    pattern_rules: "MATH_C05_CH10_RULES"
+    prediction: "MATH_C05_CH10_PREDICTION"
+    patterns: "MATH_C05_CH10_PATTERNS"

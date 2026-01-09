@@ -1,9 +1,9 @@
 export async function POST(
   request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params
+    const { sessionId } = await params
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'
 
     const response = await fetch(`${baseUrl}/api/quiz/${sessionId}/end`, {

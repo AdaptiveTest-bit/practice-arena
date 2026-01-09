@@ -1,0 +1,74 @@
+version: 1
+subject: math
+concepts:
+  # ==================== FACTORS & MULTIPLES (Class 5) ====================
+  # REMEMBER Level (Bloom's Level 1)
+  - id: math.class5.factors_multiples.divisibility
+    name: Apply divisibility rules (2, 3, 5, 9, 10)
+    grades: [5]
+    bloom_level: REMEMBER
+    difficulty_range: [1, 2]
+    
+  - id: math.class5.factors_multiples.prime_composite
+    name: Classify numbers as prime or composite
+    grades: [5]
+    bloom_level: REMEMBER
+    difficulty_range: [1, 2]
+    
+  # UNDERSTAND Level (Bloom's Level 2)
+  - id: math.class5.factors_multiples.factors
+    name: Find all factors of a number
+    grades: [5]
+    bloom_level: UNDERSTAND
+    difficulty_range: [1, 2]
+    
+  - id: math.class5.factors_multiples.multiples
+    name: List first N multiples of a number
+    grades: [5]
+    bloom_level: UNDERSTAND
+    difficulty_range: [1, 2]
+    
+  - id: math.class5.factors_multiples.factor_pairs
+    name: Find all factor pairs of a number
+    grades: [5]
+    bloom_level: UNDERSTAND
+    difficulty_range: [2, 3]
+    
+  # APPLY Level (Bloom's Level 3)
+  - id: math.class5.factors_multiples.gcd
+    name: Compute GCD of two numbers
+    grades: [5]
+    bloom_level: APPLY
+    difficulty_range: [2, 3]
+    
+  - id: math.class5.factors_multiples.lcm
+    name: Compute LCM of two numbers
+    grades: [5]
+    bloom_level: APPLY
+    difficulty_range: [2, 3]
+    
+  - id: math.class5.factors_multiples.prime_factorization
+    name: Find prime factorization of a number
+    grades: [5]
+    bloom_level: APPLY
+    difficulty_range: [2, 3]
+    
+  - id: math.class5.factors_multiples.word_problem
+    name: Solve real-world problems using factors/multiples/GCD/LCM
+    grades: [5]
+    bloom_level: APPLY
+    difficulty_range: [2, 4]
+    
+  # ANALYZE Level (Bloom's Level 4)
+  - id: math.class5.factors_multiples.assertion_reason
+    name: Assertion–reason reasoning about number properties
+    grades: [5]
+    bloom_level: ANALYZE
+    difficulty_range: [3, 4]
+    
+  # EVALUATE Level (Bloom's Level 5)
+  - id: math.class5.factors_multiples.error_analysis
+    name: Identify and explain errors in student solutions
+    grades: [5]
+    bloom_level: EVALUATE
+    difficulty_range: [3, 4]

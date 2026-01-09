@@ -33,7 +33,7 @@ class PracticeAPIClient {
   private client: AxiosInstance
 
   constructor() {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5002'
+    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
     
     this.client = axios.create({
       baseURL,

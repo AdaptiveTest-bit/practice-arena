@@ -4,8 +4,8 @@ Orchestrates the factory, deduplication, and validation layers.
 """
 
 from typing import Optional, Any, Dict
-from models.question import Question, ChapterEnum
-from services.deduplication import DeduplicationService
+from api.models.quiz import Question, ChapterEnum
+from domain.session_management.tracking.deduplication import DeduplicationService
 
 
 class QuestionService:
@@ -24,27 +24,13 @@ class QuestionService:
         self._question_cache = {}  # Map of question_id -> Question
         self._practice_to_dedup_session = {}  # Map practice_session_id -> dedup UUID
         self._question_context = {}  # Map question_id -> context dict
-        
-        # Add Phase 1 service integration
-        try:
-            from services.session_manager import SessionManager
-            from services.bloom_level_enforcer import BloomLevelEnforcer
-            from services.concept_mastery_tracker import ConceptMasteryTracker
-            from services.break_point_tracker import BreakPointTracker
-            
-            self.session_manager = SessionManager()
-            self.bloom_enforcer = BloomLevelEnforcer()
-            self.concept_tracker = ConceptMasteryTracker()
-            self.break_tracker = BreakPointTracker()
-            
-            from services.adaptive_question_selector import AdaptiveQuestionSelector
-            self.adaptive_selector = AdaptiveQuestionSelector()
-        except Exception as e:
-            print(f"Warning: Could not initialize Phase 1 services: {e}")
-            self.session_manager = None
-            self.bloom_enforcer = None
-            self.concept_tracker = None
-            self.break_tracker = None
+
+        # Phase 1 services are not part of the single-chapter MVP.
+        self.session_manager = None
+        self.bloom_enforcer = None
+        self.concept_tracker = None
+        self.break_tracker = None
+        self.adaptive_selector = None
     
     def create_session(self) -> str:
         """Create a new user session for deduplication tracking.
@@ -301,26 +287,12 @@ class QuestionService:
         return {"success": True, "session_id": practice_session_id, "question_id": question_id, "is_correct": is_correct, "correct_index": question.correct_option_index, "answer": question.answer, "solution_steps": question.solution_steps, "concept": concept, "bloom_level": bloom_level, "concept_accuracy": float(concept_result.get("accuracy", 0.0)) if concept_result else 0.0, "concept_status": concept_result.get("status", "not_started") if concept_result else "not_started", "can_advance_to_next_level": bool(advancement.get("can_advance", False)), "advancement_message": advancement.get("message", ""), "overall_accuracy": overall_accuracy, "completion_percentage": completion_percentage}
 
     def _map_chapter_id_to_question_chapter(self, chapter_id: int) -> ChapterEnum:
-        """Map numeric chapter_id (config) -> ChapterEnum (question generation)."""
-        mapping = {
-            1: ChapterEnum.LARGE_NUMBERS,
-            2: ChapterEnum.CLOCK_ANGLES,
-            3: ChapterEnum.SYMMETRY,
-            4: ChapterEnum.ROTATION,
-            5: ChapterEnum.FRACTION_AREA,
-            6: ChapterEnum.FRACTIONS_DECIMALS,
-            7: ChapterEnum.DICE_LOGIC,
-            8: ChapterEnum.NETS,
-            9: ChapterEnum.FACTORS_MULTIPLES,
-            10: ChapterEnum.DATA_PATTERNS,
-            11: ChapterEnum.MAPPING,
-            12: ChapterEnum.CUBE_COUNTING,
-            13: ChapterEnum.GEOMETRY_MEASUREMENT,
-            14: ChapterEnum.DATA_HANDLING,
-            15: ChapterEnum.MULTIPLICATION_DIVISION,
-            16: ChapterEnum.MEASUREMENT,
-        }
-        return mapping.get(chapter_id, ChapterEnum.LARGE_NUMBERS)
+        """Map numeric chapter_id (config) -> ChapterEnum (question generation).
+
+        MVP: only Factors & Multiples is supported.
+        """
+        _ = chapter_id  # unused in MVP
+        return ChapterEnum.FACTORS_MULTIPLES
 
     # =========================================================================
     # INTERNAL HELPERS
@@ -332,7 +304,7 @@ class QuestionService:
         Used when session_manager not initialized. Simply generates a question
         from the strategy with rich content included.
         """
-        from models.question import ChapterEnum
+        from api.models.quiz import ChapterEnum
         
         # Map practice_session_id to a chapter (simple mapping)
         # In production with Phase 1 services, this comes from session_manager

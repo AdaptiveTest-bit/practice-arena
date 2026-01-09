@@ -91,7 +91,7 @@ export class QuizAPIClient {
   private baseURL: string;
   private defaultTimeout: number = 30000; // 30 seconds
 
-  constructor(baseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5002/api") {
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api") {
     this.baseURL = baseURL;
 
     this.client = axios.create({
@@ -245,7 +245,7 @@ export class QuizAPIClient {
           hintCount: 3,
           hintRevealMode: "progressive",
           showTimer: true,
-          feedbackDepth: "moderate",
+          feedbackDepth: "detailed",
           showQuestionCounter: true,
         } as any,
         student: {
@@ -345,6 +345,8 @@ export class QuizAPIClient {
         misconceptionTag: data.misconceptionTag,
         correctAnswerId: data.correctAnswerId,
         attemptNumber: data.attemptNumber || 1,
+        // Adaptive learning metadata (concept mastery progress)
+        adaptive: data.adaptive,
       } as NextQuestionResponse;
 
       return transformed;
@@ -452,8 +454,12 @@ export class QuizAPIClient {
         
         // Adaptive Insights
         misconceptionDetected: data.misconceptionDetected ? {
-          explanation: data.misconceptionDetected.explanation || "",
-          name: data.misconceptionDetected.type || "Unknown",
+          explanation: data.misconceptionDetected.explanation || data.misconceptionDetected.whyWrong || "",
+          name: data.misconceptionDetected.name || data.misconceptionDetected.type || "Unknown",
+          whyWrong: data.misconceptionDetected.whyWrong || "",
+          teachingPoint: data.misconceptionDetected.teachingPoint || "",
+          type: data.misconceptionDetected.type || "UNKNOWN",
+          selectedValue: data.misconceptionDetected.selectedValue || "",
         } : undefined,
         logicalTrapTriggered: data.logicalTrapTriggered || false,
         trapDetails: data.trapDetails ? {
@@ -812,6 +818,51 @@ export class QuizAPIClient {
   setTimeout(ms: number) {
     this.defaultTimeout = ms;
     this.client.defaults.timeout = ms;
+  }
+
+  /**
+   * Get student mastery data for a chapter
+   * 
+   * @param studentId - Student identifier
+   * @param chapterId - Chapter key (e.g., "factors_multiples")
+   * @returns Concept-level mastery data with recommendations
+   */
+  async getStudentMastery(
+    studentId: string,
+    chapterId: string
+  ): Promise<{
+    success: boolean;
+    student_id: string;
+    chapter_id: string;
+    overall_accuracy: number;
+    concepts: Array<{
+      concept_id: string;
+      concept_name: string;
+      level: "not_started" | "learning" | "practiced" | "mastered";
+      accuracy: number;
+      total_attempts: number;
+      correct_attempts: number;
+    }>;
+    recommendations: string[];
+  }> {
+    try {
+      const endpoint = `/student/${studentId}/mastery/${chapterId}`;
+      this.logCall("GET", endpoint);
+
+      const response = await this.client.get<any>(endpoint);
+      return response.data;
+    } catch (error) {
+      console.error("[API] Error fetching mastery:", error);
+      // Return empty mastery on error (non-blocking)
+      return {
+        success: false,
+        student_id: studentId,
+        chapter_id: chapterId,
+        overall_accuracy: 0,
+        concepts: [],
+        recommendations: [],
+      };
+    }
   }
 
   /**

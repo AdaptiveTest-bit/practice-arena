@@ -10,5 +10,13 @@ export { RewardToast } from "./RewardToast";
 export { CompletionSummary } from "./CompletionSummary";
 export type { SessionCompletionResponse } from "./CompletionSummary";
 
+// Adaptive mastery display
+export { MasteryProgressPanel } from "./MasteryProgressPanel";
+export type { 
+  ConceptMastery, 
+  StudentMasteryData, 
+  AdaptiveQuestionMetadata 
+} from "./MasteryProgressPanel";
+
 // Main orchestrator
 // export { AdaptiveQuizScreen } from "../app/quiz/page"; // Re-export if needed elsewhere

@@ -1,9 +1,9 @@
 export async function GET(
   request: Request,
-  { params }: { params: { studentId: string } }
+  { params }: { params: Promise<{ studentId: string }> }
 ) {
   try {
-    const { studentId } = params
+    const { studentId } = await params
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'
 
     const response = await fetch(

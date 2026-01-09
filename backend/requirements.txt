@@ -15,9 +15,9 @@ pydantic-settings==2.3.0
 # ============================================================================
 # DATABASE (PostgreSQL ORM)
 # ============================================================================
-sqlalchemy==2.0.25
-psycopg2-binary==2.9.10
-alembic==1.13.1
+sqlalchemy>=2.0.30  # Python 3.13 compatible
+psycopg2-binary>=2.9.10
+alembic>=1.13.1
 
 # ============================================================================
 # UTILITIES
@@ -28,8 +28,8 @@ python-dotenv==1.0.0
 # CONTENT GENERATION (Hybrid Neuro-Symbolic Architecture)
 # ============================================================================
 sympy==1.12  # Symbolic mathematics for deterministic skeletons
-jinja2==3.1.2  # Templating for rendering questions
-httpx==0.27.0  # Async HTTP client for LLM API calls
-instructor==1.4.0  # Pydantic-powered structured outputs
-pyyaml==6.0  # YAML parsing for question bank files
+jinja2>=3.1.4  # Templating for rendering questions
+httpx>=0.27.0  # Async HTTP client for LLM API calls
+instructor>=1.7.0  # Pydantic-powered structured outputs (Python 3.13 compatible)
+pyyaml>=6.0.1  # YAML parsing for question bank files
 

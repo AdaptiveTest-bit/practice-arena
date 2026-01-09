@@ -1,11 +1,7 @@
 # Models package
-from .question import Question, QuestionResponse, CheckAnswerResponse, RevealAnswerResponse, ChapterEnum, CheckAnswerRequest
+# Note: quiz models moved to api.models.quiz
+# Import from there for Question-related models
 
 __all__ = [
-    "Question",
-    "QuestionResponse",
-    "CheckAnswerResponse",
-    "RevealAnswerResponse",
-    "ChapterEnum",
-    "CheckAnswerRequest"
+    # Empty - models have been migrated to domain/ and api/ directories
 ]

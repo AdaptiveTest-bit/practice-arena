@@ -181,12 +181,19 @@ export const FeedbackPanel: FC<FeedbackPanelProps> = ({
           <p className="text-2xl flex items-center gap-2 mb-2">
             <span>💡</span>
             <span className={`${textSizeClasses.section} text-amber-900`}>
-              Common Misconception
+              Common Misconception: {response.misconceptionDetected.name}
             </span>
           </p>
-          <p className={`${textSizeClasses.body} text-amber-900`}>
-            {response.misconceptionDetected.explanation || response.misconceptionDetected.name}
-          </p>
+          {response.misconceptionDetected.whyWrong && (
+            <p className={`${textSizeClasses.body} text-amber-900 mb-2`}>
+              <strong>Why this is wrong:</strong> {response.misconceptionDetected.whyWrong}
+            </p>
+          )}
+          {response.misconceptionDetected.teachingPoint && (
+            <p className={`${textSizeClasses.body} text-amber-800 bg-amber-100 rounded-lg p-3`}>
+              <strong>💡 Remember:</strong> {response.misconceptionDetected.teachingPoint}
+            </p>
+          )}
         </div>
       )}
 

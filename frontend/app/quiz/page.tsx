@@ -11,7 +11,9 @@ import {
   FeedbackPanel,
   RewardToast,
   CompletionSummary,
+  MasteryProgressPanel,
 } from "@/components";
+import type { AdaptiveQuestionMetadata } from "@/components/MasteryProgressPanel";
 import { ConfigParser } from "@/lib/services/configParser";
 import { getQuizAPIClient } from "@/lib/api/quizClient";
 import type {
@@ -49,6 +51,8 @@ interface ScreenState {
   attemptedCount: number;
   currentStreak: number;
   completionData?: any; // SessionCompletionResponse from backend
+  adaptiveData?: AdaptiveQuestionMetadata; // Adaptive metadata from question
+  showMasteryPanel: boolean; // Whether mastery panel is expanded
 }
 
 /**
@@ -119,6 +123,7 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
     correctCount: 0,
     attemptedCount: 0,
     currentStreak: 0,
+    showMasteryPanel: true, // Show mastery panel by default
   });
 
   // Config parser for UI decisions
@@ -138,7 +143,7 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
         const api = getQuizAPIClient();
         
         // Use the actual registered student ID from context, ensure it's a string
-        const studentId = String(student?.id || `student_${Math.random().toString(36).substr(2, 9)}`);
+        const studentId = String(student?.studentId || `student_${Math.random().toString(36).substr(2, 9)}`);
         
         // Call real API endpoint with chapter if provided from URL
         const config = await api.startSession(
@@ -187,10 +192,14 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
         const api = getQuizAPIClient();
         const question = await api.getNextQuestion(sessionId);
         
+        // Extract adaptive metadata if present
+        const adaptiveData = (question as any).adaptive as AdaptiveQuestionMetadata | undefined;
+        
         setScreenState((prev) => ({
           ...prev,
           currentQuestion: question,
           flowState: "QUESTION",
+          adaptiveData: adaptiveData,
         }));
       } catch (err) {
         console.error("Failed to fetch question:", err);
@@ -236,6 +245,9 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
 
       setScreenState((prev) => {
         const isCorrect = response.isCorrect;
+        // Extract updated adaptive data from response if present
+        const updatedAdaptiveData = (response as any).adaptive as AdaptiveQuestionMetadata | undefined;
+        
         return {
           ...prev,
           currentAnswerResponse: response,
@@ -244,6 +256,8 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
           attemptedCount: prev.attemptedCount + 1,
           currentStreak: isCorrect ? prev.currentStreak + 1 : 0,
           showReward: isCorrect && (prev.currentStreak + 1) % 5 === 0,
+          // Update adaptive data if present in response
+          adaptiveData: updatedAdaptiveData || prev.adaptiveData,
         };
       });
     } catch (err) {
@@ -531,25 +545,38 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
 
           {/* Adaptive Info Sidebar */}
           <div className="lg:col-span-3">
-            <div className="sticky top-24 bg-white rounded-3xl p-6 shadow-md border border-blue-100">
-              <h3 className="font-bold text-gray-800 mb-4">Performance</h3>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs text-gray-600 font-semibold">Accuracy</p>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {screenState.attemptedCount > 0
-                      ? Math.round((screenState.correctCount / screenState.attemptedCount) * 100)
-                      : 0}
-                    %
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-600 font-semibold">Streak</p>
-                  <p className="text-2xl font-bold text-orange-500">{screenState.currentStreak}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-600 font-semibold">Progress</p>
-                  <p className="text-2xl font-bold text-emerald-600">{screenState.attemptedCount}/5</p>
+            <div className="sticky top-24 space-y-4">
+              {/* Mastery Progress Panel */}
+              <MasteryProgressPanel
+                adaptiveData={screenState.adaptiveData}
+                collapsed={!screenState.showMasteryPanel}
+                onToggle={() => setScreenState((prev) => ({ 
+                  ...prev, 
+                  showMasteryPanel: !prev.showMasteryPanel 
+                }))}
+                gradeLevel={gradeLevel}
+              />
+              
+              {/* Performance Stats */}
+              <div className="bg-white rounded-2xl p-4 shadow-md border border-blue-100">
+                <h3 className="font-bold text-gray-800 mb-3 text-sm">📈 Session Stats</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="text-center">
+                    <p className="text-xs text-gray-500">Accuracy</p>
+                    <p className="text-lg font-bold text-blue-600">
+                      {screenState.attemptedCount > 0
+                        ? Math.round((screenState.correctCount / screenState.attemptedCount) * 100)
+                        : 0}%
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs text-gray-500">Streak</p>
+                    <p className="text-lg font-bold text-orange-500">🔥 {screenState.currentStreak}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs text-gray-500">Done</p>
+                    <p className="text-lg font-bold text-emerald-600">{screenState.attemptedCount}</p>
+                  </div>
                 </div>
               </div>
             </div>

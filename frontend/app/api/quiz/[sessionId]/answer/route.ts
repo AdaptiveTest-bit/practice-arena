@@ -1,9 +1,9 @@
 export async function POST(
   request: Request,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params
+    const { sessionId } = await params
     const body = await request.json()
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'
 

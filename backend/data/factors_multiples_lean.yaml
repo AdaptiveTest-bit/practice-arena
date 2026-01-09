@@ -1,0 +1,2188 @@
+chapter: ''
+chapter_title: ''
+questions:
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v42
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 6, 8, 9, 12, 18, 24, 36]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 72]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[72, 144, 216, 288]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[1, 72]'
+  - '[2, 3, 4, 6, 8, 9, 12, 18, 24, 36]'
+  - '[72, 144, 216, 288]'
+  - '[1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72]'
+  question: Find all factors of 72
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >72</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      72\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 72 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 72.</strong></p>\n</div>"
+    story_problem: Coach Raj has 72 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 72 to see the different team sizes possible.
+    visual_hint: Students standing in 72 arranged in different group formations
+  solution_steps:
+  - Find all numbers that divide 72 evenly (with remainder 0)
+  - 'Test: 72 ÷ 1 = 72 ✓'
+  - 'Test: 72 ÷ 2 = 36.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 5, 6, 10, 15, 30]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v1042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 5, 6, 10, 15]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 30]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[30, 60, 90, 120]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[1, 30]'
+  - '[1, 2, 3, 5, 6, 10, 15, 30]'
+  - '[30, 60, 90, 120]'
+  - '[2, 3, 5, 6, 10, 15]'
+  question: Find all factors of 30
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >30</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      30\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 30 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 30.</strong></p>\n</div>"
+    story_problem: Coach Raj has 30 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 30 to see the different team sizes possible.
+    visual_hint: Students standing in 30 arranged in different group formations
+  solution_steps:
+  - Find all numbers that divide 30 evenly (with remainder 0)
+  - 'Test: 30 ÷ 1 = 30 ✓'
+  - 'Test: 30 ÷ 2 = 15.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v2042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 5, 6, 9, 10, 15, 18, 30, 45]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 90]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[90, 180, 270, 360]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[2, 3, 5, 6, 9, 10, 15, 18, 30, 45]'
+  - '[1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90]'
+  - '[90, 180, 270, 360]'
+  - '[1, 90]'
+  question: Find all factors of 90
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >90</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      90\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 90 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 90.</strong></p>\n</div>"
+    story_problem: Coach Raj has 90 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 90 to see the different team sizes possible.
+    visual_hint: Students standing in 90 arranged in different group formations
+  solution_steps:
+  - Find all numbers that divide 90 evenly (with remainder 0)
+  - 'Test: 90 ÷ 1 = 90 ✓'
+  - 'Test: 90 ÷ 2 = 45.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 6, 8, 12, 16, 24, 48]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v3042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 6, 8, 12, 16, 24]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 48]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[48, 96, 144, 192]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[1, 2, 3, 4, 6, 8, 12, 16, 24, 48]'
+  - '[1, 48]'
+  - '[48, 96, 144, 192]'
+  - '[2, 3, 4, 6, 8, 12, 16, 24]'
+  question: Find all factors of 48
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >48</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      48\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 48 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 48.</strong></p>\n</div>"
+    story_problem: Coach Raj has 48 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 48 to see the different team sizes possible.
+    visual_hint: Students standing in 48 arranged in different group formations
+  solution_steps:
+  - Find all numbers that divide 48 evenly (with remainder 0)
+  - 'Test: 48 ÷ 1 = 48 ✓'
+  - 'Test: 48 ÷ 2 = 24.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v4042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 5, 6, 10, 12, 15, 20, 30]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 60]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[60, 120, 180, 240]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[2, 3, 4, 5, 6, 10, 12, 15, 20, 30]'
+  - '[60, 120, 180, 240]'
+  - '[1, 60]'
+  - '[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]'
+  question: Find all factors of 60
+  rich_content:
+    html_content: "<div class=\"story-card bakery-theme\">\n  <div class=\"character-avatar\">\U0001F469‍\U0001F373</div>\n\
+      \  <h3>Akshara's Bakery Challenge</h3>\n  <p class=\"story-text\">Akshara has <span class=\"math-highlight\">60</span>\
+      \ freshly baked cookies for Diwali gifts.</p>\n  <p class=\"story-question\">She wants to pack them into boxes with\
+      \ <em>equal numbers</em> in each box, with none left over.</p>\n  <div class=\"visual-hint\">\n    <div class=\"cookie-grid\"\
+      \ data-total=\"60\">\U0001F36A</div>\n    <p class=\"hint-text\">Try arranging 60 cookies in different rectangular patterns!</p>\n\
+      \  </div>\n  <p class=\"question-prompt\"><strong>How many different ways can she arrange the cookies?</strong></p>\n\
+      </div>"
+    story_problem: Akshara has 60 freshly baked cookies. She wants to pack them into gift boxes so that each box has the same
+      number of cookies with none left over. In how many different ways can she arrange the cookies?
+    visual_hint: A tray showing 60 cookies that can be arranged in different rectangular patterns
+  solution_steps:
+  - Find all numbers that divide 60 evenly (with remainder 0)
+  - 'Test: 60 ÷ 1 = 60 ✓'
+  - 'Test: 60 ÷ 2 = 30.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v5042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 6, 7, 12, 14, 21, 28, 42]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 84]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[84, 168, 252, 336]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[2, 3, 4, 6, 7, 12, 14, 21, 28, 42]'
+  - '[1, 84]'
+  - '[84, 168, 252, 336]'
+  - '[1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84]'
+  question: Find all factors of 84
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >84</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      84\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 84 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 84.</strong></p>\n</div>"
+    story_problem: Coach Raj has 84 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 84 to see the different team sizes possible.
+    visual_hint: Students standing in 84 arranged in different group formations
+  solution_steps:
+  - Find all numbers that divide 84 evenly (with remainder 0)
+  - 'Test: 84 ÷ 1 = 84 ✓'
+  - 'Test: 84 ÷ 2 = 42.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 6, 8, 12, 24]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v6042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 6, 8, 12]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 24]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[24, 48, 72, 96]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[24, 48, 72, 96]'
+  - '[2, 3, 4, 6, 8, 12]'
+  - '[1, 24]'
+  - '[1, 2, 3, 4, 6, 8, 12, 24]'
+  question: Find all factors of 24
+  rich_content:
+    html_content: "<div class=\"story-card bakery-theme\">\n  <div class=\"character-avatar\">\U0001F469‍\U0001F373</div>\n\
+      \  <h3>Akshara's Bakery Challenge</h3>\n  <p class=\"story-text\">Akshara has <span class=\"math-highlight\">24</span>\
+      \ freshly baked cookies for Diwali gifts.</p>\n  <p class=\"story-question\">She wants to pack them into boxes with\
+      \ <em>equal numbers</em> in each box, with none left over.</p>\n  <div class=\"visual-hint\">\n    <div class=\"cookie-grid\"\
+      \ data-total=\"24\">\U0001F36A</div>\n    <p class=\"hint-text\">Try arranging 24 cookies in different rectangular patterns!</p>\n\
+      \  </div>\n  <p class=\"question-prompt\"><strong>How many different ways can she arrange the cookies?</strong></p>\n\
+      </div>"
+    story_problem: Akshara has 24 freshly baked cookies. She wants to pack them into gift boxes so that each box has the same
+      number of cookies with none left over. In how many different ways can she arrange the cookies?
+    visual_hint: A tray showing 24 cookies that can be arranged in different rectangular patterns
+  solution_steps:
+  - Find all numbers that divide 24 evenly (with remainder 0)
+  - 'Test: 24 ÷ 1 = 24 ✓'
+  - 'Test: 24 ÷ 2 = 12.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '[1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 96]'
+  difficulty: 1
+  id: factors_multiples_factors_find_factors_v7042
+  misconception_info:
+  - teaching_point: 1 divides every number, and every number divides itself
+    value: '[2, 3, 4, 6, 8, 12, 16, 24, 32, 48]'
+    why_wrong: Forgot to include 1 and the number itself as factors
+  - teaching_point: Test ALL numbers from 1 to n to find factors
+    value: '[1, 96]'
+    why_wrong: Only included the trivial factors
+  - teaching_point: Factors divide INTO the number; multiples are the number TIMES something
+    value: '[96, 192, 288, 384]'
+    why_wrong: Confused factors (divide into) with multiples (multiply by)
+  options:
+  - '[1, 96]'
+  - '[96, 192, 288, 384]'
+  - '[2, 3, 4, 6, 8, 12, 16, 24, 32, 48]'
+  - '[1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 96]'
+  question: Find all factors of 96
+  rich_content:
+    html_content: "<div class=\"story-card garden-theme\">\n  <div class=\"character-avatar\">\U0001F33B</div>\n  <h3>Priya's\
+      \ Garden Design</h3>\n  <p class=\"story-text\">Priya has <span class=\"math-highlight\">96</span> marigold seeds for\
+      \ her terrace garden.</p>\n  <p class=\"story-question\">She wants to plant them in a <em>rectangular pattern</em> with\
+      \ equal rows.</p>\n  <div class=\"visual-hint\">\n    <div class=\"garden-grid\" data-total=\"96\">\U0001F331</div>\n\
+      \    <p class=\"hint-text\">What rectangular arrangements can you make with 96 seeds?</p>\n  </div>\n  <p class=\"question-prompt\"\
+      ><strong>How many different rectangular arrangements are possible?</strong></p>\n</div>"
+    story_problem: Priya has 96 marigold seeds to plant. She wants to arrange them in a rectangular garden bed with equal
+      rows. How many different rectangular arrangements are possible?
+    visual_hint: A garden grid showing 96 flower positions in different row arrangements
+  solution_steps:
+  - Find all numbers that divide 96 evenly (with remainder 0)
+  - 'Test: 96 ÷ 1 = 96 ✓'
+  - 'Test: 96 ÷ 2 = 48.0 ✓'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '12'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v42
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '10'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '13'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '13'
+  - '10'
+  - '2'
+  - '12'
+  question: How many factors does 72 have?
+  rich_content:
+    html_content: "<div class=\"story-card garden-theme\">\n  <div class=\"character-avatar\">\U0001F33B</div>\n  <h3>Priya's\
+      \ Garden Design</h3>\n  <p class=\"story-text\">Priya has <span class=\"math-highlight\">72</span> marigold seeds for\
+      \ her terrace garden.</p>\n  <p class=\"story-question\">She wants to plant them in a <em>rectangular pattern</em> with\
+      \ equal rows.</p>\n  <div class=\"visual-hint\">\n    <div class=\"garden-grid\" data-total=\"72\">\U0001F331</div>\n\
+      \    <p class=\"hint-text\">What rectangular arrangements can you make with 72 seeds?</p>\n  </div>\n  <p class=\"question-prompt\"\
+      ><strong>How many different rectangular arrangements are possible?</strong></p>\n</div>"
+    story_problem: Priya has 72 marigold seeds to plant. She wants to arrange them in a rectangular garden bed with equal
+      rows. How many different rectangular arrangements are possible?
+    visual_hint: A garden grid showing 72 flower positions in different row arrangements
+  solution_steps:
+  - 'List all factors of 72: [1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72]'
+  - 'Count: 12 factors'
+  - 'Remember: 1 and 72 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '8'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v1042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '6'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '9'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '9'
+  - '8'
+  - '2'
+  - '6'
+  question: How many factors does 30 have?
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >30</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      30\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 30 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 30.</strong></p>\n</div>"
+    story_problem: Coach Raj has 30 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 30 to see the different team sizes possible.
+    visual_hint: Students standing in 30 arranged in different group formations
+  solution_steps:
+  - 'List all factors of 30: [1, 2, 3, 5, 6, 10, 15, 30]'
+  - 'Count: 8 factors'
+  - 'Remember: 1 and 30 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '12'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v2042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '10'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '13'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '10'
+  - '12'
+  - '2'
+  - '13'
+  question: How many factors does 90 have?
+  rich_content:
+    html_content: "<div class=\"story-card garden-theme\">\n  <div class=\"character-avatar\">\U0001F33B</div>\n  <h3>Priya's\
+      \ Garden Design</h3>\n  <p class=\"story-text\">Priya has <span class=\"math-highlight\">90</span> marigold seeds for\
+      \ her terrace garden.</p>\n  <p class=\"story-question\">She wants to plant them in a <em>rectangular pattern</em> with\
+      \ equal rows.</p>\n  <div class=\"visual-hint\">\n    <div class=\"garden-grid\" data-total=\"90\">\U0001F331</div>\n\
+      \    <p class=\"hint-text\">What rectangular arrangements can you make with 90 seeds?</p>\n  </div>\n  <p class=\"question-prompt\"\
+      ><strong>How many different rectangular arrangements are possible?</strong></p>\n</div>"
+    story_problem: Priya has 90 marigold seeds to plant. She wants to arrange them in a rectangular garden bed with equal
+      rows. How many different rectangular arrangements are possible?
+    visual_hint: A garden grid showing 90 flower positions in different row arrangements
+  solution_steps:
+  - 'List all factors of 90: [1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90]'
+  - 'Count: 12 factors'
+  - 'Remember: 1 and 90 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '10'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v3042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '8'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '11'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '10'
+  - '11'
+  - '2'
+  - '8'
+  question: How many factors does 48 have?
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >48</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      48\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 48 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 48.</strong></p>\n</div>"
+    story_problem: Coach Raj has 48 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 48 to see the different team sizes possible.
+    visual_hint: Students standing in 48 arranged in different group formations
+  solution_steps:
+  - 'List all factors of 48: [1, 2, 3, 4, 6, 8, 12, 16, 24, 48]'
+  - 'Count: 10 factors'
+  - 'Remember: 1 and 48 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '12'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v4042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '10'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '13'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '10'
+  - '2'
+  - '13'
+  - '12'
+  question: How many factors does 60 have?
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >60</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      60\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 60 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 60.</strong></p>\n</div>"
+    story_problem: Coach Raj has 60 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 60 to see the different team sizes possible.
+    visual_hint: Students standing in 60 arranged in different group formations
+  solution_steps:
+  - 'List all factors of 60: [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]'
+  - 'Count: 12 factors'
+  - 'Remember: 1 and 60 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '12'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v5042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '10'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '13'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '10'
+  - '13'
+  - '2'
+  - '12'
+  question: How many factors does 84 have?
+  rich_content:
+    html_content: "<div class=\"story-card garden-theme\">\n  <div class=\"character-avatar\">\U0001F33B</div>\n  <h3>Priya's\
+      \ Garden Design</h3>\n  <p class=\"story-text\">Priya has <span class=\"math-highlight\">84</span> marigold seeds for\
+      \ her terrace garden.</p>\n  <p class=\"story-question\">She wants to plant them in a <em>rectangular pattern</em> with\
+      \ equal rows.</p>\n  <div class=\"visual-hint\">\n    <div class=\"garden-grid\" data-total=\"84\">\U0001F331</div>\n\
+      \    <p class=\"hint-text\">What rectangular arrangements can you make with 84 seeds?</p>\n  </div>\n  <p class=\"question-prompt\"\
+      ><strong>How many different rectangular arrangements are possible?</strong></p>\n</div>"
+    story_problem: Priya has 84 marigold seeds to plant. She wants to arrange them in a rectangular garden bed with equal
+      rows. How many different rectangular arrangements are possible?
+    visual_hint: A garden grid showing 84 flower positions in different row arrangements
+  solution_steps:
+  - 'List all factors of 84: [1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84]'
+  - 'Count: 12 factors'
+  - 'Remember: 1 and 84 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '8'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v6042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '6'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '9'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '2'
+  - '6'
+  - '9'
+  - '8'
+  question: How many factors does 24 have?
+  rich_content:
+    html_content: "<div class=\"story-card garden-theme\">\n  <div class=\"character-avatar\">\U0001F33B</div>\n  <h3>Priya's\
+      \ Garden Design</h3>\n  <p class=\"story-text\">Priya has <span class=\"math-highlight\">24</span> marigold seeds for\
+      \ her terrace garden.</p>\n  <p class=\"story-question\">She wants to plant them in a <em>rectangular pattern</em> with\
+      \ equal rows.</p>\n  <div class=\"visual-hint\">\n    <div class=\"garden-grid\" data-total=\"24\">\U0001F331</div>\n\
+      \    <p class=\"hint-text\">What rectangular arrangements can you make with 24 seeds?</p>\n  </div>\n  <p class=\"question-prompt\"\
+      ><strong>How many different rectangular arrangements are possible?</strong></p>\n</div>"
+    story_problem: Priya has 24 marigold seeds to plant. She wants to arrange them in a rectangular garden bed with equal
+      rows. How many different rectangular arrangements are possible?
+    visual_hint: A garden grid showing 24 flower positions in different row arrangements
+  solution_steps:
+  - 'List all factors of 24: [1, 2, 3, 4, 6, 8, 12, 24]'
+  - 'Count: 8 factors'
+  - 'Remember: 1 and 24 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: factors
+  correct_answer: '12'
+  difficulty: 1
+  id: factors_multiples_factors_count_factors_v7042
+  misconception_info:
+  - teaching_point: Always include 1 and the number in factor count
+    value: '10'
+    why_wrong: Didn't include 1 and the number itself
+  - teaching_point: List factors systematically and count carefully
+    value: '13'
+    why_wrong: Miscounted the factors
+  - teaching_point: Test ALL numbers, not just 1 and n
+    value: '2'
+    why_wrong: Only counted 1 and the number
+  options:
+  - '13'
+  - '2'
+  - '10'
+  - '12'
+  question: How many factors does 96 have?
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3‍♂️</div>\n  <h3>Coach\
+      \ Raj's Team Challenge</h3>\n  <p class=\"story-text\">Sports Day is here! Coach Raj has <span class=\"math-highlight\"\
+      >96</span> students ready for relay races.</p>\n  <p class=\"story-question\">He needs to divide them into <em>equal\
+      \ teams</em> with no one left out.</p>\n  <div class=\"visual-hint\">\n    <div class=\"student-groups\" data-total=\"\
+      96\">\U0001F466\U0001F467</div>\n    <p class=\"hint-text\">How many ways can 96 students form equal teams?</p>\n  </div>\n\
+      \  <p class=\"question-prompt\"><strong>Find all the factors of 96.</strong></p>\n</div>"
+    story_problem: Coach Raj has 96 students for the relay race. He wants to divide them into teams so that each team has
+      the same number of members. Find all the factors of 96 to see the different team sizes possible.
+    visual_hint: Students standing in 96 arranged in different group formations
+  solution_steps:
+  - 'List all factors of 96: [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 96]'
+  - 'Count: 12 factors'
+  - 'Remember: 1 and 96 are always factors!'
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[4, 8, 12, 16]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v42
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 4, 8, 12]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[8, 12, 16, 20]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[5, 10, 15, 20]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[0, 4, 8, 12]'
+  - '[5, 10, 15, 20]'
+  - '[4, 8, 12, 16]'
+  - '[8, 12, 16, 20]'
+  question: Find the first 4 multiples of 4
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3</div>\n  <h3>Amit's\
+      \ Marathon Training</h3>\n  <p class=\"story-text\">Each lap around the track is <span class=\"math-highlight\">4</span>\
+      \ meters.</p>\n  <p class=\"story-question\">Amit wants to know the total distance after each lap.</p>\n  <div class=\"\
+      visual-hint\">\n    <div class=\"track-visual\" data-lap=\"4\">\U0001F3C3‍♂️ → \U0001F3C1</div>\n    <p class=\"hint-text\"\
+      >Lap 1: 4m, Lap 2: 8m, Lap 3: ?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>List the first 5 multiples of\
+      \ 4.</strong></p>\n</div>"
+    story_problem: Amit runs on a track where each lap is 4 meters. After completing several laps, what distances will he
+      have covered? Find the first 5 multiples of 4.
+    visual_hint: A track diagram showing distances at 4, 8, 12, 16, 20 meters
+  solution_steps:
+  - 'Multiples of 4 are: 4×1, 4×2, 4×3, ...'
+  - 4 × 1 = 4
+  - 4 × 2 = 8
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[6, 12, 18, 24]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v1042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 6, 12, 18]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[12, 18, 24, 30]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[1, 2, 3, 6]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[1, 2, 3, 6]'
+  - '[0, 6, 12, 18]'
+  - '[6, 12, 18, 24]'
+  - '[12, 18, 24, 30]'
+  question: Find the first 4 multiples of 6
+  rich_content:
+    html_content: "<div class=\"story-card music-theme\">\n  <div class=\"character-avatar\">\U0001F3B5</div>\n  <h3>Neha's\
+      \ Rhythm Practice</h3>\n  <p class=\"story-text\">Neha is learning a taal that repeats every <span class=\"math-highlight\"\
+      >4</span> beats.</p>\n  <div class=\"visual-hint\">\n    <div class=\"beat-line\" data-interval=\"4\">♩ ♩ ♩ ...</div>\n\
+      \    <p class=\"hint-text\">The pattern restarts at: 4, 8, 12...</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What\
+      \ are the first 5 multiples of 4?</strong></p>\n</div>"
+    story_problem: In Neha's music class, she practices a taal (rhythm) that repeats every 4 beats. What are the first 5 beat
+      counts where the pattern starts fresh?
+    visual_hint: A number line showing beats 1 to 20 with highlights every 4 beats
+  solution_steps:
+  - 'Multiples of 6 are: 6×1, 6×2, 6×3, ...'
+  - 6 × 1 = 6
+  - 6 × 2 = 12
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[8, 16, 24, 32, 40, 48]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v2042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 8, 16, 24, 32, 40]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[16, 24, 32, 40, 48, 56]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[9, 18, 27, 36, 45, 54]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[9, 18, 27, 36, 45, 54]'
+  - '[8, 16, 24, 32, 40, 48]'
+  - '[16, 24, 32, 40, 48, 56]'
+  - '[0, 8, 16, 24, 32, 40]'
+  question: Find the first 6 multiples of 8
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3</div>\n  <h3>Amit's\
+      \ Marathon Training</h3>\n  <p class=\"story-text\">Each lap around the track is <span class=\"math-highlight\">6</span>\
+      \ meters.</p>\n  <p class=\"story-question\">Amit wants to know the total distance after each lap.</p>\n  <div class=\"\
+      visual-hint\">\n    <div class=\"track-visual\" data-lap=\"6\">\U0001F3C3‍♂️ → \U0001F3C1</div>\n    <p class=\"hint-text\"\
+      >Lap 1: 6m, Lap 2: 12m, Lap 3: ?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>List the first 5 multiples of\
+      \ 6.</strong></p>\n</div>"
+    story_problem: Amit runs on a track where each lap is 6 meters. After completing several laps, what distances will he
+      have covered? Find the first 5 multiples of 6.
+    visual_hint: A track diagram showing distances at 6, 12, 18, 24, 30 meters
+  solution_steps:
+  - 'Multiples of 8 are: 8×1, 8×2, 8×3, ...'
+  - 8 × 1 = 8
+  - 8 × 2 = 16
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[10, 20, 30, 40]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v3042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 10, 20, 30]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[20, 30, 40, 50]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[1, 2, 5, 10]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[10, 20, 30, 40]'
+  - '[0, 10, 20, 30]'
+  - '[20, 30, 40, 50]'
+  - '[1, 2, 5, 10]'
+  question: Find the first 4 multiples of 10
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3</div>\n  <h3>Amit's\
+      \ Marathon Training</h3>\n  <p class=\"story-text\">Each lap around the track is <span class=\"math-highlight\">4</span>\
+      \ meters.</p>\n  <p class=\"story-question\">Amit wants to know the total distance after each lap.</p>\n  <div class=\"\
+      visual-hint\">\n    <div class=\"track-visual\" data-lap=\"4\">\U0001F3C3‍♂️ → \U0001F3C1</div>\n    <p class=\"hint-text\"\
+      >Lap 1: 4m, Lap 2: 8m, Lap 3: ?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>List the first 5 multiples of\
+      \ 4.</strong></p>\n</div>"
+    story_problem: Amit runs on a track where each lap is 4 meters. After completing several laps, what distances will he
+      have covered? Find the first 5 multiples of 4.
+    visual_hint: A track diagram showing distances at 4, 8, 12, 16, 20 meters
+  solution_steps:
+  - 'Multiples of 10 are: 10×1, 10×2, 10×3, ...'
+  - 10 × 1 = 10
+  - 10 × 2 = 20
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[12, 24, 36, 48]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v4042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 12, 24, 36]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[24, 36, 48, 60]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[1, 2, 3, 4, 6, 12]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[1, 2, 3, 4, 6, 12]'
+  - '[24, 36, 48, 60]'
+  - '[12, 24, 36, 48]'
+  - '[0, 12, 24, 36]'
+  question: Find the first 4 multiples of 12
+  rich_content:
+    html_content: "<div class=\"story-card music-theme\">\n  <div class=\"character-avatar\">\U0001F3B5</div>\n  <h3>Neha's\
+      \ Rhythm Practice</h3>\n  <p class=\"story-text\">Neha is learning a taal that repeats every <span class=\"math-highlight\"\
+      >4</span> beats.</p>\n  <div class=\"visual-hint\">\n    <div class=\"beat-line\" data-interval=\"4\">♩ ♩ ♩ ...</div>\n\
+      \    <p class=\"hint-text\">The pattern restarts at: 4, 8, 12...</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What\
+      \ are the first 5 multiples of 4?</strong></p>\n</div>"
+    story_problem: In Neha's music class, she practices a taal (rhythm) that repeats every 4 beats. What are the first 5 beat
+      counts where the pattern starts fresh?
+    visual_hint: A number line showing beats 1 to 20 with highlights every 4 beats
+  solution_steps:
+  - 'Multiples of 12 are: 12×1, 12×2, 12×3, ...'
+  - 12 × 1 = 12
+  - 12 × 2 = 24
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[6, 12, 18, 24, 30, 36]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v5042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 6, 12, 18, 24, 30]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[12, 18, 24, 30, 36, 42]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[7, 14, 21, 28, 35, 42]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[0, 6, 12, 18, 24, 30]'
+  - '[12, 18, 24, 30, 36, 42]'
+  - '[7, 14, 21, 28, 35, 42]'
+  - '[6, 12, 18, 24, 30, 36]'
+  question: Find the first 6 multiples of 6
+  rich_content:
+    html_content: "<div class=\"story-card music-theme\">\n  <div class=\"character-avatar\">\U0001F3B5</div>\n  <h3>Neha's\
+      \ Rhythm Practice</h3>\n  <p class=\"story-text\">Neha is learning a taal that repeats every <span class=\"math-highlight\"\
+      >6</span> beats.</p>\n  <div class=\"visual-hint\">\n    <div class=\"beat-line\" data-interval=\"6\">♩ ♩ ♩ ...</div>\n\
+      \    <p class=\"hint-text\">The pattern restarts at: 6, 12, 18...</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What\
+      \ are the first 5 multiples of 6?</strong></p>\n</div>"
+    story_problem: In Neha's music class, she practices a taal (rhythm) that repeats every 6 beats. What are the first 5 beat
+      counts where the pattern starts fresh?
+    visual_hint: A number line showing beats 1 to 30 with highlights every 6 beats
+  solution_steps:
+  - 'Multiples of 6 are: 6×1, 6×2, 6×3, ...'
+  - 6 × 1 = 6
+  - 6 × 2 = 12
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[5, 10, 15, 20]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v6042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 5, 10, 15]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[10, 15, 20, 25]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[6, 12, 18, 24]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[0, 5, 10, 15]'
+  - '[10, 15, 20, 25]'
+  - '[5, 10, 15, 20]'
+  - '[6, 12, 18, 24]'
+  question: Find the first 4 multiples of 5
+  rich_content:
+    html_content: "<div class=\"story-card music-theme\">\n  <div class=\"character-avatar\">\U0001F3B5</div>\n  <h3>Neha's\
+      \ Rhythm Practice</h3>\n  <p class=\"story-text\">Neha is learning a taal that repeats every <span class=\"math-highlight\"\
+      >4</span> beats.</p>\n  <div class=\"visual-hint\">\n    <div class=\"beat-line\" data-interval=\"4\">♩ ♩ ♩ ...</div>\n\
+      \    <p class=\"hint-text\">The pattern restarts at: 4, 8, 12...</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What\
+      \ are the first 5 multiples of 4?</strong></p>\n</div>"
+    story_problem: In Neha's music class, she practices a taal (rhythm) that repeats every 4 beats. What are the first 5 beat
+      counts where the pattern starts fresh?
+    visual_hint: A number line showing beats 1 to 20 with highlights every 4 beats
+  solution_steps:
+  - 'Multiples of 5 are: 5×1, 5×2, 5×3, ...'
+  - 5 × 1 = 5
+  - 5 × 2 = 10
+- bloom_level: UNDERSTAND
+  concept: multiples
+  correct_answer: '[3, 6, 9, 12, 15]'
+  difficulty: 1
+  id: factors_multiples_multiples_find_multiples_v7042
+  misconception_info:
+  - teaching_point: First multiple is n×1, not n×0
+    value: '[0, 3, 6, 9, 12]'
+    why_wrong: Included 0 as first multiple
+  - teaching_point: First multiple is the number itself (n×1)
+    value: '[6, 9, 12, 15, 18]'
+    why_wrong: Started from 2×n instead of 1×n
+  - teaching_point: Multiples grow larger; factors divide into the number
+    value: '[4, 8, 12, 16, 20]'
+    why_wrong: Listed factors instead of multiples
+  options:
+  - '[6, 9, 12, 15, 18]'
+  - '[4, 8, 12, 16, 20]'
+  - '[3, 6, 9, 12, 15]'
+  - '[0, 3, 6, 9, 12]'
+  question: Find the first 5 multiples of 3
+  rich_content:
+    html_content: "<div class=\"story-card sports-theme\">\n  <div class=\"character-avatar\">\U0001F3C3</div>\n  <h3>Amit's\
+      \ Marathon Training</h3>\n  <p class=\"story-text\">Each lap around the track is <span class=\"math-highlight\">5</span>\
+      \ meters.</p>\n  <p class=\"story-question\">Amit wants to know the total distance after each lap.</p>\n  <div class=\"\
+      visual-hint\">\n    <div class=\"track-visual\" data-lap=\"5\">\U0001F3C3‍♂️ → \U0001F3C1</div>\n    <p class=\"hint-text\"\
+      >Lap 1: 5m, Lap 2: 10m, Lap 3: ?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>List the first 5 multiples of\
+      \ 5.</strong></p>\n</div>"
+    story_problem: Amit runs on a track where each lap is 5 meters. After completing several laps, what distances will he
+      have covered? Find the first 5 multiples of 5.
+    visual_hint: A track diagram showing distances at 5, 10, 15, 20, 25 meters
+  solution_steps:
+  - 'Multiples of 3 are: 3×1, 3×2, 3×3, ...'
+  - 3 × 1 = 3
+  - 3 × 2 = 6
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v42
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'No'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - Cannot determine
+  - 'No'
+  - Only if it's odd
+  - 'Yes'
+  question: Is 7 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">7</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √7 divide 7?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 7 is prime or\
+      \ composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 7 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 7
+  solution_steps:
+  - 'Check factors of 7: [1, 7]'
+  - '7 has exactly 2 factors: 1 and 7'
+  - Therefore, 7 IS prime
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v1042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'No'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - Only if it's odd
+  - 'Yes'
+  - Cannot determine
+  - 'No'
+  question: Is 19 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">19</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √19 divide 19?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 19 is prime\
+      \ or composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 19 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 19
+  solution_steps:
+  - 'Check factors of 19: [1, 19]'
+  - '19 has exactly 2 factors: 1 and 19'
+  - Therefore, 19 IS prime
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v2042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'Yes'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - Cannot determine
+  - 'No'
+  - Only if it's odd
+  - 'Yes'
+  question: Is 4 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">4</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √4 divide 4?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 4 is prime or\
+      \ composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 4 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 4
+  solution_steps:
+  - 'Check factors of 4: [1, 2, 4]'
+  - 4 has 3 factors (more than 2)
+  - Therefore, 4 is NOT prime (it's composite)
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v3042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'Yes'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - 'No'
+  - Only if it's odd
+  - Cannot determine
+  - 'Yes'
+  question: Is 12 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">12</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √12 divide 12?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 12 is prime\
+      \ or composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 12 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 12
+  solution_steps:
+  - 'Check factors of 12: [1, 2, 3, 4, 6, 12]'
+  - 12 has 6 factors (more than 2)
+  - Therefore, 12 is NOT prime (it's composite)
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v4042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'Yes'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - 'Yes'
+  - Cannot determine
+  - Only if it's odd
+  - 'No'
+  question: Is 16 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">16</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √16 divide 16?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 16 is prime\
+      \ or composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 16 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 16
+  solution_steps:
+  - 'Check factors of 16: [1, 2, 4, 8, 16]'
+  - 16 has 5 factors (more than 2)
+  - Therefore, 16 is NOT prime (it's composite)
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v5042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'No'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - 'No'
+  - Only if it's odd
+  - Cannot determine
+  - 'Yes'
+  question: Is 17 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">17</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √17 divide 17?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 17 is prime\
+      \ or composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 17 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 17
+  solution_steps:
+  - 'Check factors of 17: [1, 17]'
+  - '17 has exactly 2 factors: 1 and 17'
+  - Therefore, 17 IS prime
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v6042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'No'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - Cannot determine
+  - 'No'
+  - Only if it's odd
+  - 'Yes'
+  question: Is 13 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">13</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √13 divide 13?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 13 is prime\
+      \ or composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 13 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 13
+  solution_steps:
+  - 'Check factors of 13: [1, 13]'
+  - '13 has exactly 2 factors: 1 and 13'
+  - Therefore, 13 IS prime
+- bloom_level: REMEMBER
+  concept: prime_numbers
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_prime_numbers_is_prime_v7042
+  misconception_info:
+  - teaching_point: Prime = exactly 2 factors (1 and itself)
+    value: 'No'
+    why_wrong: Confused prime with composite
+  - teaching_point: Prime is about factor count, not odd/even
+    value: Only if it's odd
+    why_wrong: Not all odd numbers are prime (e.g., 9, 15, 21)
+  - teaching_point: List all factors - if exactly 2, it's prime
+    value: Cannot determine
+    why_wrong: Can always determine by counting factors
+  options:
+  - 'No'
+  - Cannot determine
+  - 'Yes'
+  - Only if it's odd
+  question: Is 3 a prime number?
+  rich_content:
+    html_content: "<div class=\"story-card puzzle-theme\">\n  <div class=\"character-avatar\">\U0001F510</div>\n  <h3>Kavya's\
+      \ Prime Puzzle</h3>\n  <p class=\"story-text\">To unlock the code, Kavya needs to identify prime numbers.</p>\n  <p\
+      \ class=\"story-question\">Is <span class=\"math-highlight\">3</span> a prime number?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"factor-test\">\n      <p>Prime = exactly 2 factors (1 and itself)</p>\n      <p>Test: Does any number\
+      \ from 2 to √3 divide 3?</p>\n    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Determine if 3 is prime or\
+      \ composite.</strong></p>\n</div>"
+    story_problem: Kavya is solving a puzzle where prime numbers unlock the code. Is 3 a prime number? Check if it has exactly
+      2 factors.
+    visual_hint: A checklist testing if numbers from 2 divide 3
+  solution_steps:
+  - 'Check factors of 3: [1, 3]'
+  - '3 has exactly 2 factors: 1 and 3'
+  - Therefore, 3 IS prime
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '5'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v42
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '100'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '500'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '20'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '500'
+  - '100'
+  - '20'
+  - '5'
+  question: What is the HCF of 20 and 25?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">20</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">25</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×20 | \U0001F34A×25</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 20 and 25?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 20 and 25?</strong></p>\n</div>"
+    story_problem: Arjun has 20 apples and 25 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 20 apples and 25 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 20: [1, 2, 4, 5, 10, 20]'
+  - 'Factors of 25: [1, 5, 25]'
+  - 'Common factors: [1, 5]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '6'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v1042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '72'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '432'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '18'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '432'
+  - '6'
+  - '18'
+  - '72'
+  question: What is the HCF of 18 and 24?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">18</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">24</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×18 | \U0001F34A×24</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 18 and 24?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 18 and 24?</strong></p>\n</div>"
+    story_problem: Arjun has 18 apples and 24 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 18 apples and 24 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 18: [1, 2, 3, 6, 9, 18]'
+  - 'Factors of 24: [1, 2, 3, 4, 6, 8, 12, 24]'
+  - 'Common factors: [1, 2, 3, 6]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '8'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v2042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '96'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '768'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '24'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '96'
+  - '8'
+  - '24'
+  - '768'
+  question: What is the HCF of 24 and 32?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">24</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">32</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×24 | \U0001F34A×32</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 24 and 32?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 24 and 32?</strong></p>\n</div>"
+    story_problem: Arjun has 24 apples and 32 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 24 apples and 32 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 24: [1, 2, 3, 4, 6, 8, 12, 24]'
+  - 'Factors of 32: [1, 2, 4, 8, 16, 32]'
+  - 'Common factors: [1, 2, 4, 8]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '7'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v3042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '42'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '294'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '14'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '7'
+  - '294'
+  - '14'
+  - '42'
+  question: What is the HCF of 14 and 21?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">14</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">21</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×14 | \U0001F34A×21</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 14 and 21?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 14 and 21?</strong></p>\n</div>"
+    story_problem: Arjun has 14 apples and 21 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 14 apples and 21 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 14: [1, 2, 7, 14]'
+  - 'Factors of 21: [1, 3, 7, 21]'
+  - 'Common factors: [1, 7]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '9'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v4042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '54'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '486'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '18'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '54'
+  - '18'
+  - '486'
+  - '9'
+  question: What is the HCF of 18 and 27?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">18</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">27</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×18 | \U0001F34A×27</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 18 and 27?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 18 and 27?</strong></p>\n</div>"
+    story_problem: Arjun has 18 apples and 27 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 18 apples and 27 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 18: [1, 2, 3, 6, 9, 18]'
+  - 'Factors of 27: [1, 3, 9, 27]'
+  - 'Common factors: [1, 3, 9]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '7'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v5042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '84'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '588'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '21'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '84'
+  - '588'
+  - '21'
+  - '7'
+  question: What is the HCF of 21 and 28?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">21</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">28</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×21 | \U0001F34A×28</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 21 and 28?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 21 and 28?</strong></p>\n</div>"
+    story_problem: Arjun has 21 apples and 28 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 21 apples and 28 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 21: [1, 3, 7, 21]'
+  - 'Factors of 28: [1, 2, 4, 7, 14, 28]'
+  - 'Common factors: [1, 7]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '5'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v6042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '60'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '300'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '15'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '15'
+  - '60'
+  - '300'
+  - '5'
+  question: What is the HCF of 15 and 20?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">15</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">20</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×15 | \U0001F34A×20</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 15 and 20?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 15 and 20?</strong></p>\n</div>"
+    story_problem: Arjun has 15 apples and 20 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 15 apples and 20 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 15: [1, 3, 5, 15]'
+  - 'Factors of 20: [1, 2, 4, 5, 10, 20]'
+  - 'Common factors: [1, 5]'
+- bloom_level: APPLY
+  concept: hcf
+  correct_answer: '15'
+  difficulty: 2
+  id: factors_multiples_hcf_find_hcf_v7042
+  misconception_info:
+  - teaching_point: HCF = Highest COMMON FACTOR (divides both); LCM = Least COMMON MULTIPLE
+    value: '90'
+    why_wrong: Confused HCF with LCM
+  - teaching_point: HCF is a divisor, not a product
+    value: '1350'
+    why_wrong: Product is not HCF
+  - teaching_point: HCF must divide BOTH numbers
+    value: '30'
+    why_wrong: Smaller number may not divide the larger
+  options:
+  - '1350'
+  - '30'
+  - '90'
+  - '15'
+  question: What is the HCF of 30 and 45?
+  rich_content:
+    html_content: "<div class=\"story-card sharing-theme\">\n  <div class=\"character-avatar\">\U0001F9FA</div>\n  <h3>Arjun's\
+      \ Fair Sharing</h3>\n  <p class=\"story-text\">Arjun has <span class=\"math-highlight\">30</span> apples \U0001F34E\
+      \ and <span class=\"math-highlight\">45</span> oranges \U0001F34A</p>\n  <p class=\"story-question\">He wants to make\
+      \ <em>identical baskets</em> using ALL the fruits, with each basket having the same number of each fruit.</p>\n  <div\
+      \ class=\"visual-hint\">\n    <div class=\"fruit-groups\">\U0001F34E×30 | \U0001F34A×45</div>\n    <p class=\"hint-text\"\
+      >What's the largest number that divides both 30 and 45?</p>\n  </div>\n  <p class=\"question-prompt\"><strong>What is\
+      \ the HCF of 30 and 45?</strong></p>\n</div>"
+    story_problem: Arjun has 30 apples and 45 oranges. He wants to make gift baskets where each basket has the same number
+      of apples AND the same number of oranges, using all the fruits. What is the maximum number of baskets he can make?
+    visual_hint: Two groups showing 30 apples and 45 oranges being divided into equal baskets
+  solution_steps:
+  - 'Factors of 30: [1, 2, 3, 5, 6, 10, 15, 30]'
+  - 'Factors of 45: [1, 3, 5, 9, 15, 45]'
+  - 'Common factors: [1, 3, 5, 15]'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '100'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v42
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '5'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '500'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '25'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '500'
+  - '5'
+  - '25'
+  - '100'
+  question: What is the LCM of 20 and 25?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">20</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">25</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 20, 40, 60...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 25, 50, 75...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(20, 25) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 20 minutes and another every 25 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 20: [20, 40, 60, 80, 100, 120, 140, 160]...'
+  - 'Multiples of 25: [25, 50, 75, 100, 125, 150, 175, 200]...'
+  - 'First common multiple: 100'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '72'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v1042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '6'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '432'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '24'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '432'
+  - '72'
+  - '24'
+  - '6'
+  question: What is the LCM of 18 and 24?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">18</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">24</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 18, 36, 54...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 24, 48, 72...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(18, 24) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 18 minutes and another every 24 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 18: [18, 36, 54, 72, 90, 108, 126, 144]...'
+  - 'Multiples of 24: [24, 48, 72, 96, 120, 144, 168, 192]...'
+  - 'First common multiple: 72'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '96'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v2042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '8'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '768'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '32'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '8'
+  - '96'
+  - '32'
+  - '768'
+  question: What is the LCM of 24 and 32?
+  rich_content:
+    html_content: "<div class=\"story-card transport-theme\">\n  <div class=\"character-avatar\">\U0001F68C</div>\n  <h3>Zara's\
+      \ Bus Puzzle</h3>\n  <p class=\"story-text\">Bus A \U0001F68C comes every <span class=\"math-highlight\">24</span> minutes.</p>\n\
+      \  <p class=\"story-text\">Bus B \U0001F68C comes every <span class=\"math-highlight\">32</span> minutes.</p>\n  <p\
+      \ class=\"story-question\">Both arrived at 8:00 AM. When will they arrive together again?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"bus-schedule\">\n      <div>Bus A: 8:00, 8:24, 8:48...</div>\n      <div>Bus B: 8:00, 8:32, 8:64...</div>\n\
+      \    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Find the LCM of 24 and 32.</strong></p>\n</div>"
+    story_problem: Bus A arrives every 24 minutes and Bus B arrives every 32 minutes. Both arrived together at 8:00 AM. After
+      how many minutes will both buses arrive together again?
+    visual_hint: A timeline showing bus arrivals converging
+  solution_steps:
+  - 'Multiples of 24: [24, 48, 72, 96, 120, 144, 168, 192]...'
+  - 'Multiples of 32: [32, 64, 96, 128, 160, 192, 224, 256]...'
+  - 'First common multiple: 96'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '42'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v3042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '7'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '294'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '21'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '42'
+  - '294'
+  - '21'
+  - '7'
+  question: What is the LCM of 14 and 21?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">14</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">21</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 14, 28, 42...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 21, 42, 63...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(14, 21) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 14 minutes and another every 21 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 14: [14, 28, 42, 56, 70, 84, 98, 112]...'
+  - 'Multiples of 21: [21, 42, 63, 84, 105, 126, 147, 168]...'
+  - 'First common multiple: 42'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '54'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v4042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '9'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '486'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '27'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '9'
+  - '27'
+  - '486'
+  - '54'
+  question: What is the LCM of 18 and 27?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">18</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">27</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 18, 36, 54...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 27, 54, 81...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(18, 27) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 18 minutes and another every 27 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 18: [18, 36, 54, 72, 90, 108, 126, 144]...'
+  - 'Multiples of 27: [27, 54, 81, 108, 135, 162, 189, 216]...'
+  - 'First common multiple: 54'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '84'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v5042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '7'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '588'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '28'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '7'
+  - '588'
+  - '28'
+  - '84'
+  question: What is the LCM of 21 and 28?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">21</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">28</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 21, 42, 63...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 28, 56, 84...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(21, 28) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 21 minutes and another every 28 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 21: [21, 42, 63, 84, 105, 126, 147, 168]...'
+  - 'Multiples of 28: [28, 56, 84, 112, 140, 168, 196, 224]...'
+  - 'First common multiple: 84'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '60'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v6042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '5'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '300'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '20'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '20'
+  - '5'
+  - '300'
+  - '60'
+  question: What is the LCM of 15 and 20?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">15</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">20</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 15, 30, 45...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 20, 40, 60...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(15, 20) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 15 minutes and another every 20 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Multiples of 15: [15, 30, 45, 60, 75, 90, 105, 120]...'
+  - 'Multiples of 20: [20, 40, 60, 80, 100, 120, 140, 160]...'
+  - 'First common multiple: 60'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '90'
+  difficulty: 2
+  id: factors_multiples_lcm_find_lcm_v7042
+  misconception_info:
+  - teaching_point: LCM = smallest number divisible by both; HCF = largest divisor of both
+    value: '15'
+    why_wrong: Confused LCM with HCF
+  - teaching_point: LCM ≤ product; use prime factorization for correct answer
+    value: '1350'
+    why_wrong: Product works but is not always the LEAST
+  - teaching_point: LCM must be divisible by BOTH numbers
+    value: '45'
+    why_wrong: Larger number may not be divisible by smaller
+  options:
+  - '1350'
+  - '45'
+  - '15'
+  - '90'
+  question: What is the LCM of 30 and 45?
+  rich_content:
+    html_content: "<div class=\"story-card transport-theme\">\n  <div class=\"character-avatar\">\U0001F68C</div>\n  <h3>Zara's\
+      \ Bus Puzzle</h3>\n  <p class=\"story-text\">Bus A \U0001F68C comes every <span class=\"math-highlight\">30</span> minutes.</p>\n\
+      \  <p class=\"story-text\">Bus B \U0001F68C comes every <span class=\"math-highlight\">45</span> minutes.</p>\n  <p\
+      \ class=\"story-question\">Both arrived at 8:00 AM. When will they arrive together again?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"bus-schedule\">\n      <div>Bus A: 8:00, 8:30, 8:60...</div>\n      <div>Bus B: 8:00, 8:45, 8:90...</div>\n\
+      \    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Find the LCM of 30 and 45.</strong></p>\n</div>"
+    story_problem: Bus A arrives every 30 minutes and Bus B arrives every 45 minutes. Both arrived together at 8:00 AM. After
+      how many minutes will both buses arrive together again?
+    visual_hint: A timeline showing bus arrivals converging
+  solution_steps:
+  - 'Multiples of 30: [30, 60, 90, 120, 150, 180, 210, 240]...'
+  - 'Multiples of 45: [45, 90, 135, 180, 225, 270, 315, 360]...'
+  - 'First common multiple: 90'
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '60'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v42
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '22'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '120'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '2'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '120'
+  - '22'
+  - '2'
+  - '60'
+  question: Two bells ring every 10 and 12 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card transport-theme\">\n  <div class=\"character-avatar\">\U0001F68C</div>\n  <h3>Zara's\
+      \ Bus Puzzle</h3>\n  <p class=\"story-text\">Bus A \U0001F68C comes every <span class=\"math-highlight\">10</span> minutes.</p>\n\
+      \  <p class=\"story-text\">Bus B \U0001F68C comes every <span class=\"math-highlight\">12</span> minutes.</p>\n  <p\
+      \ class=\"story-question\">Both arrived at 8:00 AM. When will they arrive together again?</p>\n  <div class=\"visual-hint\"\
+      >\n    <div class=\"bus-schedule\">\n      <div>Bus A: 8:00, 8:10, 8:20...</div>\n      <div>Bus B: 8:00, 8:12, 8:24...</div>\n\
+      \    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Find the LCM of 10 and 12.</strong></p>\n</div>"
+    story_problem: Bus A arrives every 10 minutes and Bus B arrives every 12 minutes. Both arrived together at 8:00 AM. After
+      how many minutes will both buses arrive together again?
+    visual_hint: A timeline showing bus arrivals converging
+  solution_steps:
+  - 'Bell 1 rings every 10 minutes: 10, 20, 30, 40, 50, 60...'
+  - 'Bell 2 rings every 12 minutes: 12, 24, 36, 48, 60, 72...'
+  - They ring together at the LCM of 10 and 12
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '24'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v1042
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '14'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '48'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '2'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '2'
+  - '48'
+  - '14'
+  - '24'
+  question: Two bells ring every 6 and 8 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card transport-theme\">\n  <div class=\"character-avatar\">\U0001F68C</div>\n  <h3>Zara's\
+      \ Bus Puzzle</h3>\n  <p class=\"story-text\">Bus A \U0001F68C comes every <span class=\"math-highlight\">6</span> minutes.</p>\n\
+      \  <p class=\"story-text\">Bus B \U0001F68C comes every <span class=\"math-highlight\">8</span> minutes.</p>\n  <p class=\"\
+      story-question\">Both arrived at 8:00 AM. When will they arrive together again?</p>\n  <div class=\"visual-hint\">\n\
+      \    <div class=\"bus-schedule\">\n      <div>Bus A: 8:00, 8:06, 8:12...</div>\n      <div>Bus B: 8:00, 8:08, 8:16...</div>\n\
+      \    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Find the LCM of 6 and 8.</strong></p>\n</div>"
+    story_problem: Bus A arrives every 6 minutes and Bus B arrives every 8 minutes. Both arrived together at 8:00 AM. After
+      how many minutes will both buses arrive together again?
+    visual_hint: A timeline showing bus arrivals converging
+  solution_steps:
+  - 'Bell 1 rings every 6 minutes: 6, 12, 18, 24, 30, 36...'
+  - 'Bell 2 rings every 8 minutes: 8, 16, 24, 32, 40, 48...'
+  - They ring together at the LCM of 6 and 8
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '60'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v2042
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '27'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '180'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '3'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '27'
+  - '60'
+  - '3'
+  - '180'
+  question: Two bells ring every 12 and 15 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">12</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">15</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 12, 24, 36...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 15, 30, 45...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(12, 15) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 12 minutes and another every 15 minutes. If both bells ring together
+      at 6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Bell 1 rings every 12 minutes: 12, 24, 36, 48, 60, 72...'
+  - 'Bell 2 rings every 15 minutes: 15, 30, 45, 60, 75, 90...'
+  - They ring together at the LCM of 12 and 15
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '18'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v3042
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '15'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '54'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '3'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '18'
+  - '54'
+  - '3'
+  - '15'
+  question: Two bells ring every 6 and 9 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">6</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">9</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 6, 12, 18...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 9, 18, 27...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(6, 9) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 6 minutes and another every 9 minutes. If both bells ring together at
+      6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Bell 1 rings every 6 minutes: 6, 12, 18, 24, 30, 36...'
+  - 'Bell 2 rings every 9 minutes: 9, 18, 27, 36, 45, 54...'
+  - They ring together at the LCM of 6 and 9
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '40'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v4042
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '18'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '80'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '2'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '18'
+  - '2'
+  - '80'
+  - '40'
+  question: Two bells ring every 8 and 10 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card temple-theme\">\n  <div class=\"character-avatar\">\U0001F514</div>\n  <h3>Temple\
+      \ Bells Problem</h3>\n  <p class=\"story-text\">One bell \U0001F514 rings every <span class=\"math-highlight\">8</span>\
+      \ minutes.</p>\n  <p class=\"story-text\">Another bell \U0001F514 rings every <span class=\"math-highlight\">10</span>\
+      \ minutes.</p>\n  <p class=\"story-question\">Both rang together at 6:00 AM.</p>\n  <div class=\"visual-hint\">\n  \
+      \  <div class=\"timeline\">\n      <div class=\"bell-1\">Bell 1: 8, 16, 24...</div>\n      <div class=\"bell-2\">Bell\
+      \ 2: 10, 20, 30...</div>\n    </div>\n    <p class=\"hint-text\">When do both patterns meet?</p>\n  </div>\n  <p class=\"\
+      question-prompt\"><strong>Find LCM(8, 10) to know when they ring together again.</strong></p>\n</div>"
+    story_problem: In a temple, one bell rings every 8 minutes and another every 10 minutes. If both bells ring together at
+      6:00 AM, when will they ring together again?
+    visual_hint: A timeline from 6:00 showing both bell patterns meeting
+  solution_steps:
+  - 'Bell 1 rings every 8 minutes: 8, 16, 24, 32, 40, 48...'
+  - 'Bell 2 rings every 10 minutes: 10, 20, 30, 40, 50, 60...'
+  - They ring together at the LCM of 8 and 10
+- bloom_level: APPLY
+  concept: lcm
+  correct_answer: '12'
+  difficulty: 2
+  id: factors_multiples_lcm_bells_lcm_v5042
+  misconception_info:
+  - teaching_point: Repeating events align at LCM of their periods
+    value: '10'
+    why_wrong: Addition doesn't find when cycles align
+  - teaching_point: LCM is the FIRST time they align
+    value: '24'
+    why_wrong: Product works but gives a later time, not the first
+  - teaching_point: LCM for 'when do they meet'; HCF for 'largest common divisor'
+    value: '2'
+    why_wrong: HCF is too small - neither bell rings at that time
+  options:
+  - '2'
+  - '12'
+  - '24'
+  - '10'
+  question: Two bells ring every 4 and 6 minutes. After how many minutes will they ring together?
+  rich_content:
+    html_content: "<div class=\"story-card transport-theme\">\n  <div class=\"character-avatar\">\U0001F68C</div>\n  <h3>Zara's\
+      \ Bus Puzzle</h3>\n  <p class=\"story-text\">Bus A \U0001F68C comes every <span class=\"math-highlight\">4</span> minutes.</p>\n\
+      \  <p class=\"story-text\">Bus B \U0001F68C comes every <span class=\"math-highlight\">6</span> minutes.</p>\n  <p class=\"\
+      story-question\">Both arrived at 8:00 AM. When will they arrive together again?</p>\n  <div class=\"visual-hint\">\n\
+      \    <div class=\"bus-schedule\">\n      <div>Bus A: 8:00, 8:04, 8:08...</div>\n      <div>Bus B: 8:00, 8:06, 8:12...</div>\n\
+      \    </div>\n  </div>\n  <p class=\"question-prompt\"><strong>Find the LCM of 4 and 6.</strong></p>\n</div>"
+    story_problem: Bus A arrives every 4 minutes and Bus B arrives every 6 minutes. Both arrived together at 8:00 AM. After
+      how many minutes will both buses arrive together again?
+    visual_hint: A timeline showing bus arrivals converging
+  solution_steps:
+  - 'Bell 1 rings every 4 minutes: 4, 8, 12, 16, 20, 24...'
+  - 'Bell 2 rings every 6 minutes: 6, 12, 18, 24, 30, 36...'
+  - They ring together at the LCM of 4 and 6
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v42
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'No'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - 'No'
+  - Need to calculate
+  - 'Yes'
+  - Only sometimes
+  question: Is 240 divisible by 10?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">240</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 240 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 240 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 240 divisible by 3?
+    visual_hint: Visual showing 240 items being divided into 3 groups
+  solution_steps:
+  - Check if 240 is divisible by 10
+  - Last digit of 240 is 0. Is it 0? Yes
+  - 'Verification: 240 ÷ 10 = 24.0'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v1042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'No'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - 'Yes'
+  - Need to calculate
+  - 'No'
+  - Only sometimes
+  question: Is 56 divisible by 2?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">56</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 56 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 56 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 56 divisible by 3?
+    visual_hint: Visual showing 56 items being divided into 3 groups
+  solution_steps:
+  - Check if 56 is divisible by 2
+  - Last digit of 56 is 6. Even? Yes
+  - 'Verification: 56 ÷ 2 = 28.0'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v2042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'Yes'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - Need to calculate
+  - 'Yes'
+  - 'No'
+  - Only sometimes
+  question: Is 437 divisible by 5?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">437</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 437 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 437 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 437 divisible by 3?
+    visual_hint: Visual showing 437 items being divided into 3 groups
+  solution_steps:
+  - Check if 437 is divisible by 5
+  - Last digit of 437 is 7. Is it 0 or 5? No
+  - 'Verification: 437 ÷ 5 = 87.4'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v3042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'No'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - 'Yes'
+  - 'No'
+  - Need to calculate
+  - Only sometimes
+  question: Is 195 divisible by 5?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">195</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 195 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 195 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 195 divisible by 3?
+    visual_hint: Visual showing 195 items being divided into 3 groups
+  solution_steps:
+  - Check if 195 is divisible by 5
+  - Last digit of 195 is 5. Is it 0 or 5? Yes
+  - 'Verification: 195 ÷ 5 = 39.0'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v4042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'Yes'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - Only sometimes
+  - Need to calculate
+  - 'No'
+  - 'Yes'
+  question: Is 153 divisible by 10?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">153</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 153 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 153 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 153 divisible by 3?
+    visual_hint: Visual showing 153 items being divided into 3 groups
+  solution_steps:
+  - Check if 153 is divisible by 10
+  - Last digit of 153 is 3. Is it 0? No
+  - 'Verification: 153 ÷ 10 = 15.3'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v5042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'No'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - Only sometimes
+  - Need to calculate
+  - 'No'
+  - 'Yes'
+  question: Is 154 divisible by 2?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">154</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 154 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 154 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 154 divisible by 3?
+    visual_hint: Visual showing 154 items being divided into 3 groups
+  solution_steps:
+  - Check if 154 is divisible by 2
+  - Last digit of 154 is 4. Even? Yes
+  - 'Verification: 154 ÷ 2 = 77.0'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'Yes'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v6042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'No'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - 'No'
+  - Only sometimes
+  - 'Yes'
+  - Need to calculate
+  question: Is 320 divisible by 10?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">320</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 320 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 320 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 320 divisible by 3?
+    visual_hint: Visual showing 320 items being divided into 3 groups
+  solution_steps:
+  - Check if 320 is divisible by 10
+  - Last digit of 320 is 0. Is it 0? Yes
+  - 'Verification: 320 ÷ 10 = 32.0'
+- bloom_level: REMEMBER
+  concept: divisibility
+  correct_answer: 'No'
+  difficulty: 1
+  id: factors_multiples_divisibility_divisibility_check_v7042
+  misconception_info:
+  - teaching_point: 'Double-check: divisibility by 2 (even), by 5 (ends 0/5), by 10 (ends 0)'
+    value: 'Yes'
+    why_wrong: Applied rule incorrectly
+  - teaching_point: Use divisibility rules - the answer is always definite
+    value: Only sometimes
+    why_wrong: 'Divisibility is binary: yes or no'
+  - teaching_point: 'Learn rules: 2→even, 5→ends 0/5, 10→ends 0'
+    value: Need to calculate
+    why_wrong: Divisibility rules make this instant
+  options:
+  - Need to calculate
+  - 'Yes'
+  - Only sometimes
+  - 'No'
+  question: Is 144 divisible by 10?
+  rich_content:
+    html_content: "<div class=\"story-card shop-theme\">\n  <div class=\"character-avatar\">\U0001F3EA</div>\n  <h3>Mrs. Sharma's\
+      \ Quick Math</h3>\n  <p class=\"story-text\">Mrs. Sharma has <span class=\"math-highlight\">144</span> packets to arrange\
+      \ on <span class=\"math-highlight\">3</span> shelves.</p>\n  <p class=\"story-question\">Can she divide them <em>equally</em>\
+      \ with none left over?</p>\n  <div class=\"visual-hint\">\n    <p class=\"hint-text\">Divisibility rule for 3: Check\
+      \ if the sum of digits is divisible by 3</p>\n  </div>\n  <p class=\"question-prompt\"><strong>Is 144 divisible by 3?</strong></p>\n\
+      </div>"
+    story_problem: Mrs. Sharma has 144 packets of biscuits. She needs to quickly check if they can be equally divided among
+      3 shelves. Is 144 divisible by 3?
+    visual_hint: Visual showing 144 items being divided into 3 groups
+  solution_steps:
+  - Check if 144 is divisible by 10
+  - Last digit of 144 is 4. Is it 0? No
+  - 'Verification: 144 ÷ 10 = 14.4'

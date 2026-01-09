@@ -7,8 +7,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 from enum import Enum
 from datetime import datetime
-from models.cognitive_levels import BloomLevel
-from models.distractor import MisconceptionType
+from api.models.cognitive_levels import BloomLevel
+from api.models.distractor import MisconceptionType
 
 
 class PerformanceStatus(str, Enum):

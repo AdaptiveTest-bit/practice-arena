@@ -1,0 +1,176 @@
+version: 1
+subject: math
+grade: 5
+chapter_id: factors_multiples
+chapter_name: "Factors and Multiples"
+description: "Coverage blueprint for content-complete Factors & Multiples chapter"
+
+# ==================== COVERAGE TARGETS BY CONCEPT ====================
+coverage_targets:
+  by_concept_id:
+    # --- REMEMBER Level (Foundation) ---
+    math.class5.factors_multiples.divisibility:
+      min_per_week: 10
+      difficulty_mix: {"1": 0.6, "2": 0.4}
+      bloom_mix: {REMEMBER: 1.0}
+      priority: high
+      notes: "Foundation skill - start here for new learners"
+      
+    math.class5.factors_multiples.prime_composite:
+      min_per_week: 8
+      difficulty_mix: {"1": 0.5, "2": 0.5}
+      bloom_mix: {REMEMBER: 0.6, UNDERSTAND: 0.4}
+      priority: high
+      notes: "Essential for prime factorization later"
+      
+    # --- UNDERSTAND Level ---
+    math.class5.factors_multiples.factors:
+      min_per_week: 12
+      difficulty_mix: {"1": 0.3, "2": 0.5, "3": 0.2}
+      bloom_mix: {UNDERSTAND: 0.6, APPLY: 0.4}
+      priority: high
+      notes: "Core skill - needed for GCD"
+      
+    math.class5.factors_multiples.multiples:
+      min_per_week: 12
+      difficulty_mix: {"1": 0.3, "2": 0.5, "3": 0.2}
+      bloom_mix: {UNDERSTAND: 0.6, APPLY: 0.4}
+      priority: high
+      notes: "Core skill - needed for LCM"
+      
+    math.class5.factors_multiples.factor_pairs:
+      min_per_week: 6
+      difficulty_mix: {"2": 0.6, "3": 0.4}
+      bloom_mix: {UNDERSTAND: 1.0}
+      priority: medium
+      notes: "Bridge concept to deeper understanding"
+      
+    # --- APPLY Level ---
+    math.class5.factors_multiples.gcd:
+      min_per_week: 10
+      difficulty_mix: {"2": 0.5, "3": 0.5}
+      bloom_mix: {APPLY: 1.0}
+      priority: high
+      notes: "Key computation skill"
+      
+    math.class5.factors_multiples.lcm:
+      min_per_week: 10
+      difficulty_mix: {"2": 0.5, "3": 0.5}
+      bloom_mix: {APPLY: 1.0}
+      priority: high
+      notes: "Key computation skill"
+      
+    math.class5.factors_multiples.prime_factorization:
+      min_per_week: 8
+      difficulty_mix: {"2": 0.6, "3": 0.4}
+      bloom_mix: {APPLY: 1.0}
+      priority: medium
+      notes: "Alternate method for GCD/LCM"
+      
+    math.class5.factors_multiples.word_problem:
+      min_per_week: 8
+      difficulty_mix: {"2": 0.3, "3": 0.5, "4": 0.2}
+      bloom_mix: {APPLY: 0.7, ANALYZE: 0.3}
+      priority: high
+      notes: "Real-world application - key for exam prep"
+      
+    # --- ANALYZE Level ---
+    math.class5.factors_multiples.assertion_reason:
+      min_per_week: 4
+      difficulty_mix: {"3": 0.6, "4": 0.4}
+      bloom_mix: {ANALYZE: 1.0}
+      priority: medium
+      notes: "Higher-order thinking - for advanced learners"
+      
+    # --- EVALUATE Level ---
+    math.class5.factors_multiples.error_analysis:
+      min_per_week: 4
+      difficulty_mix: {"3": 0.5, "4": 0.5}
+      bloom_mix: {EVALUATE: 1.0}
+      priority: medium
+      notes: "Deepens understanding by analyzing mistakes"
+
+# ==================== SESSION TEMPLATES ====================
+# Predefined session structures for different learning goals
+session_templates:
+  practice_fundamentals:
+    description: "Focus on core skills: divisibility, factors, multiples"
+    duration_minutes: 20
+    question_count: 10
+    concept_weights:
+      divisibility: 0.3
+      factors: 0.35
+      multiples: 0.35
+    difficulty_range: [1, 2]
+    
+  gcd_lcm_mastery:
+    description: "Intensive practice on GCD and LCM"
+    duration_minutes: 25
+    question_count: 12
+    concept_weights:
+      gcd: 0.4
+      lcm: 0.4
+      prime_factorization: 0.2
+    difficulty_range: [2, 3]
+    
+  word_problem_focus:
+    description: "Real-world applications"
+    duration_minutes: 30
+    question_count: 10
+    concept_weights:
+      word_problem: 0.6
+      gcd: 0.2
+      lcm: 0.2
+    difficulty_range: [2, 4]
+    
+  exam_prep:
+    description: "Balanced mix across all concepts and Bloom levels"
+    duration_minutes: 45
+    question_count: 20
+    concept_weights:
+      divisibility: 0.1
+      prime_composite: 0.1
+      factors: 0.1
+      multiples: 0.1
+      factor_pairs: 0.05
+      gcd: 0.15
+      lcm: 0.15
+      prime_factorization: 0.05
+      word_problem: 0.1
+      assertion_reason: 0.05
+      error_analysis: 0.05
+    difficulty_range: [1, 4]
+    
+  challenge_mode:
+    description: "Higher-order thinking for advanced students"
+    duration_minutes: 30
+    question_count: 10
+    concept_weights:
+      word_problem: 0.3
+      assertion_reason: 0.35
+      error_analysis: 0.35
+    difficulty_range: [3, 4]
+
+# ==================== BLOOM'S TAXONOMY DISTRIBUTION ====================
+# Recommended distribution for balanced assessment
+bloom_distribution:
+  REMEMBER: 0.15      # Divisibility, prime/composite basics
+  UNDERSTAND: 0.25    # Factors, multiples, factor pairs
+  APPLY: 0.35         # GCD, LCM, prime factorization, word problems
+  ANALYZE: 0.15       # Assertion-reason, word problem analysis
+  EVALUATE: 0.10      # Error analysis
+
+# ==================== DIFFICULTY PROGRESSION ====================
+difficulty_progression:
+  beginner:
+    weeks: [1, 2]
+    focus: [divisibility, prime_composite, factors, multiples]
+    difficulty_cap: 2
+  intermediate:
+    weeks: [3, 4]
+    focus: [gcd, lcm, factor_pairs, prime_factorization]
+    difficulty_cap: 3
+  advanced:
+    weeks: [5, 6]
+    focus: [word_problem, assertion_reason, error_analysis]
+    difficulty_cap: 4

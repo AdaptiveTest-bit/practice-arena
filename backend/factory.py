@@ -1,8 +1,8 @@
 """Factory pattern for creating chapter-specific question generators."""
 
 from typing import Dict, Type
-from models.question import ChapterEnum
-from strategies.base import BaseChapterStrategy
+from api.models.quiz import ChapterEnum
+from domain.content_generation.generators.base import BaseChapterStrategy
 
 
 class QuestionGeneratorFactory:
