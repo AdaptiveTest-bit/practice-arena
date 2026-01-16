@@ -1,13 +1,17 @@
 """Application lifecycle management (startup/shutdown)."""
 
+import asyncio
 from contextlib import asynccontextmanager
-from typing import Callable, Dict, Any
+from typing import Callable, Dict, Any, Optional
 
 from config.logging_config import get_logger, setup_logging
 from config.settings import settings
 from core.cache import cache_manager
 
 logger = get_logger(__name__)
+
+# Background task reference for Notion sync
+_notion_sync_task: Optional[asyncio.Task] = None
 
 
 class LifecycleManager:

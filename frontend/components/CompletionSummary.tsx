@@ -172,7 +172,7 @@ export const CompletionSummary: FC<CompletionSummaryProps> = ({
           </div>
 
           {/* Concepts Mastered */}
-          {sessionSummary.concepts_mastered.length > 0 && (
+          {sessionSummary.concepts_mastered && sessionSummary.concepts_mastered.length > 0 && (
             <div className="mb-10">
               <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                 <span className="text-xl mr-2">🎓</span>

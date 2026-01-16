@@ -25,8 +25,12 @@ from core.lifecycle import lifespan_context
 from core.database import init_db
 from core.cache import get_cache_manager
 from core.exceptions import NotFoundError, ValidationError
+from core.feature_flags import FeatureFlagMiddleware, feature_flag_service
 
 from pydantic import BaseModel
+
+# Import unified router for Phase 8
+from api.quiz_unified import unified_router
 
 logger = get_logger(__name__)
 
@@ -91,19 +95,6 @@ async def bootstrap_bank_and_concepts():
         except Exception as e:
             logger.warning(f"Lean bank import skipped/failed: {e}")
 
-        # Optional: also import the archived premium class5_chapter5_bank.yaml into chapter 'factors_multiples'
-        # (kept for backward compatibility during MVP; can be removed once lean bank is complete)
-        try:
-            from tools.import_question_bank import import_yaml_bank
-
-            premium = archive_dir / "class5_chapter5_bank.yaml"
-            if premium.exists():
-                # This YAML uses the older nested bank format. Import into the canonical chapter key.
-                count = import_yaml_bank(premium, chapter="factors_multiples")
-                logger.info(f"✅ Imported/updated {count} premium questions (class5_chapter5_bank.yaml)")
-        except Exception as e:
-            logger.warning(f"Premium bank import skipped/failed: {e}")
-
     except Exception as e:
         # Do not kill the app on bootstrap; API should still come up (health endpoints)
         logger.warning(f"Bank/concept bootstrap failed: {e}")
@@ -163,6 +154,7 @@ app = FastAPI(
 app.add_middleware(PerformanceMonitoringMiddleware, slow_request_threshold_ms=1000)
 app.add_middleware(ErrorHandlingMiddleware)
 app.add_middleware(RequestLoggingMiddleware)
+app.add_middleware(FeatureFlagMiddleware)  # Phase 8 feature flag routing
 
 # CORS middleware
 app.add_middleware(
@@ -200,18 +192,11 @@ async def register_question_strategies():
 
 async def init_services():
     """Initialize core services."""
-    from services.question_service import QuestionService
-    from domain.adaptive_learning.service import AdaptiveLearningService
     from domain.session_management.student.repository import get_repository
     
-    # Initialize question service
-    app.state.question_service = QuestionService()
-    logger.info("✅ QuestionService initialized")
-    
-    # Initialize adaptive learning service with ORM repository
-    orm_repository = get_repository()
-    app.state.adaptive_service = AdaptiveLearningService(repository=orm_repository)
-    logger.info("✅ AdaptiveLearningService initialized with PostgreSQL backend")
+    # Initialize repository for student management
+    app.state.student_repository = get_repository()
+    logger.info("✅ Student repository initialized with PostgreSQL backend")
 
 
 # Register startup hooks
@@ -251,15 +236,11 @@ async def startup_status():
         Status of each initialization component
     """
     try:
-        from domain.adaptive_learning.service import AdaptiveLearningService
-        service: AdaptiveLearningService = app.state.adaptive_service
-        question_service = app.state.question_service
+        repository = app.state.student_repository
 
         # Verify services exist
         services_ready = {
-            "adaptive_service": service is not None,
-            "question_service": question_service is not None,
-            "repository": service.repository is not None if service else False,
+            "student_repository": repository is not None,
         }
 
         all_ready = all(services_ready.values())
@@ -509,8 +490,7 @@ async def register_student(request: StudentRegistrationRequest):
     Returns:
         {"student_id": "uuid", "name": "Student Name", "chapter": "Ch1: The Fish Tale"}
     """
-    from domain.adaptive_learning.service import AdaptiveLearningService
-    service: AdaptiveLearningService = app.state.adaptive_service
+    repository = app.state.student_repository
     
     try:
         # Validate request
@@ -519,7 +499,7 @@ async def register_student(request: StudentRegistrationRequest):
             raise ValueError("Student name cannot be empty")
         
         # Register student
-        result = service.repository.register_student(
+        result = repository.register_student(
             name=request.name.strip(),
             chapter=request.chapter or "Ch1: The Fish Tale"
         )
@@ -562,9 +542,8 @@ async def register_student(request: StudentRegistrationRequest):
 async def get_student_progress(student_id: str):
     """Get detailed progress report for a student (event-first).
 
-    This endpoint is aligned with the production DB-first session flow:
-    it derives progress from the `learning_events` spine instead of the legacy
-    in-memory AdaptiveLearningService repository.
+    This endpoint derives progress from the `learning_events` spine,
+    providing a DB-first approach for production reliability.
     """
     try:
         from core.database import SessionLocal
@@ -800,6 +779,32 @@ async def reset_student_mastery(student_id: str, chapter_id: str):
 # MVP MODE: Rich content generation routes removed.
 # The single source of truth is the DB-first quiz/session flow +
 # `backend/domain/content_generation/generators/*`.
+
+# Phase 8: Add unified router for gradual rollout
+app.include_router(unified_router)
+
+# Phase 5: Add admin template management
+try:
+    from api.admin.templates import router as templates_router
+    app.include_router(templates_router, tags=["admin"])
+except ImportError as e:
+    logger.warning(f"Admin template router not available: {e}")
+
+# Phase 5b: Add admin graphs management
+try:
+    from api.admin.graphs import graphs_router, coverage_router, taxonomy_router
+    app.include_router(graphs_router, prefix="/api/admin", tags=["admin-graphs"])
+    app.include_router(coverage_router, prefix="/api/admin", tags=["admin-coverage"])
+    app.include_router(taxonomy_router, prefix="/api/admin", tags=["admin-taxonomy"])
+except ImportError as e:
+    logger.warning(f"Admin graphs router not available: {e}")
+
+# Phase 6: Add CDN diagram management
+try:
+    from api.cdn.diagrams import diagrams_router
+    app.include_router(diagrams_router, prefix="/api/cdn", tags=["cdn"])
+except ImportError:
+    logger.warning("CDN diagram router not available")
 
 
 # ============================================================================

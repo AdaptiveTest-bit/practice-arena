@@ -343,7 +343,8 @@ export class QuizAPIClient {
         richNarrative: data.richNarrative,
         visualHints: data.visualHints,
         misconceptionTag: data.misconceptionTag,
-        correctAnswerId: data.correctAnswerId,
+        // Phase 1: correctAnswerId removed from question payload (security)
+        // correctAnswerId: data.correctAnswerId,  // REMOVED - now only in SubmitAnswerResponse
         attemptNumber: data.attemptNumber || 1,
         // Adaptive learning metadata (concept mastery progress)
         adaptive: data.adaptive,
@@ -476,6 +477,10 @@ export class QuizAPIClient {
           })),
           summary: data.solution.summary || "",
           keyInsight: `Bloom Level: ${data.bloomLevel || "Unknown"}`,
+          // Phase 1: Include rich content from answer response
+          richHtmlContent: data.solution.richHtmlContent,
+          richNarrative: data.solution.richNarrative,
+          visualHints: data.solution.visualHints,
         } : undefined,
         
         // Mastery Update

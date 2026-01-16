@@ -203,8 +203,9 @@ export interface NextQuestionResponse {
   richNarrative?: string;
   visualHints?: string[];
   
-  // Correct answer
-  correctAnswerId: string;
+  // Phase 1: correctAnswerId removed from question payload (security)
+  // Now only returned in SubmitAnswerResponse after submission
+  // correctAnswerId: string;  // DEPRECATED - see SubmitAnswerResponse.correctAnswerId
   
   // Adaptive context
   attemptNumber: number;
@@ -229,9 +230,11 @@ export interface NextQuestionResponse {
       learning_count: number;
       not_started_count: number;
       completion_percentage: number;
-      concepts_mastered: string[];
-      concepts_learning: string[];
-      concepts_not_started: string[];
+      // Phase 1: Concept lists are now optional in question payloads (bandwidth reduction)
+      // Full lists are returned in answer responses and dedicated mastery endpoints
+      concepts_mastered?: string[];
+      concepts_learning?: string[];
+      concepts_not_started?: string[];
     };
   };
 }
@@ -336,6 +339,10 @@ export interface SubmitAnswerResponse {
     steps: SolutionStep[];
     summary: string;
     keyInsight?: string;
+    // Phase 1: richHtmlContent returned in answer response (not in question payload)
+    richHtmlContent?: string;
+    richNarrative?: string;
+    visualHints?: string[];
   };
   
   // Mastery Update

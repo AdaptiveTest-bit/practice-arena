@@ -66,6 +66,12 @@ nodes:
     bloom_targets: [EVALUATE]
     difficulty_default: 3
     description: "Identify errors in worked solutions (Which student is correct?)"
+    
+  # ANALYZE Level - Cross-Concept
+  - concept_id: math.class5.factors_multiples.cross_concept
+    bloom_targets: [ANALYZE]
+    difficulty_default: 4
+    description: "Problems combining factors, multiples, GCD, and LCM together"
 
 # ==================== LEARNING EDGES ====================
 # Defines prerequisite and co-requisite relationships
@@ -173,3 +179,24 @@ edges:
     to: math.class5.factors_multiples.error_analysis
     kind: prerequisite
     reason: "Error analysis includes LCM computation errors"
+    
+  # Cross-concept requires mastery of all foundational concepts
+  - from: math.class5.factors_multiples.factors
+    to: math.class5.factors_multiples.cross_concept
+    kind: prerequisite
+    reason: "Cross-concept questions require understanding factors"
+    
+  - from: math.class5.factors_multiples.multiples
+    to: math.class5.factors_multiples.cross_concept
+    kind: prerequisite
+    reason: "Cross-concept questions require understanding multiples"
+    
+  - from: math.class5.factors_multiples.gcd
+    to: math.class5.factors_multiples.cross_concept
+    kind: prerequisite
+    reason: "Cross-concept questions may involve GCD"
+    
+  - from: math.class5.factors_multiples.lcm
+    to: math.class5.factors_multiples.cross_concept
+    kind: prerequisite
+    reason: "Cross-concept questions may involve LCM"

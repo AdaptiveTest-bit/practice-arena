@@ -1,12 +1,9 @@
 """Content Generation Domain
 
-This domain handles all aspects of question content generation:
-- Question generation strategies (14 chapters)
-- YAML question bank loading and importing
-- K.C. Nag story generation (LLM + templates)
-- Misconception-based option generation
-- HTML/LaTeX rendering
-- Content caching (skeleton, story, options)
+This domain handles question content:
+- Question bank service (DB-backed question serving)
+- Question generators (e.g., factors_multiples)
+- Question rendering
 
 Main entry point: QuestionBankService
 """

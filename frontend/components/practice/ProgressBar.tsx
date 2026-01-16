@@ -93,7 +93,7 @@ export function ProgressBar({ progress, title = 'Progress' }: ProgressBarProps) 
       )}
 
       {/* Concepts Mastered */}
-      {progress.concepts_mastered.length > 0 && (
+      {progress.concepts_mastered && progress.concepts_mastered.length > 0 && (
         <div className="mt-4">
           <p className="text-sm font-semibold text-gray-700 mb-3">Concepts Mastered 🎉</p>
           <div className="flex flex-wrap gap-2">

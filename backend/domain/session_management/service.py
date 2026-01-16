@@ -15,8 +15,6 @@ import json
 from config.logging_config import get_logger
 from config.chapter_config import CHAPTER_CONFIG
 from api.models.quiz import ChapterEnum
-from factory import QuestionGeneratorFactory
-from domain.adaptive_learning.service import AdaptiveLearningService
 from domain.session_management.student.repository import get_repository, ORMStudentRepository
 from domain.adaptive_learning.misconceptions.detector import MisconceptionDetector
 
@@ -50,7 +48,6 @@ class SessionAdapter:
     def __init__(self):
         """Initialize with existing backend services."""
         self.repository: ORMStudentRepository = get_repository()
-        self.adaptive_service: AdaptiveLearningService = AdaptiveLearningService()
         self.misconception_detector: MisconceptionDetector = MisconceptionDetector()
 
         # Runtime question bank (Option A)
@@ -190,9 +187,23 @@ class SessionAdapter:
     # ADAPTIVE SELECTION (NEW)
     # ============================================================================
 
-    def _get_adaptive_selector(self, chapter_key: str) -> AdaptiveQuestionSelector:
-        """Get or create an adaptive selector for a chapter."""
+    def _get_adaptive_selector(self, chapter_key: str, db_session=None) -> AdaptiveQuestionSelector:
+        """Get or create an adaptive selector for a chapter.
+        
+        Args:
+            chapter_key: Chapter key (e.g., "factors_multiples")
+            db_session: Database session for template queries (required for template-based generation)
+            
+        Returns:
+            AdaptiveQuestionSelector instance
+        """
         normalized = self._normalize_chapter_key(chapter_key)
+        
+        # Always create new selector with db_session for template-based generation
+        if db_session is not None:
+            return get_adaptive_selector(normalized, db_session)
+        
+        # Fallback to cached (will fail on generate without db_session)
         if normalized not in self._adaptive_selectors:
             self._adaptive_selectors[normalized] = get_adaptive_selector(normalized)
         return self._adaptive_selectors[normalized]
@@ -211,6 +222,8 @@ class SessionAdapter:
     ) -> Dict[str, Any]:
         """Generate a question using the new adaptive selection system.
         
+        Uses pure template-based architecture - all questions come from template database.
+        
         Args:
             session_id: Current session ID
             student_id: Student identifier
@@ -220,10 +233,12 @@ class SessionAdapter:
         Returns:
             Question response dict for frontend
         """
-        selector = self._get_adaptive_selector(chapter)
-        
-        # Select optimal question based on mastery state
-        question, metadata = selector.select_question(student_id=student_id)
+        # Get db_session for template-based generation
+        with SessionLocal() as db:
+            selector = self._get_adaptive_selector(chapter, db_session=db)
+            
+            # Select optimal question based on mastery state
+            question, metadata = selector.select_question(student_id=student_id)
         
         # Generate unique question ID for this session
         question_id = f"adaptive_{session_id}_{attempted}"
@@ -260,9 +275,11 @@ class SessionAdapter:
             "hintStrategy": [],
             "renderingHints": {},
             "richNarrative": getattr(question, 'rich_narrative', None),
-            "richHtmlContent": getattr(question, 'rich_html_content', None),
+            # Phase 1: richHtmlContent moved to answer response only (bandwidth reduction)
+            "richHtmlContent": None,
             "visualHints": None,
-            "correctAnswerId": f"option_{question.correct_option_index}",
+            # Phase 1: correctAnswerId removed from question payload (security fix)
+            # "correctAnswerId": f"option_{question.correct_option_index}",  # REMOVED
             "attemptNumber": attempted + 1,
             # New: Include adaptive metadata for frontend
             "adaptive": {
@@ -465,11 +482,7 @@ class SessionAdapter:
     
     def get_next_question(self, session_id: str) -> Dict[str, Any]:
         """
-        Get next question in the quiz sequence with ADAPTIVE ROUTING.
-        
-         PHASE 2 ENHANCEMENT: 
-        Uses adaptive_engine to recommend next chapter based on student mastery.
-        Automatically routes to different chapters as student progresses.
+        Get next question in the quiz sequence.
         
         Args:
             session_id: Session ID
@@ -505,44 +518,20 @@ class SessionAdapter:
         # NEW: Use adaptive selection for supported chapters
         # =========================================================================
         if self._should_use_adaptive(chapter):
-            try:
-                return self._get_adaptive_question(
-                    session_id=session_id,
-                    student_id=student_id,
-                    chapter=chapter,
-                    attempted=attempted,
-                )
-            except Exception as e:
-                logger.warning(f"Adaptive selection failed, falling back to bank: {e}")
-                # Fall through to legacy bank-based selection
+            # Pure template-based architecture - no fallback to legacy
+            return self._get_adaptive_question(
+                session_id=session_id,
+                student_id=student_id,
+                chapter=chapter,
+                attempted=attempted,
+            )
         
         # =========================================================================
         # LEGACY: Bank-based question selection (for non-adaptive chapters)
         # =========================================================================
 
-        # Adaptive routing (unchanged), but store transitions in DB
-        try:
-            student = self.repository.get_student(student_id)
-            if student:
-                recommendation = self.adaptive_service.adaptive_engine.generate_learning_recommendation(student)
-                next_chapter = self._normalize_chapter_key(recommendation.get("recommended_chapter", chapter))
-                if next_chapter != chapter:
-                    transition = {
-                        "from": chapter,
-                        "to": next_chapter,
-                        "timestamp": datetime.utcnow().isoformat(),
-                        "reason": recommendation.get("reason", "adaptive_progression"),
-                        "student_status": recommendation.get("performance_status", "unknown"),
-                    }
-                    with SessionLocal() as db:
-                        sess_row = db.get(QuizSession, session_id)
-                        if sess_row:
-                            sess_row.chapter = next_chapter
-                            sess_row.chapter_transitions = list(sess_row.chapter_transitions or []) + [transition]
-                            db.commit()
-                    chapter = next_chapter
-        except Exception as e:
-            logger.warning(f"Adaptive routing failed: {e}")
+        # NOTE: Chapter routing removed in Phase 3 cleanup.
+        # MVP has single chapter; multi-chapter routing can be re-added when needed.
 
         # Difficulty heuristic (reuse existing simple mapping)
         base_difficulty = max(1, (grade_level - 2) // 2)
@@ -664,9 +653,11 @@ class SessionAdapter:
                 "hintStrategy": [],
                 "renderingHints": {},
                 "richNarrative": payload.get("rich_narrative"),
-                "richHtmlContent": payload.get("rich_html_content"),
+                # Phase 1: richHtmlContent moved to answer response only
+                "richHtmlContent": None,
                 "visualHints": payload.get("visual_hints"),
-                "correctAnswerId": None,
+                # Phase 1: correctAnswerId removed from question payload (security)
+                # "correctAnswerId": None,  # REMOVED
                 "attemptNumber": attempted,
             }
 
@@ -770,9 +761,10 @@ class SessionAdapter:
                 correct_index = question.correct_option_index
                 is_correct = selected_index == correct_index
                 
-                # Update adaptive mastery tracker
+                # Update adaptive mastery tracker (no db_session needed for record_attempt)
                 if self._should_use_adaptive(chapter_key) and concept_id:
                     try:
+                        # Note: record_attempt doesn't need template generation, so no db_session
                         selector = self._get_adaptive_selector(chapter_key)
                         mastery_result = selector.record_attempt(
                             student_id=student_id,
@@ -1058,6 +1050,8 @@ class SessionAdapter:
                     "concept": concept,
                     "richNarrative": rich_narrative,
                     "visualHints": visual_hints,
+                    # Phase 1: richHtmlContent returned in answer response (not question)
+                    "richHtmlContent": payload.get("rich_html_content"),
                 },
                 "misconceptionDetected": {
                     "type": misconception_for_response.get("type"),
@@ -1096,13 +1090,15 @@ class SessionAdapter:
         concept_id = metadata.get("selection", {}).get("concept_id", "")
         
         # Get FRESH progress from adaptive selector (after mastery was updated)
+        # Note: get_mastery_tracker doesn't need template generation, so no db_session
         fresh_progress = {}
         fresh_mastery = {}
         if self._should_use_adaptive(chapter_key):
             try:
                 selector = self._get_adaptive_selector(chapter_key)
                 mastery_tracker = selector.get_mastery_tracker(student_id)
-                fresh_progress = selector._get_progress_summary(mastery_tracker)
+                # Answer response: include full concept lists for mastery panel update
+                fresh_progress = selector._get_progress_summary(mastery_tracker, include_concept_lists=True)
                 concept_mastery = mastery_tracker.get_mastery(concept_id)
                 fresh_mastery = {
                     "current_level": concept_mastery.level.name,
@@ -1235,6 +1231,8 @@ class SessionAdapter:
                 "summary": summary,
                 "concept": concept_id,
                 "richNarrative": getattr(question, 'rich_narrative', None),
+                # Phase 1: richHtmlContent returned in answer response (not question)
+                "richHtmlContent": getattr(question, 'rich_html_content', None),
                 "visualHints": [],
             },
             "misconceptionDetected": {
@@ -1602,9 +1600,19 @@ class SessionAdapter:
         self, 
         options: List[str], 
         distractor_info=None,
-        trap_info=None
+        trap_info=None,
+        include_misconceptions: bool = False,  # Phase 1: Default to False for question payload
     ) -> List[Dict[str, Any]]:
-        """Format options with misconception and trap data extracted from distractor_info and trap_info."""
+        """Format options with misconception and trap data extracted from distractor_info and trap_info.
+        
+        Args:
+            options: List of option text strings
+            distractor_info: Optional distractor metadata
+            trap_info: Optional trap metadata
+            include_misconceptions: If True, include misconception data (for answer responses).
+                                    If False, return lean options (for question payloads).
+                                    Phase 1 security: misconception data only on wrong answers.
+        """
         formatted = []
 
         # Support both older trap_info shapes (with trap_indices) and TrapInfo model (single trap for the question)
@@ -1632,8 +1640,8 @@ class SessionAdapter:
                 "selectionFrequency": None,
             }
 
-            # Extract misconception data if available
-            if distractor_info and hasattr(distractor_info, "distractors"):
+            # Phase 1: Only extract misconception data when explicitly requested (answer responses)
+            if include_misconceptions and distractor_info and hasattr(distractor_info, "distractors"):
                 for distractor in distractor_info.distractors:
                     if distractor.value == opt:
                         misconception_type = (
@@ -1649,11 +1657,8 @@ class SessionAdapter:
                         option_dict["commonMistake"] = True
                         break
 
-            # Extract trap data
-            # - If trap_indices exists: mark those indices as traps
-            # - Else if trap_info exists (TrapInfo model): keep logicalTrapPresent at question-level,
-            #   but do not force an option-level trap unless indices are provided.
-            if trap_indices is not None:
+            # Phase 1: Only include trap data when misconceptions are requested (answer responses)
+            if include_misconceptions and trap_indices is not None:
                 try:
                     if i in trap_indices:
                         option_dict["isTrap"] = True

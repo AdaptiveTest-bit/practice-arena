@@ -248,8 +248,18 @@ export const AdaptiveQuizScreen: FC<AdaptiveQuizScreenProps> = ({
         // Extract updated adaptive data from response if present
         const updatedAdaptiveData = (response as any).adaptive as AdaptiveQuestionMetadata | undefined;
         
+        // Phase 1: Merge richHtmlContent from solution into currentQuestion
+        // This enables showing the diagram after answer submission
+        const updatedQuestion = prev.currentQuestion ? {
+          ...prev.currentQuestion,
+          richHtmlContent: response.solution?.richHtmlContent || prev.currentQuestion.richHtmlContent,
+          richNarrative: response.solution?.richNarrative || prev.currentQuestion.richNarrative,
+          visualHints: response.solution?.visualHints || prev.currentQuestion.visualHints,
+        } : prev.currentQuestion;
+        
         return {
           ...prev,
+          currentQuestion: updatedQuestion,
           currentAnswerResponse: response,
           flowState: "FEEDBACK",
           correctCount: prev.correctCount + (isCorrect ? 1 : 0),

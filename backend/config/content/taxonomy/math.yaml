@@ -72,3 +72,16 @@ concepts:
     grades: [5]
     bloom_level: EVALUATE
     difficulty_range: [3, 4]
+    
+  # ANALYZE Level - Cross-Concept (Bloom's Level 4)
+  - id: math.class5.factors_multiples.cross_concept
+    name: Solve problems combining factors, multiples, GCD, and LCM
+    grades: [5]
+    bloom_level: ANALYZE
+    difficulty_range: [3, 5]
+    prerequisites:
+      - math.class5.factors_multiples.factors
+      - math.class5.factors_multiples.multiples
+      - math.class5.factors_multiples.gcd
+      - math.class5.factors_multiples.lcm
+    description: Questions that require applying multiple concepts together

@@ -1,14 +1,12 @@
 """Adaptive Learning Domain
 
-This domain handles all adaptive learning intelligence:
+This domain handles adaptive learning intelligence:
 - Leitner scheduling (spaced repetition with 5 boxes)
 - Misconception detection and analysis
-- Dynamic difficulty adaptation
-- Bloom's taxonomy progression
-- Breakpoint tracking and remediation
-- Concept sequencing logic
 
-Main entry point: AdaptiveLearningService
+Sub-modules:
+- scheduler/leitner.py - Spaced repetition scheduling
+- misconceptions/detector.py - Misconception pattern detection
 """
 
 __all__ = []

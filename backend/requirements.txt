@@ -33,3 +33,8 @@ httpx>=0.27.0  # Async HTTP client for LLM API calls
 instructor>=1.7.0  # Pydantic-powered structured outputs (Python 3.13 compatible)
 pyyaml>=6.0.1  # YAML parsing for question bank files
 
+# ==========================================================================
+# NOTION CMS + CACHING
+# ==========================================================================
+# (Removed in Phase 0 cleanup)
+

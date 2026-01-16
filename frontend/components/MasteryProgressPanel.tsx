@@ -165,7 +165,11 @@ export const MasteryProgressPanel: FC<MasteryProgressPanelProps> = ({
     }
     
     if (adaptiveData?.progress) {
-      const { concepts_mastered, concepts_learning, concepts_not_started } = adaptiveData.progress;
+      // Phase 1: Concept lists are now optional in question payloads
+      // Use empty arrays as fallback when lists are not provided
+      const concepts_mastered = adaptiveData.progress.concepts_mastered || [];
+      const concepts_learning = adaptiveData.progress.concepts_learning || [];
+      const concepts_not_started = adaptiveData.progress.concepts_not_started || [];
       
       const all: ConceptMastery[] = [
         ...concepts_mastered.map(id => ({
