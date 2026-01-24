@@ -1,0 +1,13 @@
+
+        <svg width="500" height="250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="500" height="250" fill="white" stroke="#ddd" stroke-width="1"/>
+            <text x="250" y="30" text-anchor="middle" font-size="18" font-weight="bold">94 ÷ 3</text>
+            <rect x="100" y="60" width="150" height="80" fill="lightblue" stroke="black" stroke-width="2"/>
+            <text x="175" y="110" text-anchor="middle" font-size="16" font-weight="bold">31</text>
+            <text x="175" y="125" text-anchor="middle" font-size="12">quotient</text>
+            <text x="300" y="100" font-size="14" font-weight="bold">R 1</text>
+            <text x="300" y="120" font-size="11">remainder</text>
+            <line x1="50" y1="175" x2="450" y2="175" stroke="#ccc" stroke-width="1"/>
+            <text x="250" y="210" text-anchor="middle" font-size="16" font-weight="bold" fill="#F44336">✗ NOT DIVISIBLE</text>
+        </svg>
+        

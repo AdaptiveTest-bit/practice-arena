@@ -233,18 +233,22 @@ class SessionAdapter:
         Returns:
             Question response dict for frontend
         """
+        import asyncio
+        
         # Get db_session for template-based generation
         with SessionLocal() as db:
             selector = self._get_adaptive_selector(chapter, db_session=db)
             
-            # Select optimal question based on mastery state
-            question, metadata = selector.select_question(student_id=student_id)
+            # Select optimal question based on mastery state (async call)
+            question_payload, metadata = asyncio.get_event_loop().run_until_complete(
+                selector.select_question(student_id=student_id)
+            )
         
         # Generate unique question ID for this session
         question_id = f"adaptive_{session_id}_{attempted}"
         
         # Store question in cache for answer validation
-        self._cache_question(question_id, question, metadata)
+        self._cache_question(question_id, question_payload, metadata)
         
         # Extract info from selection metadata
         selection = metadata.get("selection", {})
@@ -252,36 +256,32 @@ class SessionAdapter:
         difficulty = selection.get("difficulty", 2)
         bloom_level = selection.get("bloom_level", "APPLY")
         
-        # Build frontend response
+        # Build frontend response from template-generated payload
+        # question_payload is a dict with: question, options, diagrams, solution_steps, etc.
         response = {
             "questionId": question_id,
-            "topic": question.topic,
+            "topic": question_payload.get("metadata", {}).get("concept_id", "").split(".")[-1],
             "subtopic": selection.get("concept_key"),
             "chapterId": self._get_chapter_id(chapter),
             "difficulty": self._convert_difficulty_to_enum(difficulty),
-            "question": question.question_text,
+            "question": question_payload.get("question", ""),
             "questionContext": None,
-            "dataRepresentation": question.data_representation,
-            "options": self._format_options_with_misconceptions(
-                question.options, 
-                question.distractor_info,
-                question.misconception_info
-            ),
+            "dataRepresentation": None,  # Templates use diagrams instead
+            "options": self._format_template_options(question_payload.get("options", [])),
             "optionLayout": self._build_option_layout(),
-            "estimatedTime": 90,
+            "estimatedTime": question_payload.get("metadata", {}).get("estimated_time", 90),
             "misconceptionTag": None,
-            "logicalTrapPresent": bool(question.logical_trap),
+            "logicalTrapPresent": False,  # Templates use misconception system instead
             "bloomLevel": str(bloom_level).lower(),
             "hintStrategy": [],
             "renderingHints": {},
-            "richNarrative": getattr(question, 'rich_narrative', None),
-            # Phase 1: richHtmlContent moved to answer response only (bandwidth reduction)
+            "richNarrative": question_payload.get("rich_narrative"),
+            # Template diagrams are served via CDN URLs
             "richHtmlContent": None,
-            "visualHints": None,
-            # Phase 1: correctAnswerId removed from question payload (security fix)
-            # "correctAnswerId": f"option_{question.correct_option_index}",  # REMOVED
+            "visualHints": question_payload.get("visual_hints"),
+            "diagrams": question_payload.get("diagrams", []),  # CDN URLs
             "attemptNumber": attempted + 1,
-            # New: Include adaptive metadata for frontend
+            # Include adaptive metadata for frontend
             "adaptive": {
                 "conceptId": concept_id,
                 "reason": selection.get("reason", ""),
@@ -1586,6 +1586,28 @@ class SessionAdapter:
                 "displayType": "text",
                 "commonMistake": False,
                 # Optional fields (set to None by default)
+                "icon": None,
+                "imageUrl": None,
+                "misconceptionTarget": None,
+                "isTrap": False,
+                "trapExplanation": None,
+                "selectionFrequency": None,
+            }
+            for i, opt in enumerate(options)
+        ]
+    
+    def _format_template_options(self, options: List[str]) -> List[Dict[str, Any]]:
+        """Format template-generated options for frontend.
+        
+        Template options are simple strings. Misconception info is retrieved
+        separately from the database when needed (on wrong answer).
+        """
+        return [
+            {
+                "id": f"option_{i}",
+                "label": opt,
+                "displayType": "text",
+                "commonMistake": False,
                 "icon": None,
                 "imageUrl": None,
                 "misconceptionTarget": None,

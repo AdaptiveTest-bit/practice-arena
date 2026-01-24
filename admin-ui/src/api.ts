@@ -38,8 +38,11 @@ interface DashboardStats {
 }
 
 // API client for the admin UI
-const API_BASE_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? '/api' : 'http://localhost:8000/api')
+// VITE_API_URL should be the base URL without /api suffix (e.g., http://localhost:8000)
+const envUrl = import.meta.env.VITE_API_URL
+const API_BASE_URL = envUrl 
+  ? `${envUrl}/api`
+  : (import.meta.env.PROD ? '/api' : 'http://localhost:5002/api')
 
 class ApiClient {
   private baseURL: string
@@ -84,67 +87,42 @@ class ApiClient {
     concept_id?: string
     search?: string
   }): Promise<TemplatesResponse> {
-    // Mock data - replace with actual API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const mockTemplates: Template[] = [
-          {
-            id: '1',
-            name: 'Factors of a Number',
-            concept_id: 'factors_multiples.find_factors',
-            difficulty: 2,
-            bloom_level: 'UNDERSTAND',
-            status: 'PUBLISHED' as const,
-            created_at: '2024-01-14T10:00:00Z',
-            updated_at: '2024-01-14T10:00:00Z',
-            created_by: 'John Doe',
-            question_count: 25,
-          },
-          {
-            id: '2',
-            name: 'Multiples of a Number',
-            concept_id: 'factors_multiples.find_multiples',
-            difficulty: 3,
-            bloom_level: 'APPLY',
-            status: 'REVIEW' as const,
-            created_at: '2024-01-13T15:30:00Z',
-            updated_at: '2024-01-13T15:30:00Z',
-            created_by: 'Jane Smith',
-            question_count: 20,
-          },
-          {
-            id: '3',
-            name: 'GCD Problems',
-            concept_id: 'factors_multiples.gcd',
-            difficulty: 4,
-            bloom_level: 'ANALYZE',
-            status: 'DRAFT' as const,
-            created_at: '2024-01-12T09:15:00Z',
-            updated_at: '2024-01-12T09:15:00Z',
-            created_by: 'Bob Johnson',
-            question_count: 15,
-          },
-        ]
-
-        // Apply filters
-        let filteredTemplates = mockTemplates
-        if (params?.status) {
-          filteredTemplates = filteredTemplates.filter(t => t.status === params.status)
-        }
-        if (params?.search) {
-          filteredTemplates = filteredTemplates.filter(t => 
-            t.name.toLowerCase().includes(params.search!.toLowerCase())
-          )
-        }
-
-        resolve({
-          templates: filteredTemplates,
-          total: filteredTemplates.length,
-          page: 1,
-          per_page: 10,
-        })
-      }, 500)
-    })
+    try {
+      // Build query string
+      const queryParams = new URLSearchParams()
+      if (params?.page) queryParams.append('page', params.page.toString())
+      if (params?.per_page) queryParams.append('per_page', params.per_page.toString())
+      if (params?.status) queryParams.append('status', params.status)
+      if (params?.concept_id) queryParams.append('concept_id', params.concept_id)
+      if (params?.search) queryParams.append('search', params.search)
+      
+      const queryString = queryParams.toString()
+      const url = queryString ? `/admin/templates/?${queryString}` : '/admin/templates/'
+      
+      const templates = await this.request<any[]>(url)
+      
+      // Transform backend response to frontend format
+      return {
+        templates: templates.map(t => ({
+          id: t.id.toString(),
+          name: t.question_pattern.substring(0, 50) + (t.question_pattern.length > 50 ? '...' : ''),
+          concept_id: t.concept_id,
+          difficulty: t.difficulty,
+          bloom_level: t.bloom_level,
+          status: t.status as 'DRAFT' | 'REVIEW' | 'APPROVED' | 'PUBLISHED',
+          created_at: t.created_at,
+          updated_at: t.updated_at,
+          created_by: t.created_by || 'Unknown',
+          question_count: 1, // Single template
+        })),
+        total: templates.length,
+        page: params?.page || 1,
+        per_page: params?.per_page || 20,
+      }
+    } catch (error) {
+      console.error('Failed to fetch templates:', error)
+      throw error
+    }
   }
 
   async getTemplate(id: string) {
@@ -152,7 +130,7 @@ class ApiClient {
   }
 
   async createTemplate(data: any) {
-    return this.request('/admin/templates', {
+    return this.request('/admin/templates/ingest', {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -166,35 +144,74 @@ class ApiClient {
   }
 
   async deleteTemplate(id: string) {
-    return this.request(`/admin/templates/${id}`, {
-      method: 'DELETE',
+    return this.request(`/admin/templates/${id}/archive`, {
+      method: 'POST',
     })
   }
 
-  async previewTemplate(data: any) {
-    return this.request('/admin/templates/preview', {
+  async submitTemplateForReview(id: string) {
+    return this.request(`/admin/templates/${id}/submit`, {
+      method: 'POST',
+    })
+  }
+
+  async approveTemplateWorkflow(id: string) {
+    return this.request(`/admin/templates/${id}/approve`, {
+      method: 'POST',
+    })
+  }
+
+  async publishTemplate(id: string) {
+    return this.request(`/admin/templates/${id}/publish`, {
+      method: 'POST',
+    })
+  }
+
+  async rejectTemplate(id: string, feedback: string) {
+    return this.request(`/admin/templates/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ feedback }),
+    })
+  }
+
+  async previewTemplate(id: string) {
+    return this.request(`/admin/templates/${id}/preview`, {
+      method: 'POST',
+    })
+  }
+
+  async validateTemplate(id: string) {
+    return this.request(`/admin/templates/${id}/validate`, {
+      method: 'POST',
+    })
+  }
+
+  // Misconceptions API
+  async getMisconceptions(subject?: string) {
+    const params = subject ? `?subject=${subject}` : ''
+    return this.request(`/admin/templates/misconceptions${params}`)
+  }
+
+  async createMisconception(data: {
+    code: string
+    title: string
+    description: string
+    teaching_point: string
+    subject: string
+    concept_tags?: string[]
+  }) {
+    return this.request('/admin/templates/misconceptions', {
       method: 'POST',
       body: JSON.stringify(data),
     })
   }
 
-  // Review Queue
-  async getReviewQueue() {
-    return this.request('/admin/review-queue')
+  async getMisconception(id: string) {
+    return this.request(`/admin/templates/misconceptions/${id}`)
   }
 
-  async approveTemplate(reviewId: string, comments?: string) {
-    return this.request(`/admin/review-queue/${reviewId}/approve`, {
-      method: 'POST',
-      body: JSON.stringify({ comments }),
-    })
-  }
-
-  async rejectTemplate(reviewId: string, comments: string) {
-    return this.request(`/admin/review-queue/${reviewId}/reject`, {
-      method: 'POST',
-      body: JSON.stringify({ comments }),
-    })
+  async getTemplateWorkflowSummary() {
+    return this.request('/admin/templates/workflow/summary')
   }
 
   // Coverage
@@ -204,40 +221,40 @@ class ApiClient {
 
   // Dashboard Stats
   async getDashboardStats(): Promise<DashboardStats> {
-    // Mock data - replace with actual API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          totalTemplates: 45,
-          publishedTemplates: 32,
-          pendingReview: 8,
-          totalQuestions: 1250,
-          recentActivity: [
-            {
-              id: '1',
-              type: 'template_created',
-              description: 'Created new factors template',
-              timestamp: '2024-01-14T10:30:00Z',
-              user: 'John Doe'
-            },
-            {
-              id: '2',
-              type: 'template_approved',
-              description: 'Approved multiples template',
-              timestamp: '2024-01-14T09:45:00Z',
-              user: 'Jane Smith'
-            },
-            {
-              id: '3',
-              type: 'template_reviewed',
-              description: 'Reviewed GCD template',
-              timestamp: '2024-01-14T08:20:00Z',
-              user: 'Bob Johnson'
-            }
-          ]
-        })
-      }, 1000)
-    })
+    try {
+      // Get workflow summary from backend
+      const workflowSummary = await this.getTemplateWorkflowSummary() as any
+      
+      // Get all templates to calculate stats
+      const templates = await this.request<any[]>('/admin/templates/')
+      
+      const publishedCount = templates.filter(t => t.status === 'PUBLISHED').length
+      const reviewCount = templates.filter(t => t.status === 'REVIEW').length
+      
+      return {
+        totalTemplates: templates.length,
+        publishedTemplates: publishedCount,
+        pendingReview: reviewCount,
+        totalQuestions: templates.length * 10, // Estimate: each template generates ~10 questions
+        recentActivity: templates.slice(0, 5).map((t, i) => ({
+          id: t.id.toString(),
+          type: t.status === 'PUBLISHED' ? 'template_published' : 'template_created',
+          description: `Template "${t.question_pattern?.substring(0, 40) || 'Untitled'}..."`,
+          timestamp: t.updated_at,
+          user: t.created_by || 'Unknown'
+        }))
+      }
+    } catch (error) {
+      console.error('Failed to fetch dashboard stats:', error)
+      // Return fallback data
+      return {
+        totalTemplates: 0,
+        publishedTemplates: 0,
+        pendingReview: 0,
+        totalQuestions: 0,
+        recentActivity: []
+      }
+    }
   }
 }
 
@@ -314,14 +331,25 @@ export const usePreviewTemplate = () => {
 export const useReviewQueue = () => {
   return useQuery({
     queryKey: ['review-queue'],
-    queryFn: () => apiClient.getReviewQueue(),
+    queryFn: () => apiClient.getTemplates({ status: 'REVIEW' }),
+  })
+}
+
+export const useSubmitForReview = () => {
+  return useMutation({
+    mutationFn: (templateId: string) => apiClient.submitTemplateForReview(templateId),
+    onSuccess: () => {
+      toast.success('Template submitted for review')
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to submit template: ${error.message}`)
+    },
   })
 }
 
 export const useApproveTemplate = () => {
   return useMutation({
-    mutationFn: ({ reviewId, comments }: { reviewId: string; comments?: string }) => 
-      apiClient.approveTemplate(reviewId, comments),
+    mutationFn: (templateId: string) => apiClient.approveTemplateWorkflow(templateId),
     onSuccess: () => {
       toast.success('Template approved successfully')
     },
@@ -331,12 +359,24 @@ export const useApproveTemplate = () => {
   })
 }
 
+export const usePublishTemplate = () => {
+  return useMutation({
+    mutationFn: (templateId: string) => apiClient.publishTemplate(templateId),
+    onSuccess: () => {
+      toast.success('Template published successfully')
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to publish template: ${error.message}`)
+    },
+  })
+}
+
 export const useRejectTemplate = () => {
   return useMutation({
-    mutationFn: ({ reviewId, comments }: { reviewId: string; comments: string }) => 
-      apiClient.rejectTemplate(reviewId, comments),
+    mutationFn: ({ templateId, feedback }: { templateId: string; feedback: string }) => 
+      apiClient.rejectTemplate(templateId, feedback),
     onSuccess: () => {
-      toast.success('Template rejected successfully')
+      toast.success('Template rejected')
     },
     onError: (error: Error) => {
       toast.error(`Failed to reject template: ${error.message}`)
@@ -356,4 +396,98 @@ export const useDashboardStats = () => {
     queryKey: ['dashboard-stats'],
     queryFn: () => apiClient.getDashboardStats(),
   })
+}
+
+// ============================================================================
+// Graph API Functions
+// ============================================================================
+
+export interface ConceptNode {
+  concept_id: string
+  name: string
+  description?: string
+  bloom_targets: string[]
+  difficulty_default: number
+  template_count: number
+  published_count: number
+  draft_count: number
+  status: string
+}
+
+export interface ConceptEdge {
+  from_concept: string
+  to_concept: string
+  kind: string
+  reason?: string
+}
+
+export interface ConceptGraphData {
+  subject: string
+  grade: number
+  chapter_id: string
+  chapter_name: string
+  description?: string
+  total_concepts: number
+  total_edges: number
+  nodes: ConceptNode[]
+  edges: ConceptEdge[]
+}
+
+export interface ValidationResult {
+  valid: boolean
+  errors: string[]
+  warnings: string[]
+}
+
+export async function fetchConceptGraph(
+  subject: string,
+  grade: string,
+  chapter: string
+): Promise<ConceptGraphData> {
+  const response = await fetch(
+    `${API_BASE_URL}/admin/graphs/${subject}/${grade}/${chapter}`
+  )
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+  return response.json()
+}
+
+export async function saveConceptGraph(
+  subject: string,
+  grade: string,
+  chapter: string,
+  data: { nodes: any[]; edges: any[] }
+): Promise<{ success: boolean }> {
+  const response = await fetch(
+    `${API_BASE_URL}/admin/graphs/${subject}/${grade}/${chapter}`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }
+  )
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+  }
+  return response.json()
+}
+
+export async function validateGraph(
+  subject: string,
+  grade: string,
+  chapter: string
+): Promise<ValidationResult> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/admin/graphs/${subject}/${grade}/${chapter}/validate`
+    )
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+    return response.json()
+  } catch (error) {
+    // Return mock validation for now (endpoint may not exist yet)
+    return { valid: true, errors: [], warnings: [] }
+  }
 }

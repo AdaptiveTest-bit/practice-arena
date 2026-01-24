@@ -217,3 +217,234 @@ class ConceptGraph:
     
     def __repr__(self) -> str:
         return f"ConceptGraph({self.subject}/class{self.grade}/{self.chapter_id}, {len(self.nodes)} concepts, {len(self.edges)} edges)"
+
+    def save(self) -> Path:
+        """
+        Save concept graph back to YAML config file.
+        
+        Returns:
+            Path to the saved YAML file
+        """
+        config_base = Path(__file__).parent.parent.parent / "config" / "content"
+        graph_dir = config_base / "graphs" / self.subject / f"class{self.grade}"
+        graph_path = graph_dir / f"{self.chapter_id}.yaml"
+        
+        # Ensure directory exists
+        graph_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Build YAML structure
+        data = {
+            "chapter_id": self.chapter_id,
+            "subject": self.subject,
+            "grade": self.grade,
+            "nodes": [],
+            "edges": []
+        }
+        
+        # Serialize nodes
+        for concept_id, node in self.nodes.items():
+            node_data = {
+                "concept_id": node.concept_id,
+                "bloom_targets": node.bloom_targets,
+                "difficulty_default": node.difficulty_default,
+            }
+            if node.description:
+                node_data["description"] = node.description
+            data["nodes"].append(node_data)
+        
+        # Serialize edges
+        for edge in self.edges:
+            edge_data = {
+                "from": edge.from_concept,
+                "to": edge.to_concept,
+                "kind": edge.kind,
+            }
+            if edge.reason:
+                edge_data["reason"] = edge.reason
+            data["edges"].append(edge_data)
+        
+        # Write YAML
+        with open(graph_path, 'w') as f:
+            yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+        
+        return graph_path
+
+    def add_node(self, concept_id: str, bloom_targets: List[str] = None, 
+                 difficulty_default: int = 2, description: str = "") -> ConceptNode:
+        """
+        Add a new concept node to the graph.
+        
+        Args:
+            concept_id: Full concept ID (e.g., math.class5.factors_multiples.new_concept)
+            bloom_targets: List of Bloom's taxonomy targets
+            difficulty_default: Default difficulty (1-5)
+            description: Optional description
+        
+        Returns:
+            The created ConceptNode
+        """
+        if concept_id in self.nodes:
+            raise ValueError(f"Concept {concept_id} already exists")
+        
+        node = ConceptNode(
+            concept_id=concept_id,
+            bloom_targets=bloom_targets or ["understand"],
+            difficulty_default=difficulty_default,
+            description=description,
+        )
+        self.nodes[concept_id] = node
+        self._prerequisites[concept_id] = set()
+        self._dependents[concept_id] = set()
+        return node
+
+    def add_edge(self, from_concept: str, to_concept: str, 
+                 kind: str = "prerequisite", reason: str = "") -> ConceptEdge:
+        """
+        Add an edge (prerequisite relationship) to the graph.
+        
+        Args:
+            from_concept: Source concept ID
+            to_concept: Target concept ID (this concept requires from_concept)
+            kind: Edge type ("prerequisite" or "co_requisite")
+            reason: Optional explanation
+        
+        Returns:
+            The created ConceptEdge
+        """
+        if from_concept not in self.nodes:
+            raise ValueError(f"Source concept {from_concept} not found in graph")
+        if to_concept not in self.nodes:
+            raise ValueError(f"Target concept {to_concept} not found in graph")
+        
+        edge = ConceptEdge(
+            from_concept=from_concept,
+            to_concept=to_concept,
+            kind=kind,
+            reason=reason,
+        )
+        self.edges.append(edge)
+        
+        # Update adjacency lists
+        if kind == "prerequisite":
+            self._prerequisites[to_concept].add(from_concept)
+            self._dependents[from_concept].add(to_concept)
+        
+        return edge
+
+    def remove_node(self, concept_id: str) -> bool:
+        """
+        Remove a concept node and all its edges.
+        
+        Args:
+            concept_id: Concept to remove
+        
+        Returns:
+            True if removed, False if not found
+        """
+        if concept_id not in self.nodes:
+            return False
+        
+        # Remove all edges involving this concept
+        self.edges = [e for e in self.edges 
+                      if e.from_concept != concept_id and e.to_concept != concept_id]
+        
+        # Remove from adjacency lists
+        del self._prerequisites[concept_id]
+        del self._dependents[concept_id]
+        
+        # Remove from other concepts' adjacency
+        for prereqs in self._prerequisites.values():
+            prereqs.discard(concept_id)
+        for deps in self._dependents.values():
+            deps.discard(concept_id)
+        
+        # Remove node
+        del self.nodes[concept_id]
+        return True
+
+    def update_from_dict(self, data: dict) -> None:
+        """
+        Update graph from dictionary (typically from API request).
+        
+        Args:
+            data: Dict with 'nodes' and 'edges' lists
+        """
+        # Clear existing data
+        self.nodes.clear()
+        self.edges.clear()
+        self._prerequisites.clear()
+        self._dependents.clear()
+        
+        # Parse nodes
+        for node_data in data.get("nodes", []):
+            concept_id = node_data.get("concept_id") or node_data.get("id")
+            if not concept_id:
+                continue
+            
+            # Handle both camelCase (frontend) and snake_case (backend)
+            bloom_targets = (
+                node_data.get("bloom_targets") or 
+                node_data.get("bloomTargets") or 
+                ["understand"]
+            )
+            difficulty_default = (
+                node_data.get("difficulty_default") or 
+                node_data.get("difficultyDefault") or 
+                2
+            )
+            name = node_data.get("name") or node_data.get("label") or concept_id
+            description = node_data.get("description", "")
+            
+            node = ConceptNode(
+                concept_id=concept_id,
+                bloom_targets=bloom_targets,
+                difficulty_default=difficulty_default,
+                description=description,
+            )
+            # Store name as optional metadata if provided
+            if name != concept_id:
+                node.name = name
+            self.nodes[concept_id] = node
+            self._prerequisites[concept_id] = set()
+            self._dependents[concept_id] = set()
+        
+        # Parse edges
+        for edge_data in data.get("edges", []):
+            from_concept = edge_data.get("from") or edge_data.get("from_concept") or edge_data.get("source")
+            to_concept = edge_data.get("to") or edge_data.get("to_concept") or edge_data.get("target")
+            
+            if not from_concept or not to_concept:
+                continue
+            if from_concept not in self.nodes or to_concept not in self.nodes:
+                continue  # Skip invalid edges
+            
+            edge = ConceptEdge(
+                from_concept=from_concept,
+                to_concept=to_concept,
+                kind=edge_data.get("kind", "prerequisite"),
+                reason=edge_data.get("reason", ""),
+            )
+            self.edges.append(edge)
+            
+            if edge.kind == "prerequisite":
+                self._prerequisites[to_concept].add(from_concept)
+                self._dependents[from_concept].add(to_concept)
+
+    @classmethod
+    def create_new(cls, subject: str, grade: int, chapter_id: str) -> "ConceptGraph":
+        """
+        Create a new empty concept graph.
+        
+        Args:
+            subject: e.g., "math"
+            grade: e.g., 5
+            chapter_id: e.g., "new_chapter"
+        
+        Returns:
+            Empty ConceptGraph instance ready for population
+        """
+        graph = cls()
+        graph.subject = subject
+        graph.grade = grade
+        graph.chapter_id = chapter_id
+        return graph

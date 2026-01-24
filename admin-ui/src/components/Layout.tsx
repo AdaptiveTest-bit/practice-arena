@@ -7,7 +7,11 @@ import {
   CheckCircle, 
   BarChart3,
   Menu,
-  X
+  X,
+  GitBranch,
+  FlaskConical,
+  AlertCircle,
+  BookOpen
 } from 'lucide-react'
 
 interface LayoutProps {
@@ -21,9 +25,13 @@ export function Layout({ children }: LayoutProps) {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Templates', href: '/templates', icon: FileText },
-    { name: 'Template Editor', href: '/templates/new', icon: Edit },
+    { name: '✨ Create Template', href: '/templates/new', icon: Edit, highlight: true },
+    { name: '🧮 Formulas', href: '/formulas', icon: FlaskConical, highlight: true },
     { name: 'Review Queue', href: '/review', icon: CheckCircle },
     { name: 'Coverage', href: '/coverage', icon: BarChart3 },
+    { name: 'Concept Graph', href: '/graph', icon: GitBranch },
+    { name: 'Concepts', href: '/concepts', icon: BookOpen },
+    { name: 'Misconceptions', href: '/misconceptions', icon: AlertCircle },
   ]
 
   const isActive = (href: string) => {
@@ -31,6 +39,16 @@ export function Layout({ children }: LayoutProps) {
       return location.pathname === '/'
     }
     return location.pathname.startsWith(href)
+  }
+
+  const getLinkClassName = (item: typeof navigation[0]) => {
+    if (isActive(item.href)) {
+      return 'bg-primary-100 text-primary-900'
+    }
+    if (item.highlight) {
+      return 'text-green-700 bg-green-50 hover:bg-green-100'
+    }
+    return 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
   }
 
   return (
@@ -55,11 +73,7 @@ export function Layout({ children }: LayoutProps) {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                    isActive(item.href)
-                      ? 'bg-primary-100 text-primary-900'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${getLinkClassName(item)}`}
                 >
                   <Icon className="mr-3 h-5 w-5" />
                   {item.name}
@@ -83,11 +97,7 @@ export function Layout({ children }: LayoutProps) {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                    isActive(item.href)
-                      ? 'bg-primary-100 text-primary-900'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${getLinkClassName(item)}`}
                 >
                   <Icon className="mr-3 h-5 w-5" />
                   {item.name}

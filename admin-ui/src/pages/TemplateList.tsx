@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { Plus, Search, Filter, Edit, Eye, Trash2 } from 'lucide-react'
+import { Plus, Search, Filter, Edit, Eye, Trash2, X, Send, CheckCircle, XCircle, Play, RefreshCw } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { useTemplates, useDeleteTemplate } from '../api'
+import { useTemplates, apiClient } from '../api'
 
 interface Template {
   id: string
@@ -16,13 +16,7 @@ interface Template {
   updated_at: string
   created_by: string
   question_count: number
-}
-
-interface TemplatesResponse {
-  templates: Template[]
-  total: number
-  page: number
-  per_page: number
+  question_pattern?: string
 }
 
 interface Filters {
@@ -32,88 +26,24 @@ interface Filters {
   search?: string
 }
 
-async function fetchTemplates(filters: Filters, page: number = 1): Promise<TemplatesResponse> {
-  // Mock data for now - replace with actual API call
-  const mockTemplates: Template[] = [
-    {
-      id: '1',
-      name: 'Factors of a Number',
-      concept_id: 'factors_multiples.find_factors',
-      difficulty: 2,
-      bloom_level: 'UNDERSTAND',
-      status: 'PUBLISHED',
-      created_at: '2024-01-14T10:00:00Z',
-      updated_at: '2024-01-14T10:00:00Z',
-      created_by: 'John Doe',
-      question_count: 25,
-    },
-    {
-      id: '2',
-      name: 'Multiples of a Number',
-      concept_id: 'factors_multiples.find_multiples',
-      difficulty: 3,
-      bloom_level: 'APPLY',
-      status: 'REVIEW',
-      created_at: '2024-01-13T15:30:00Z',
-      updated_at: '2024-01-13T15:30:00Z',
-      created_by: 'Jane Smith',
-      question_count: 20,
-    },
-    {
-      id: '3',
-      name: 'GCD Problems',
-      concept_id: 'factors_multiples.gcd',
-      difficulty: 4,
-      bloom_level: 'ANALYZE',
-      status: 'DRAFT',
-      created_at: '2024-01-12T09:15:00Z',
-      updated_at: '2024-01-12T09:15:00Z',
-      created_by: 'Bob Johnson',
-      question_count: 15,
-    },
-  ]
-
-  // Apply filters
-  let filteredTemplates = mockTemplates
-  if (filters.status) {
-    filteredTemplates = filteredTemplates.filter(t => t.status === filters.status)
-  }
-  if (filters.search) {
-    filteredTemplates = filteredTemplates.filter(t => 
-      t.name.toLowerCase().includes(filters.search!.toLowerCase())
-    )
-  }
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        templates: filteredTemplates,
-        total: filteredTemplates.length,
-        page,
-        per_page: 10,
-      })
-    }, 500)
-  })
-}
-
-async function deleteTemplate(id: string): Promise<void> {
-  // Mock delete - replace with actual API call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, 500)
-  })
+interface PreviewData {
+  success: boolean
+  question?: any
+  variables?: any
+  error?: string
 }
 
 export function TemplateList() {
   const [filters, setFilters] = useState<Filters>({})
   const [searchTerm, setSearchTerm] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState<any | null>(null)
+  const [showViewModal, setShowViewModal] = useState(false)
+  const [previewData, setPreviewData] = useState<PreviewData | null>(null)
+  const [isLoadingPreview, setIsLoadingPreview] = useState(false)
   const queryClient = useQueryClient()
 
-  const { data, isLoading, error } = useTemplates(filters)
-
-  const deleteMutation = useDeleteTemplate()
+  const { data, isLoading, error, refetch } = useTemplates(filters)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -130,21 +60,99 @@ export function TemplateList() {
     setFilters(newFilters)
   }
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this template?')) {
-      deleteMutation.mutate(id)
+  const handleDelete = async (id: string, status: string) => {
+    if (status === 'PUBLISHED') {
+      toast.error('Cannot delete published templates. Archive them instead.')
+      return
+    }
+    if (window.confirm('Are you sure you want to archive this template?')) {
+      try {
+        await apiClient.deleteTemplate(id)
+        toast.success('Template archived')
+        refetch()
+      } catch (error) {
+        toast.error('Failed to archive template')
+      }
+    }
+  }
+
+  const handleSubmitForReview = async (id: string) => {
+    try {
+      await apiClient.submitTemplateForReview(id)
+      toast.success('Template submitted for review')
+      refetch()
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to submit template')
+    }
+  }
+
+  const handleApprove = async (id: string) => {
+    try {
+      await apiClient.approveTemplateWorkflow(id)
+      toast.success('Template approved')
+      refetch()
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to approve template')
+    }
+  }
+
+  const handlePublish = async (id: string) => {
+    try {
+      await apiClient.publishTemplate(id)
+      toast.success('Template published!')
+      refetch()
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to publish template')
+    }
+  }
+
+  const handleViewTemplate = async (id: string) => {
+    try {
+      const template = await apiClient.getTemplate(id)
+      setSelectedTemplate(template)
+      setPreviewData(null) // Reset preview when opening new template
+      setShowViewModal(true)
+    } catch (error) {
+      toast.error('Failed to load template details')
+    }
+  }
+
+  const handleGeneratePreview = async (id: string) => {
+    setIsLoadingPreview(true)
+    try {
+      const preview = await apiClient.previewTemplate(id) as PreviewData
+      setPreviewData(preview)
+      if (!preview.success) {
+        toast.error('Preview generation failed: ' + (preview.error || 'Unknown error'))
+      }
+    } catch (error: any) {
+      toast.error('Failed to generate preview')
+      setPreviewData({ success: false, error: error.message || 'Failed to generate preview' })
+    } finally {
+      setIsLoadingPreview(false)
     }
   }
 
   const getStatusBadge = (status: string) => {
-    const statusStyles = {
-      DRAFT: 'badge-gray',
-      REVIEW: 'badge-warning',
-      APPROVED: 'badge-blue',
-      PUBLISHED: 'badge-success',
-      ARCHIVED: 'badge-gray',
+    const statusStyles: Record<string, string> = {
+      DRAFT: 'bg-gray-100 text-gray-800',
+      REVIEW: 'bg-yellow-100 text-yellow-800',
+      APPROVED: 'bg-blue-100 text-blue-800',
+      PUBLISHED: 'bg-green-100 text-green-800',
+      ARCHIVED: 'bg-gray-100 text-gray-500',
     }
-    return `badge ${statusStyles[status as keyof typeof statusStyles]}`
+    return `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyles[status] || statusStyles.DRAFT}`
+  }
+
+  const getDifficultyLabel = (difficulty: number) => {
+    const labels: Record<number, string> = {
+      1: '🟢 Easy',
+      2: '🟡 Medium', 
+      3: '🟠 Hard',
+      4: '🔴 Expert',
+      5: '⚫ Master'
+    }
+    return labels[difficulty] || `Level ${difficulty}`
   }
 
   if (isLoading) {
@@ -280,7 +288,7 @@ export function TemplateList() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
+                  Template
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Concept
@@ -292,10 +300,10 @@ export function TemplateList() {
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Questions
+                  Updated
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created By
+                  Author
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -305,24 +313,24 @@ export function TemplateList() {
             <tbody className="bg-white divide-y divide-gray-200">
               {data?.templates.map((template: any) => (
                 <tr key={template.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4">
+                    <div className="max-w-xs">
+                      <div className="text-sm font-medium text-gray-900 truncate" title={template.name}>
                         {template.name}
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {template.bloom_level}
+                      <div className="text-xs text-gray-500">
+                        {template.bloom_level} • ID: {template.id}
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {template.concept_id}
+                    <div className="text-sm text-gray-900 font-mono text-xs">
+                      {template.concept_id.split('.').pop()}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900">
-                      {'⭐'.repeat(template.difficulty)}
+                    <span className="text-sm">
+                      {getDifficultyLabel(template.difficulty)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -330,32 +338,75 @@ export function TemplateList() {
                       {template.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {template.question_count}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(template.updated_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {template.created_by}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <Link
-                        to={`/templates/${template.id}/edit`}
-                        className="text-primary-600 hover:text-primary-900"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Link>
-                      <Link
-                        to={`/templates/${template.id}/preview`}
-                        className="text-gray-600 hover:text-gray-900"
+                    <div className="flex items-center space-x-1">
+                      {/* View Button */}
+                      <button
+                        onClick={() => handleViewTemplate(template.id)}
+                        className="p-1 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
+                        title="View Details"
                       >
                         <Eye className="h-4 w-4" />
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(template.id)}
-                        className="text-danger-600 hover:text-danger-900"
-                      >
-                        <Trash2 className="h-4 w-4" />
                       </button>
+                      
+                      {/* Edit Button - only for non-published */}
+                      {template.status !== 'PUBLISHED' && (
+                        <Link
+                          to={`/templates/${template.id}/edit`}
+                          className="p-1 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded"
+                          title="Edit Template"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Link>
+                      )}
+                      
+                      {/* Workflow Actions */}
+                      {template.status === 'DRAFT' && (
+                        <button
+                          onClick={() => handleSubmitForReview(template.id)}
+                          className="p-1 text-yellow-600 hover:text-yellow-900 hover:bg-yellow-50 rounded"
+                          title="Submit for Review"
+                        >
+                          <Send className="h-4 w-4" />
+                        </button>
+                      )}
+                      
+                      {template.status === 'REVIEW' && (
+                        <button
+                          onClick={() => handleApprove(template.id)}
+                          className="p-1 text-green-600 hover:text-green-900 hover:bg-green-50 rounded"
+                          title="Approve"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                        </button>
+                      )}
+                      
+                      {template.status === 'APPROVED' && (
+                        <button
+                          onClick={() => handlePublish(template.id)}
+                          className="p-1 text-green-600 hover:text-green-900 hover:bg-green-50 rounded"
+                          title="Publish"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                        </button>
+                      )}
+                      
+                      {/* Delete/Archive - only for non-published */}
+                      {template.status !== 'PUBLISHED' && (
+                        <button
+                          onClick={() => handleDelete(template.id, template.status)}
+                          className="p-1 text-red-600 hover:text-red-900 hover:bg-red-50 rounded"
+                          title="Archive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -370,6 +421,177 @@ export function TemplateList() {
           </div>
         )}
       </div>
+
+      {/* View Template Modal */}
+      {showViewModal && selectedTemplate && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold">Template Details</h2>
+              <button
+                onClick={() => setShowViewModal(false)}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[70vh]">
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-500 uppercase">ID</label>
+                  <p className="text-sm font-mono">{selectedTemplate.id}</p>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 uppercase">Concept ID</label>
+                  <p className="text-sm font-mono">{selectedTemplate.concept_id}</p>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 uppercase">Question Pattern</label>
+                  <pre className="text-sm bg-gray-50 p-3 rounded-lg whitespace-pre-wrap font-mono">
+                    {selectedTemplate.question_pattern}
+                  </pre>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Difficulty</label>
+                    <p className="text-sm">{getDifficultyLabel(selectedTemplate.difficulty)}</p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Bloom Level</label>
+                    <p className="text-sm">{selectedTemplate.bloom_level}</p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Status</label>
+                    <p><span className={getStatusBadge(selectedTemplate.status)}>{selectedTemplate.status}</span></p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Estimated Time</label>
+                    <p className="text-sm">{selectedTemplate.estimated_time} seconds</p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Created By</label>
+                    <p className="text-sm">{selectedTemplate.created_by || 'Unknown'}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Created At</label>
+                    <p className="text-sm">{new Date(selectedTemplate.created_at).toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Updated At</label>
+                    <p className="text-sm">{new Date(selectedTemplate.updated_at).toLocaleString()}</p>
+                  </div>
+                </div>
+                {selectedTemplate.validation_errors && selectedTemplate.validation_errors.length > 0 && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase">Validation Errors</label>
+                    <ul className="text-sm text-red-600 list-disc pl-4">
+                      {selectedTemplate.validation_errors.map((err: string, i: number) => (
+                        <li key={i}>{err}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Live Preview Section */}
+                <div className="border-t pt-4 mt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-xs font-medium text-gray-500 uppercase">Live Preview</label>
+                    <button
+                      onClick={() => handleGeneratePreview(selectedTemplate.id)}
+                      disabled={isLoadingPreview}
+                      className="inline-flex items-center px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      {isLoadingPreview ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Play className="h-4 w-4 mr-1" />
+                          Generate Preview
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {previewData && (
+                    <div className={`p-4 rounded-lg ${previewData.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+                      {previewData.success ? (
+                        <div className="space-y-3">
+                          <div>
+                            <label className="text-xs font-medium text-green-700">Generated Question:</label>
+                            <p className="text-sm mt-1 whitespace-pre-wrap">
+                              {previewData.question?.question_text || previewData.question?.question || 'No question text'}
+                            </p>
+                          </div>
+                          {previewData.question?.options && (
+                            <div>
+                              <label className="text-xs font-medium text-green-700">Options:</label>
+                              <ul className="list-disc pl-5 mt-1 space-y-1">
+                                {previewData.question.options.map((opt: any, i: number) => (
+                                  <li key={i} className={`text-sm ${opt.is_correct ? 'text-green-700 font-medium' : ''}`}>
+                                    {opt.text || opt} {opt.is_correct && '✓'}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {previewData.variables && Object.keys(previewData.variables).length > 0 && (
+                            <div>
+                              <label className="text-xs font-medium text-green-700">Variables Used:</label>
+                              <pre className="text-xs bg-green-100 p-2 rounded mt-1">
+                                {JSON.stringify(previewData.variables, null, 2)}
+                              </pre>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          <label className="text-xs font-medium text-red-700">Preview Error:</label>
+                          <p className="text-sm text-red-600 mt-1">{previewData.error}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!previewData && (
+                    <p className="text-sm text-gray-500 italic">Click "Generate Preview" to see a sample question generated from this template.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 p-4 border-t bg-gray-50">
+              {selectedTemplate.status === 'DRAFT' && (
+                <button
+                  onClick={() => { handleSubmitForReview(selectedTemplate.id); setShowViewModal(false); }}
+                  className="btn btn-warning"
+                >
+                  Submit for Review
+                </button>
+              )}
+              {selectedTemplate.status !== 'PUBLISHED' && (
+                <Link
+                  to={`/templates/${selectedTemplate.id}/edit`}
+                  className="btn btn-primary"
+                >
+                  Edit Template
+                </Link>
+              )}
+              <button
+                onClick={() => setShowViewModal(false)}
+                className="btn btn-secondary"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

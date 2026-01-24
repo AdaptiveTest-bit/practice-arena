@@ -48,6 +48,13 @@ class QuestionTemplate(Base):
     answer_logic = Column(Text, nullable=False, comment="Logic to compute correct answer from variables")
     option_patterns = Column(JSON, nullable=False, comment="Patterns for generating answer options")
     
+    # Quality fields for rich question content
+    solution_pattern = Column(Text, comment="Jinja2 template for step-by-step solution with variable placeholders")
+    solution_steps_schema = Column(JSON, comment="Schema defining solution steps generation rules")
+    hint_pattern = Column(Text, comment="Jinja2 template for progressive hints")
+    narrative_pattern = Column(Text, comment="Jinja2 template for rich story narrative")
+    diagram_config = Column(JSON, comment="Diagram type and variable mappings for CDN rendering")
+    
     # Metadata fields
     difficulty = Column(Integer, nullable=False, comment="Difficulty level 1-5")
     bloom_level = Column(String(50), nullable=False, comment="Bloom's taxonomy level")

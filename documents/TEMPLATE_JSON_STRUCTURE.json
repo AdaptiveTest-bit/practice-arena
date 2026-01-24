@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Universal Template Schema - Self-Service Content Authoring",
+  "version": "2.0",
+  "description": "EXACT structure for uploading templates via Admin UI. Templates are validated, test-generated (80% success rate required), then stored.",
+  
+  "_api_endpoints": {
+    "preview": "POST /api/admin/templates/universal/preview - Test without saving",
+    "ingest": "POST /api/admin/templates/universal/ingest - Save single template",
+    "batch_ingest": "POST /api/admin/templates/universal/ingest/batch - Save multiple templates",
+    "file_import": "POST /api/admin/templates/universal/import/file - Upload JSON/YAML file",
+    "validate": "POST /api/admin/templates/universal/validate - Validate without saving",
+    "functions": "GET /api/admin/templates/universal/functions - List available formulas",
+    "schema": "GET /api/admin/templates/universal/schema - Get schema definition"
+  },
+  
+  "required_fields": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "max_length": 255,
+      "description": "Unique human-readable identifier",
+      "example": "GCD - Find Greatest Common Divisor",
+      "naming_convention": "[Concept] - [What it tests]"
+    },
+    
+    "concept_id": {
+      "type": "string",
+      "required": true,
+      "description": "Maps to knowledge graph node. MUST exist in the graph.",
+      "_factors_multiples_chapter": [
+        "math.class5.factors_multiples.divisibility",
+        "math.class5.factors_multiples.prime_composite",
+        "math.class5.factors_multiples.factors",
+        "math.class5.factors_multiples.multiples",
+        "math.class5.factors_multiples.factor_pairs",
+        "math.class5.factors_multiples.prime_factorization",
+        "math.class5.factors_multiples.gcd",
+        "math.class5.factors_multiples.lcm",
+        "math.class5.factors_multiples.word_problem",
+        "math.class5.factors_multiples.assertion_reason",
+        "math.class5.factors_multiples.error_analysis",
+        "math.class5.factors_multiples.cross_concept"
+      ],
+      "_note": "New concepts can be added via Graph Builder in Admin UI"
+    },
+    
+    "question_type": {
+      "type": "string",
+      "required": true,
+      "valid_values": ["MCQ", "MCQ_MULTI", "FILL_BLANK", "TRUE_FALSE", "ASSERTION_REASON", "CASE_STUDY", "MATCH_FOLLOWING", "ORDERING", "NUMERIC"]
+    },
+    
+    "question_pattern": {
+      "type": "string",
+      "required": true,
+      "description": "Jinja2 template with {{variable}} placeholders",
+      "example": "Find the GCD of {{a}} and {{b}}.",
+      "rules": [
+        "All {{variables}} must be defined in variables.base or variables.computed",
+        "Can use functions: {{factors(n)}}, {{gcd(a,b)}}, etc.",
+        "Supports markdown for formatting"
+      ]
+    },
+    
+    "variables": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "base": {
+          "description": "Randomly generated variables",
+          "example": {
+            "a": { "type": "integer", "min": 12, "max": 60 },
+            "b": { "type": "integer", "enum": [12, 18, 24, 30, 36] },
+            "name": { "type": "string", "enum": ["Aarav", "Priya", "Ravi"] }
+          }
+        },
+        "computed": {
+          "description": "Variables derived from base using formulas",
+          "example": {
+            "gcd_result": { "formula": "gcd(a, b)" },
+            "wrong_answer": { "formula": "lcm(a, b)" },
+            "all_factors": { "formula": "factors(a)" }
+          }
+        },
+        "constraints": {
+          "description": "Conditions that must be true (regenerates if false)",
+          "example": ["a != b", "gcd(a, b) > 1", "a % 2 == 0"]
+        }
+      }
+    },
+    
+    "options": {
+      "type": "array",
+      "required": true,
+      "description": "Exactly 4 options for MCQ",
+      "items": {
+        "pattern": "string with {{variables}}",
+        "is_correct": "boolean OR formula string for dynamic correctness",
+        "misconception_id": "string (required for wrong answers)",
+        "student_thinking": "string (optional - why student might choose this)"
+      },
+      "example": [
+        { "pattern": "{{gcd_result}}", "is_correct": true },
+        { "pattern": "{{lcm_result}}", "is_correct": false, "misconception_id": "GCD_LCM_CONFUSION" },
+        { "pattern": "{{smaller}}", "is_correct": false, "misconception_id": "MIN_IS_GCD" },
+        { "pattern": "{{wrong_calc}}", "is_correct": false, "misconception_id": "CALCULATION_ERROR" }
+      ]
+    },
+    
+    "difficulty": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 5,
+      "description": "1=Easy, 2=Medium-Easy, 3=Medium, 4=Medium-Hard, 5=Hard"
+    },
+    
+    "bloom_level": {
+      "type": "string",
+      "required": true,
+      "valid_values": ["REMEMBER", "UNDERSTAND", "APPLY", "ANALYZE", "EVALUATE", "CREATE"],
+      "guidelines": {
+        "REMEMBER": "Recall facts, divisibility rules (30-45 sec)",
+        "UNDERSTAND": "Explain concepts, classify prime/composite (45-60 sec)",
+        "APPLY": "Use procedures to find factors, GCD, LCM (60-90 sec)",
+        "ANALYZE": "Compare, assertion-reason, word problems (90-120 sec)",
+        "EVALUATE": "Error analysis, judge correctness (75-90 sec)",
+        "CREATE": "Design problems (advanced)"
+      }
+    },
+    
+    "estimated_time": {
+      "type": "integer",
+      "required": true,
+      "min": 10,
+      "max": 600,
+      "description": "Seconds to solve"
+    }
+  },
+  
+  "optional_fields": {
+    "solution": {
+      "type": "object",
+      "description": "Step-by-step solution",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "number": "integer (step number)",
+            "text": "string with {{variables}}"
+          }
+        }
+      },
+      "example": {
+        "steps": [
+          { "number": 1, "text": "Find factors of {{a}}: {{factors(a)}}" },
+          { "number": 2, "text": "Find factors of {{b}}: {{factors(b)}}" },
+          { "number": 3, "text": "Common factors: {{common_factors(a, b)}}" },
+          { "number": 4, "text": "GCD = {{gcd_result}}" }
+        ]
+      }
+    },
+    
+    "hints": {
+      "type": "array",
+      "description": "Progressive hints (easier to harder)",
+      "example": [
+        "List all factors of {{a}} first",
+        "Now list all factors of {{b}}",
+        "Find the largest number that appears in both lists"
+      ]
+    },
+    
+    "narrative": {
+      "type": "string",
+      "description": "Optional K.C. Nag style story context",
+      "example": "{{name}} is arranging {{total}} books on shelves. Each shelf must have equal number of books."
+    },
+    
+    "tags": {
+      "type": "array",
+      "description": "Tags for filtering and categorization",
+      "recommended": ["concept-name", "subtopic", "class5", "cbse"]
+    },
+    
+    "parts": {
+      "type": "array",
+      "description": "For multi-part questions (ASSERTION_REASON, CASE_STUDY)",
+      "example": [
+        { "type": "assertion", "label": "A", "pattern": "Statement A text" },
+        { "type": "reason", "label": "R", "pattern": "Statement R text" }
+      ]
+    },
+    
+    "diagram": {
+      "type": "object",
+      "description": "Diagram configuration for visual questions",
+      "properties": {
+        "type": "string (diagram type from library)",
+        "parameters": "object with variable mappings"
+      }
+    },
+    
+    "source": {
+      "type": "string",
+      "default": "FILE_IMPORT",
+      "valid_values": ["MANUAL", "LLM_BATCH", "FILE_IMPORT"]
+    }
+  },
+  
+  "available_functions": {
+    "factors_multiples": {
+      "gcd(a, b)": "Greatest Common Divisor of two numbers",
+      "lcm(a, b)": "Least Common Multiple of two numbers",
+      "gcd_three(a, b, c)": "GCD of three numbers",
+      "lcm_three(a, b, c)": "LCM of three numbers",
+      "factors(n)": "All factors of n as a list [1, 2, 3, 4, 6, 12]",
+      "multiples(n, count)": "First 'count' multiples of n",
+      "prime_factors(n)": "Prime factorization as list (e.g., [2, 2, 3] for 12)",
+      "is_prime(n)": "True if n is prime",
+      "factor_count(n)": "Number of factors of n",
+      "sum_factors(n)": "Sum of all factors of n",
+      "is_coprime(a, b)": "True if GCD(a,b) = 1",
+      "common_factors(a, b)": "Common factors of a and b as list",
+      "count_primes(start, end)": "Count of primes in range [start, end]",
+      "divisibility_rule(n)": "Text explanation of divisibility rule for n",
+      "nearest_multiple_above(target, divisor)": "Smallest multiple of divisor >= target",
+      "nearest_multiple_below(target, divisor)": "Largest multiple of divisor <= target",
+      "lcm_plus_remainder(a, b, remainder)": "LCM(a, b) + remainder",
+      "is_perfect_square(n)": "True if n is a perfect square",
+      "is_perfect_cube(n)": "True if n is a perfect cube"
+    },
+    "math": {
+      "abs(x)": "Absolute value",
+      "min(a, b)": "Smaller value",
+      "max(a, b)": "Larger value",
+      "pow(base, exp)": "Exponentiation (base^exp)",
+      "sqrt(n)": "Square root",
+      "floor(x)": "Round down",
+      "ceil(x)": "Round up",
+      "round(x)": "Round to nearest integer",
+      "int(x)": "Convert to integer",
+      "float(x)": "Convert to float",
+      "str(x)": "Convert to string",
+      "len(list)": "Length of list",
+      "sum(list)": "Sum of list elements",
+      "sorted(list)": "Sorted list"
+    },
+    "_custom_formulas_note": "Additional functions can be added via Admin UI > Formula Builder"
+  },
+  
+  "misconception_codes": {
+    "factors_multiples_specific": {
+      "GCD_LCM_CONFUSION": "Confused GCD with LCM",
+      "MIN_IS_GCD": "Thought smaller number is GCD",
+      "PRODUCT_IS_LCM": "Thought product is always LCM",
+      "ONLY_TRIVIAL_FACTORS": "Only listed 1 and the number",
+      "FACTORS_VS_MULTIPLES": "Confused factors with multiples",
+      "MISSING_ENDPOINTS": "Forgot 1 or the number itself",
+      "PRIME_VS_ODD": "Confused prime with odd numbers",
+      "STARTING_FROM_ZERO": "Started multiples from 0",
+      "SKIPPING_MULTIPLES": "Skipped some multiples",
+      "DIVISIBILITY_RULE_ERROR": "Applied rule incorrectly",
+      "HCF_LCM_CONFUSION": "Confused HCF with LCM",
+      "SMALLEST_NUMBER": "Thought HCF is the smaller number",
+      "LARGER_NUMBER": "Thought LCM is the larger number",
+      "LCM_IS_PRODUCT": "Thought LCM is always the product"
+    },
+    "general": {
+      "CALCULATION_ERROR": "Arithmetic mistake",
+      "SIGN_ERROR": "Wrong sign in answer",
+      "OFF_BY_ONE": "Answer off by 1",
+      "INCOMPLETE_REASONING": "Stopped before completing",
+      "REVERSED_OPERATION": "Used opposite operation",
+      "MAGNITUDE_ERROR": "Order of magnitude wrong",
+      "SUM_PRODUCT_CONFUSION": "Confused sum with product"
+    }
+  },
+  
+  "_sample_batch_file_structure": {
+    "description": "When uploading a file, wrap templates in an array",
+    "format": {
+      "templates": [
+        "{ ... template 1 ... }",
+        "{ ... template 2 ... }",
+        "{ ... up to N templates ... }"
+      ]
+    },
+    "file_types_supported": ["JSON (.json)", "YAML (.yaml, .yml)"]
+  },
+  
+  "_validation_rules": {
+    "test_generation": "Template must successfully generate questions 80% of the time (8/10 attempts)",
+    "formula_validation": "All formulas in computed variables must be syntactically valid",
+    "constraint_validation": "Constraints must be satisfiable within 10 retries",
+    "option_validation": "At least one option must be marked as correct"
+  },
+  
+  "_workflow": {
+    "1_create": "Template created with status DRAFT",
+    "2_validate": "System runs 10 test generations, requires 80% success",
+    "3_review": "Content reviewer approves template",
+    "4_publish": "Template available for student practice"
+  }
+}

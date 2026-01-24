@@ -1,0 +1,1179 @@
+{
+  "templates": [
+    {
+      "name": "01 - Find All Factors (MCQ)",
+      "concept_id": "math.class5.factors_multiples.factors",
+      "question_type": "MCQ",
+      "question_pattern": "Find all the factors of {{number}}.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [24, 36, 48, 60, 72, 84, 90, 96]
+          }
+        },
+        "computed": {
+          "factors_list": { "formula": "factors(number)" },
+          "multiples_list": { "formula": "multiples(number, 4)" },
+          "trivial_factors": { "formula": "[1, number]" }
+        },
+        "constraints": []
+      },
+      "options": [
+        {
+          "pattern": "{{factors_list}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{trivial_factors}}",
+          "is_correct": false,
+          "misconception_id": "ONLY_TRIVIAL_FACTORS",
+          "student_thinking": "Only listed 1 and the number itself"
+        },
+        {
+          "pattern": "{{multiples_list}}",
+          "is_correct": false,
+          "misconception_id": "FACTORS_VS_MULTIPLES",
+          "student_thinking": "Confused factors with multiples"
+        },
+        {
+          "pattern": "{{factors_list[1:-1]}}",
+          "is_correct": false,
+          "misconception_id": "MISSING_ENDPOINTS",
+          "student_thinking": "Forgot 1 and the number itself"
+        }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "To find factors, we need numbers that divide {{number}} evenly." },
+          { "number": 2, "text": "Test each number from 1 to {{number}}." },
+          { "number": 3, "text": "The factors of {{number}} are: {{factors_list}}" },
+          { "number": 4, "text": "Total: {{len(factors_list)}} factors" }
+        ]
+      },
+      "hints": [
+        "A factor divides the number with no remainder",
+        "Always include 1 and the number itself",
+        "Check divisibility for each number from 2 onwards"
+      ],
+      "tags": ["factors", "find-factors", "basic"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "02 - Find First N Multiples (MCQ)",
+      "concept_id": "math.class5.factors_multiples.multiples",
+      "question_type": "MCQ",
+      "question_pattern": "Write the first 5 multiples of {{number}}.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [7, 8, 9, 11, 12, 13, 14, 15]
+          }
+        },
+        "computed": {
+          "multiples_5": { "formula": "multiples(number, 5)" },
+          "factors_list": { "formula": "factors(number)" },
+          "wrong_start": { "formula": "[0] + multiples(number, 4)" },
+          "skip_multiples": { "formula": "[number * i for i in [1, 3, 5, 7, 9]]" }
+        },
+        "constraints": []
+      },
+      "options": [
+        {
+          "pattern": "{{multiples_5}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{factors_list}}",
+          "is_correct": false,
+          "misconception_id": "MULTIPLES_VS_FACTORS",
+          "student_thinking": "Confused multiples with factors"
+        },
+        {
+          "pattern": "{{wrong_start}}",
+          "is_correct": false,
+          "misconception_id": "STARTING_FROM_ZERO",
+          "student_thinking": "Started with 0 instead of the number itself"
+        },
+        {
+          "pattern": "{{skip_multiples}}",
+          "is_correct": false,
+          "misconception_id": "SKIPPING_MULTIPLES",
+          "student_thinking": "Skipped some multiples"
+        }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Multiples are obtained by multiplying {{number}} by 1, 2, 3, 4, 5..." },
+          { "number": 2, "text": "{{number}} × 1 = {{number}}" },
+          { "number": 3, "text": "{{number}} × 2 = {{number * 2}}" },
+          { "number": 4, "text": "{{number}} × 3 = {{number * 3}}" },
+          { "number": 5, "text": "First 5 multiples: {{multiples_5}}" }
+        ]
+      },
+      "hints": [
+        "Multiple = number × 1, number × 2, number × 3...",
+        "The first multiple is the number itself",
+        "Multiples keep increasing, factors stay within the number"
+      ],
+      "tags": ["multiples", "find-multiples", "basic"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "03 - HCF of Two Numbers (MCQ)",
+      "concept_id": "math.class5.factors_multiples.gcd",
+      "question_type": "MCQ",
+      "question_pattern": "Find the HCF (Highest Common Factor) of {{a}} and {{b}}.",
+      "variables": {
+        "base": {
+          "a": {
+            "type": "integer",
+            "enum": [24, 36, 48, 60, 72]
+          },
+          "b": {
+            "type": "integer",
+            "enum": [18, 30, 42, 54, 66]
+          }
+        },
+        "computed": {
+          "hcf_result": { "formula": "gcd(a, b)" },
+          "lcm_result": { "formula": "lcm(a, b)" },
+          "product": { "formula": "a * b" },
+          "sum": { "formula": "a + b" }
+        },
+        "constraints": ["a != b"]
+      },
+      "options": [
+        {
+          "pattern": "{{hcf_result}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{lcm_result}}",
+          "is_correct": false,
+          "misconception_id": "HCF_LCM_CONFUSION",
+          "student_thinking": "Confused HCF with LCM"
+        },
+        {
+          "pattern": "{{min(a, b)}}",
+          "is_correct": false,
+          "misconception_id": "SMALLEST_NUMBER",
+          "student_thinking": "Thought HCF is the smaller number"
+        },
+        {
+          "pattern": "1",
+          "is_correct": false,
+          "misconception_id": "ALWAYS_ONE",
+          "student_thinking": "Thought 1 is always the HCF"
+        }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Find factors of {{a}}: {{factors(a)}}" },
+          { "number": 2, "text": "Find factors of {{b}}: {{factors(b)}}" },
+          { "number": 3, "text": "Common factors: {{common_factors(a, b)}}" },
+          { "number": 4, "text": "HCF = Highest of common factors = {{hcf_result}}" }
+        ]
+      },
+      "hints": [
+        "List all factors of both numbers first",
+        "Find which factors appear in BOTH lists",
+        "HCF is the LARGEST common factor"
+      ],
+      "diagram": {
+        "type": "gcd",
+        "parameters": {
+          "num1": "{{a}}",
+          "num2": "{{b}}",
+          "result": "{{hcf_result}}"
+        }
+      },
+      "tags": ["hcf", "gcd", "common-factors"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "04 - LCM of Two Numbers (MCQ)",
+      "concept_id": "math.class5.factors_multiples.lcm",
+      "question_type": "MCQ",
+      "question_pattern": "Find the LCM (Lowest Common Multiple) of {{a}} and {{b}}.",
+      "variables": {
+        "base": {
+          "a": {
+            "type": "integer",
+            "enum": [4, 6, 8, 10, 12]
+          },
+          "b": {
+            "type": "integer",
+            "enum": [5, 7, 9, 11, 15]
+          }
+        },
+        "computed": {
+          "lcm_result": { "formula": "lcm(a, b)" },
+          "hcf_result": { "formula": "gcd(a, b)" },
+          "product": { "formula": "a * b" },
+          "sum": { "formula": "a + b" }
+        },
+        "constraints": ["a != b"]
+      },
+      "options": [
+        {
+          "pattern": "{{lcm_result}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{product}}",
+          "is_correct": false,
+          "misconception_id": "LCM_IS_PRODUCT",
+          "student_thinking": "Thought LCM is always the product"
+        },
+        {
+          "pattern": "{{hcf_result}}",
+          "is_correct": false,
+          "misconception_id": "LCM_HCF_CONFUSION",
+          "student_thinking": "Confused LCM with HCF"
+        },
+        {
+          "pattern": "{{max(a, b)}}",
+          "is_correct": false,
+          "misconception_id": "LARGER_NUMBER",
+          "student_thinking": "Thought LCM is the larger number"
+        }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "List multiples of {{a}}: {{multiples(a, 10)}}" },
+          { "number": 2, "text": "List multiples of {{b}}: {{multiples(b, 10)}}" },
+          { "number": 3, "text": "Find the smallest number in both lists" },
+          { "number": 4, "text": "LCM = {{lcm_result}}" }
+        ]
+      },
+      "hints": [
+        "List multiples of both numbers",
+        "Find the SMALLEST number that appears in BOTH lists",
+        "LCM is always ≥ the larger of the two numbers"
+      ],
+      "diagram": {
+        "type": "lcm",
+        "parameters": {
+          "num1": "{{a}}",
+          "num2": "{{b}}",
+          "result": "{{lcm_result}}"
+        }
+      },
+      "tags": ["lcm", "common-multiples"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "05 - Prime Number Identification (TRUE_FALSE)",
+      "concept_id": "math.class5.factors_multiples.prime_composite",
+      "question_type": "TRUE_FALSE",
+      "question_pattern": "{{number}} is a prime number.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [11, 13, 17, 19, 21, 25, 27, 29, 33, 37, 39, 41]
+          }
+        },
+        "computed": {
+          "is_prime_result": { "formula": "is_prime(number)" },
+          "factors_list": { "formula": "factors(number)" },
+          "factor_count": { "formula": "len(factors(number))" }
+        },
+        "constraints": []
+      },
+      "options": [
+        {
+          "pattern": "True",
+          "is_correct": "{{is_prime_result}}"
+        },
+        {
+          "pattern": "False",
+          "is_correct": "{{not is_prime_result}}"
+        }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "A prime number has exactly 2 factors: 1 and itself" },
+          { "number": 2, "text": "Factors of {{number}}: {{factors_list}}" },
+          { "number": 3, "text": "Number of factors: {{factor_count}}" },
+          { "number": 4, "text": "Since {{number}} has {{factor_count}} factors, it is {{'prime' if is_prime_result else 'NOT prime'}}" }
+        ]
+      },
+      "hints": [
+        "Prime numbers have exactly 2 factors",
+        "Check if any number between 2 and √{{number}} divides it",
+        "1 is NOT a prime number"
+      ],
+      "tags": ["prime", "identification", "true-false"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "06 - Divisibility Rule Application (FILL_BLANK)",
+      "concept_id": "math.class5.factors_multiples.divisibility",
+      "question_type": "FILL_BLANK",
+      "question_pattern": "A number is divisible by {{divisor}} if {{divisibility_rule(divisor)}}. Is {{number}} divisible by {{divisor}}? The answer is ____.",
+      "variables": {
+        "base": {
+          "divisor": {
+            "type": "integer",
+            "enum": [2, 3, 4, 5, 6, 9, 10]
+          },
+          "number": {
+            "type": "integer",
+            "enum": [126, 234, 345, 450, 567, 678, 789, 891]
+          }
+        },
+        "computed": {
+          "is_divisible": { "formula": "number % divisor == 0" },
+          "answer": { "formula": "'Yes' if number % divisor == 0 else 'No'" },
+          "remainder": { "formula": "number % divisor" }
+        },
+        "constraints": []
+      },
+      "options": [
+        {
+          "pattern": "{{answer}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{'No' if answer == 'Yes' else 'Yes'}}",
+          "is_correct": false,
+          "misconception_id": "RULE_MISAPPLICATION",
+          "student_thinking": "Applied the divisibility rule incorrectly"
+        },
+        {
+          "pattern": "Maybe",
+          "is_correct": false,
+          "misconception_id": "UNCERTAIN",
+          "student_thinking": "Unsure about the rule"
+        },
+        {
+          "pattern": "Cannot determine",
+          "is_correct": false,
+          "misconception_id": "RULE_UNKNOWN",
+          "student_thinking": "Doesn't know the divisibility rule"
+        }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Divisibility rule for {{divisor}}: {{divisibility_rule(divisor)}}" },
+          { "number": 2, "text": "Check if {{number}} follows this rule" },
+          { "number": 3, "text": "{{number}} ÷ {{divisor}} = {{number // divisor}} remainder {{remainder}}" },
+          { "number": 4, "text": "Answer: {{answer}}" }
+        ]
+      },
+      "hints": [
+        "Remember the specific rule for divisibility by {{divisor}}",
+        "Apply the rule step by step",
+        "A number is divisible if the remainder is 0"
+      ],
+      "tags": ["divisibility", "rules", "fill-blank"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "07 - Co-prime Numbers (ASSERTION_REASON)",
+      "concept_id": "math.class5.factors_multiples.gcd",
+      "question_type": "ASSERTION_REASON",
+      "question_pattern": "",
+      "parts": [
+        {
+          "type": "assertion",
+          "label": "A",
+          "pattern": "{{a}} and {{b}} are co-prime numbers."
+        },
+        {
+          "type": "reason",
+          "label": "R",
+          "pattern": "Two numbers are co-prime if their HCF is 1."
+        }
+      ],
+      "variables": {
+        "base": {
+          "a": {
+            "type": "integer",
+            "enum": [8, 9, 14, 15, 16, 21, 25, 27]
+          },
+          "b": {
+            "type": "integer",
+            "enum": [9, 11, 13, 15, 17, 19, 22, 23]
+          }
+        },
+        "computed": {
+          "hcf_result": { "formula": "gcd(a, b)" },
+          "is_coprime_result": { "formula": "gcd(a, b) == 1" },
+          "assertion_true": { "formula": "gcd(a, b) == 1" },
+          "reason_true": { "formula": "True" }
+        },
+        "constraints": ["a != b"]
+      },
+      "options": [
+        {
+          "pattern": "Both A and R are true, and R correctly explains A",
+          "is_correct": "{{assertion_true and reason_true}}"
+        },
+        {
+          "pattern": "Both A and R are true, but R does not explain A",
+          "is_correct": false
+        },
+        {
+          "pattern": "A is true but R is false",
+          "is_correct": false
+        },
+        {
+          "pattern": "A is false but R is true",
+          "is_correct": "{{not assertion_true and reason_true}}"
+        }
+      ],
+      "difficulty": 4,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "HCF of {{a}} and {{b}} = {{hcf_result}}" },
+          { "number": 2, "text": "Assertion: {{a}} and {{b}} are co-prime → {{'TRUE' if assertion_true else 'FALSE'}} (HCF {{'=' if hcf_result == 1 else '≠'}} 1)" },
+          { "number": 3, "text": "Reason: Definition of co-prime is correct → TRUE" },
+          { "number": 4, "text": "The reason correctly defines what makes numbers co-prime" }
+        ]
+      },
+      "hints": [
+        "First calculate the HCF of the two numbers",
+        "Co-prime means HCF = 1",
+        "The reason gives the definition of co-prime numbers"
+      ],
+      "tags": ["coprime", "hcf", "assertion-reason"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "08 - Fruit Basket Problem (CASE_STUDY)",
+      "concept_id": "math.class5.factors_multiples.word_problem",
+      "question_type": "CASE_STUDY",
+      "question_pattern": "",
+      "parts": [
+        {
+          "type": "context",
+          "pattern": "Meera has {{apples}} apples and {{oranges}} oranges. She wants to distribute them equally among children such that each child gets the same number of apples and the same number of oranges. No fruit should be left over."
+        },
+        {
+          "type": "sub_question",
+          "label": "i",
+          "pattern": "What is the maximum number of children who can receive fruits?",
+          "options": [
+            { "pattern": "{{gcd(apples, oranges)}}", "is_correct": true },
+            { "pattern": "{{lcm(apples, oranges)}}", "is_correct": false, "misconception_id": "USED_LCM" },
+            { "pattern": "{{apples + oranges}}", "is_correct": false, "misconception_id": "ADDED_FRUITS" },
+            { "pattern": "{{min(apples, oranges)}}", "is_correct": false, "misconception_id": "USED_SMALLER" }
+          ]
+        },
+        {
+          "type": "sub_question",
+          "label": "ii",
+          "pattern": "How many apples will each child get?",
+          "options": [
+            { "pattern": "{{apples // gcd(apples, oranges)}}", "is_correct": true },
+            { "pattern": "{{apples}}", "is_correct": false },
+            { "pattern": "{{gcd(apples, oranges)}}", "is_correct": false },
+            { "pattern": "{{oranges // gcd(apples, oranges)}}", "is_correct": false }
+          ]
+        },
+        {
+          "type": "sub_question",
+          "label": "iii",
+          "pattern": "How many oranges will each child get?",
+          "options": [
+            { "pattern": "{{oranges // gcd(apples, oranges)}}", "is_correct": true },
+            { "pattern": "{{oranges}}", "is_correct": false },
+            { "pattern": "{{gcd(apples, oranges)}}", "is_correct": false },
+            { "pattern": "{{apples // gcd(apples, oranges)}}", "is_correct": false }
+          ]
+        }
+      ],
+      "variables": {
+        "base": {
+          "apples": {
+            "type": "integer",
+            "enum": [24, 36, 48, 60, 72]
+          },
+          "oranges": {
+            "type": "integer",
+            "enum": [18, 30, 42, 54, 66]
+          }
+        },
+        "computed": {
+          "max_children": { "formula": "gcd(apples, oranges)" },
+          "apples_each": { "formula": "apples // gcd(apples, oranges)" },
+          "oranges_each": { "formula": "oranges // gcd(apples, oranges)" }
+        },
+        "constraints": ["apples != oranges"]
+      },
+      "options": [
+        { "pattern": "See sub-questions", "is_correct": true },
+        { "pattern": "N/A", "is_correct": false }
+      ],
+      "difficulty": 4,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "This is an HCF problem because we need equal distribution with no leftovers" },
+          { "number": 2, "text": "HCF of {{apples}} and {{oranges}} = {{max_children}}" },
+          { "number": 3, "text": "Maximum children = {{max_children}}" },
+          { "number": 4, "text": "Apples per child = {{apples}} ÷ {{max_children}} = {{apples_each}}" },
+          { "number": 5, "text": "Oranges per child = {{oranges}} ÷ {{max_children}} = {{oranges_each}}" }
+        ]
+      },
+      "hints": [
+        "Equal distribution without leftovers → use HCF",
+        "HCF tells us the maximum number of groups possible",
+        "Divide total fruits by HCF to get per-child count"
+      ],
+      "tags": ["hcf", "word-problem", "case-study", "distribution"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "09 - Bus Timing Problem (CASE_STUDY)",
+      "concept_id": "math.class5.factors_multiples.word_problem",
+      "question_type": "CASE_STUDY",
+      "question_pattern": "",
+      "parts": [
+        {
+          "type": "context",
+          "pattern": "Three buses start from the same bus station at 8:00 AM. Bus A returns every {{interval_a}} minutes, Bus B returns every {{interval_b}} minutes, and Bus C returns every {{interval_c}} minutes."
+        },
+        {
+          "type": "sub_question",
+          "label": "i",
+          "pattern": "After how many minutes will all three buses return together for the first time?",
+          "options": [
+            { "pattern": "{{lcm_three(interval_a, interval_b, interval_c)}}", "is_correct": true },
+            { "pattern": "{{gcd_three(interval_a, interval_b, interval_c)}}", "is_correct": false, "misconception_id": "USED_HCF" },
+            { "pattern": "{{interval_a + interval_b + interval_c}}", "is_correct": false, "misconception_id": "ADDED_INTERVALS" },
+            { "pattern": "{{interval_a * interval_b * interval_c}}", "is_correct": false, "misconception_id": "MULTIPLIED_ALL" }
+          ]
+        },
+        {
+          "type": "sub_question",
+          "label": "ii",
+          "pattern": "At what time will they meet for the first time?",
+          "options": [
+            { "pattern": "{{8 + lcm_three(interval_a, interval_b, interval_c) // 60}}:{{lcm_three(interval_a, interval_b, interval_c) % 60 if lcm_three(interval_a, interval_b, interval_c) % 60 > 9 else '0' + str(lcm_three(interval_a, interval_b, interval_c) % 60)}} AM", "is_correct": true },
+            { "pattern": "9:00 AM", "is_correct": false },
+            { "pattern": "10:00 AM", "is_correct": false },
+            { "pattern": "8:30 AM", "is_correct": false }
+          ]
+        }
+      ],
+      "variables": {
+        "base": {
+          "interval_a": {
+            "type": "integer",
+            "enum": [10, 12, 15, 20]
+          },
+          "interval_b": {
+            "type": "integer",
+            "enum": [12, 15, 18, 20]
+          },
+          "interval_c": {
+            "type": "integer",
+            "enum": [15, 18, 20, 30]
+          }
+        },
+        "computed": {
+          "lcm_result": { "formula": "lcm_three(interval_a, interval_b, interval_c)" },
+          "hours_later": { "formula": "lcm_three(interval_a, interval_b, interval_c) // 60" },
+          "mins_later": { "formula": "lcm_three(interval_a, interval_b, interval_c) % 60" }
+        },
+        "constraints": [
+          "interval_a != interval_b",
+          "interval_b != interval_c",
+          "interval_a != interval_c"
+        ]
+      },
+      "options": [
+        { "pattern": "See sub-questions", "is_correct": true },
+        { "pattern": "N/A", "is_correct": false }
+      ],
+      "difficulty": 4,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "To find when they meet again, we need the LCM of their intervals" },
+          { "number": 2, "text": "LCM of {{interval_a}}, {{interval_b}}, {{interval_c}} = {{lcm_result}} minutes" },
+          { "number": 3, "text": "{{lcm_result}} minutes = {{hours_later}} hour(s) and {{mins_later}} minute(s)" },
+          { "number": 4, "text": "Starting at 8:00 AM + {{lcm_result}} minutes = meeting time" }
+        ]
+      },
+      "hints": [
+        "Finding when events coincide → use LCM",
+        "LCM gives the smallest time when all intervals align",
+        "Convert minutes to hours and minutes for the final time"
+      ],
+      "tags": ["lcm", "word-problem", "case-study", "time"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "10 - Match Factors with Numbers (MATCH_FOLLOWING)",
+      "concept_id": "math.class5.factors_multiples.factors",
+      "question_type": "MATCH_FOLLOWING",
+      "question_pattern": "Match the numbers in Column A with their number of factors in Column B.",
+      "parts": [
+        {
+          "type": "context",
+          "pattern": "Column A (Numbers) | Column B (Factor Count)\n1. {{num1}} | P. {{count3}}\n2. {{num2}} | Q. {{count1}}\n3. {{num3}} | R. {{count2}}"
+        }
+      ],
+      "variables": {
+        "base": {
+          "num1": { "type": "integer", "enum": [12, 18, 20] },
+          "num2": { "type": "integer", "enum": [15, 16, 24] },
+          "num3": { "type": "integer", "enum": [25, 36, 49] }
+        },
+        "computed": {
+          "count1": { "formula": "factor_count(num1)" },
+          "count2": { "formula": "factor_count(num2)" },
+          "count3": { "formula": "factor_count(num3)" }
+        },
+        "constraints": [
+          "num1 != num2",
+          "num2 != num3",
+          "num1 != num3"
+        ]
+      },
+      "options": [
+        { "pattern": "1-Q, 2-R, 3-P", "is_correct": true },
+        { "pattern": "1-P, 2-Q, 3-R", "is_correct": false },
+        { "pattern": "1-R, 2-P, 3-Q", "is_correct": false },
+        { "pattern": "1-Q, 2-P, 3-R", "is_correct": false }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Find factors of {{num1}}: {{factors(num1)}} → {{count1}} factors" },
+          { "number": 2, "text": "Find factors of {{num2}}: {{factors(num2)}} → {{count2}} factors" },
+          { "number": 3, "text": "Find factors of {{num3}}: {{factors(num3)}} → {{count3}} factors" },
+          { "number": 4, "text": "Match: 1-Q ({{count1}}), 2-R ({{count2}}), 3-P ({{count3}})" }
+        ]
+      },
+      "hints": [
+        "Count factors for each number in Column A",
+        "Match each count with Column B",
+        "Be careful to match the correct pairs"
+      ],
+      "tags": ["factors", "factor-count", "match"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "11 - Order by Factor Count (ORDERING)",
+      "concept_id": "math.class5.factors_multiples.factors",
+      "question_type": "ORDERING",
+      "question_pattern": "Arrange the following numbers in ascending order based on their number of factors: {{num1}}, {{num2}}, {{num3}}, {{num4}}",
+      "variables": {
+        "base": {
+          "num1": { "type": "integer", "enum": [12] },
+          "num2": { "type": "integer", "enum": [7] },
+          "num3": { "type": "integer", "enum": [24] },
+          "num4": { "type": "integer", "enum": [16] }
+        },
+        "computed": {
+          "c1": { "formula": "factor_count(num1)" },
+          "c2": { "formula": "factor_count(num2)" },
+          "c3": { "formula": "factor_count(num3)" },
+          "c4": { "formula": "factor_count(num4)" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{num2}}, {{num4}}, {{num1}}, {{num3}}", "is_correct": true },
+        { "pattern": "{{num2}}, {{num1}}, {{num4}}, {{num3}}", "is_correct": false },
+        { "pattern": "{{num1}}, {{num2}}, {{num3}}, {{num4}}", "is_correct": false },
+        { "pattern": "{{num3}}, {{num1}}, {{num4}}, {{num2}}", "is_correct": false }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "{{num1}} has {{c1}} factors: {{factors(num1)}}" },
+          { "number": 2, "text": "{{num2}} has {{c2}} factors: {{factors(num2)}}" },
+          { "number": 3, "text": "{{num3}} has {{c3}} factors: {{factors(num3)}}" },
+          { "number": 4, "text": "{{num4}} has {{c4}} factors: {{factors(num4)}}" },
+          { "number": 5, "text": "Ascending order by factor count: 7(2) < 16(5) < 12(6) < 24(8)" }
+        ]
+      },
+      "hints": [
+        "First find the number of factors for each number",
+        "Arrange from smallest to largest factor count",
+        "Prime numbers have exactly 2 factors"
+      ],
+      "tags": ["factors", "ordering", "factor-count"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "12 - Count Primes in Range (NUMERIC)",
+      "concept_id": "math.class5.factors_multiples.prime_composite",
+      "question_type": "NUMERIC",
+      "question_pattern": "How many prime numbers are there between 1 and {{upper_limit}}?",
+      "variables": {
+        "base": {
+          "upper_limit": {
+            "type": "integer",
+            "enum": [20, 30, 40, 50]
+          }
+        },
+        "computed": {
+          "prime_count": { "formula": "count_primes(1, upper_limit)" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{prime_count}}", "is_correct": true },
+        { "pattern": "{{prime_count + 1}}", "is_correct": false, "misconception_id": "INCLUDED_ONE", "student_thinking": "Counted 1 as a prime number" },
+        { "pattern": "{{prime_count - 1}}", "is_correct": false, "misconception_id": "MISSED_ONE_PRIME", "student_thinking": "Missed one prime number" },
+        { "pattern": "{{prime_count + 2}}", "is_correct": false, "misconception_id": "COUNT_ERROR", "student_thinking": "Counting error" }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Prime numbers have exactly 2 factors (1 and itself)" },
+          { "number": 2, "text": "1 is NOT prime (only has 1 factor)" },
+          { "number": 3, "text": "Primes up to {{upper_limit}}: 2, 3, 5, 7, 11, 13, 17, 19..." },
+          { "number": 4, "text": "Total count = {{prime_count}}" }
+        ]
+      },
+      "hints": [
+        "Remember: 1 is NOT a prime number",
+        "2 is the only even prime number",
+        "Check each number to see if it has exactly 2 factors"
+      ],
+      "tags": ["prime", "counting", "numeric"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "13 - Prime Factorization (MCQ)",
+      "concept_id": "math.class5.factors_multiples.prime_factorization",
+      "question_type": "MCQ",
+      "question_pattern": "Find the prime factorization of {{number}}.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [36, 48, 60, 72, 84, 90, 96, 100, 120]
+          }
+        },
+        "computed": {
+          "prime_factors_list": { "formula": "prime_factors(number)" },
+          "all_factors": { "formula": "factors(number)" }
+        },
+        "constraints": []
+      },
+      "options": [
+        {
+          "pattern": "{{prime_factors_list}}",
+          "is_correct": true
+        },
+        {
+          "pattern": "{{all_factors}}",
+          "is_correct": false,
+          "misconception_id": "ALL_FACTORS_NOT_PRIME",
+          "student_thinking": "Listed all factors instead of prime factorization"
+        },
+        {
+          "pattern": "{{[number]}}",
+          "is_correct": false,
+          "misconception_id": "NUMBER_ITSELF",
+          "student_thinking": "Wrote the number itself"
+        },
+        {
+          "pattern": "{{sorted(set(prime_factors(number)))}}",
+          "is_correct": false,
+          "misconception_id": "UNIQUE_PRIMES_ONLY",
+          "student_thinking": "Listed unique prime factors without repetition"
+        }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Divide {{number}} by the smallest prime (2) repeatedly" },
+          { "number": 2, "text": "Then try 3, 5, 7, ... until you reach 1" },
+          { "number": 3, "text": "Prime factorization of {{number}} = {{prime_factors_list}}" },
+          { "number": 4, "text": "Verify: Product of prime factors = {{number}}" }
+        ]
+      },
+      "hints": [
+        "Start by dividing by 2 as many times as possible",
+        "Then move to the next prime: 3, 5, 7, ...",
+        "Continue until the quotient becomes 1"
+      ],
+      "diagram": {
+        "type": "prime_factorization",
+        "parameters": {
+          "number": "{{number}}",
+          "factors": "{{prime_factors_list}}"
+        }
+      },
+      "tags": ["prime", "factorization"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "14 - Sum of Factors (FILL_BLANK)",
+      "concept_id": "math.class5.factors_multiples.factors",
+      "question_type": "FILL_BLANK",
+      "question_pattern": "The sum of all factors of {{number}} is ____.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [12, 18, 20, 24, 28, 30, 36]
+          }
+        },
+        "computed": {
+          "sum_result": { "formula": "sum_factors(number)" },
+          "factors_list": { "formula": "factors(number)" },
+          "factor_count": { "formula": "len(factors(number))" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{sum_result}}", "is_correct": true },
+        { "pattern": "{{factor_count}}", "is_correct": false, "misconception_id": "COUNT_NOT_SUM", "student_thinking": "Gave count of factors instead of sum" },
+        { "pattern": "{{number}}", "is_correct": false, "misconception_id": "NUMBER_ITSELF", "student_thinking": "Gave the number itself" },
+        { "pattern": "{{sum_result - 1 - number}}", "is_correct": false, "misconception_id": "EXCLUDED_ENDPOINTS", "student_thinking": "Excluded 1 and the number from sum" }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Find all factors of {{number}}: {{factors_list}}" },
+          { "number": 2, "text": "Add them: {{' + '.join(map(str, factors_list))}}" },
+          { "number": 3, "text": "Sum = {{sum_result}}" }
+        ]
+      },
+      "hints": [
+        "First list all factors of {{number}}",
+        "Then add all the factors together",
+        "Don't forget to include 1 and {{number}} in the sum"
+      ],
+      "tags": ["factors", "sum", "fill-blank"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "15 - Factors vs Multiples (MCQ_MULTI)",
+      "concept_id": "math.class5.factors_multiples.factors",
+      "question_type": "MCQ_MULTI",
+      "question_pattern": "Which of the following are factors of {{number}}? (Select all that apply)",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [24, 36, 48, 60]
+          }
+        },
+        "computed": {
+          "factors_list": { "formula": "factors(number)" },
+          "factor1": { "formula": "factors(number)[1]" },
+          "factor2": { "formula": "factors(number)[2]" },
+          "non_factor1": { "formula": "number + 5" },
+          "non_factor2": { "formula": "number - 7" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{factor1}}", "is_correct": true },
+        { "pattern": "{{factor2}}", "is_correct": true },
+        { "pattern": "{{non_factor1}}", "is_correct": false, "misconception_id": "NOT_A_FACTOR" },
+        { "pattern": "{{non_factor2}}", "is_correct": false, "misconception_id": "NOT_A_FACTOR" }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "A factor divides the number with no remainder" },
+          { "number": 2, "text": "{{number}} ÷ {{factor1}} = {{number // factor1}} ✓ (factor)" },
+          { "number": 3, "text": "{{number}} ÷ {{factor2}} = {{number // factor2}} ✓ (factor)" },
+          { "number": 4, "text": "{{non_factor1}} > {{number}}, so it cannot be a factor" }
+        ]
+      },
+      "hints": [
+        "A factor must divide the number exactly",
+        "Factors are always ≤ the number",
+        "Test each option by dividing"
+      ],
+      "tags": ["factors", "multiple-choice", "identification"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "16 - Prime vs Composite (TRUE_FALSE)",
+      "concept_id": "math.class5.factors_multiples.prime_composite",
+      "question_type": "TRUE_FALSE",
+      "question_pattern": "{{number}} is a composite number.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [4, 6, 8, 9, 10, 11, 12, 13, 14, 15, 17, 19, 21, 23, 25]
+          }
+        },
+        "computed": {
+          "is_composite": { "formula": "not is_prime(number) and number > 1" },
+          "factors_list": { "formula": "factors(number)" },
+          "factor_count": { "formula": "len(factors(number))" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "True", "is_correct": "{{is_composite}}" },
+        { "pattern": "False", "is_correct": "{{not is_composite}}" }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Composite numbers have more than 2 factors" },
+          { "number": 2, "text": "Factors of {{number}}: {{factors_list}}" },
+          { "number": 3, "text": "{{number}} has {{factor_count}} factors" },
+          { "number": 4, "text": "{{number}} is {{'composite' if is_composite else 'NOT composite (it is prime)'}}" }
+        ]
+      },
+      "hints": [
+        "Composite = more than 2 factors",
+        "Prime = exactly 2 factors (1 and itself)",
+        "1 is neither prime nor composite"
+      ],
+      "tags": ["prime", "composite", "true-false"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "17 - HCF × LCM = Product (ASSERTION_REASON)",
+      "concept_id": "math.class5.factors_multiples.assertion_reason",
+      "question_type": "ASSERTION_REASON",
+      "question_pattern": "",
+      "parts": [
+        {
+          "type": "assertion",
+          "label": "A",
+          "pattern": "For {{a}} and {{b}}, HCF × LCM = {{a}} × {{b}}"
+        },
+        {
+          "type": "reason",
+          "label": "R",
+          "pattern": "For any two positive integers, HCF × LCM = Product of the numbers"
+        }
+      ],
+      "variables": {
+        "base": {
+          "a": { "type": "integer", "enum": [12, 15, 18, 20, 24] },
+          "b": { "type": "integer", "enum": [8, 10, 14, 16, 21] }
+        },
+        "computed": {
+          "hcf_val": { "formula": "gcd(a, b)" },
+          "lcm_val": { "formula": "lcm(a, b)" },
+          "product": { "formula": "a * b" },
+          "hcf_lcm_product": { "formula": "gcd(a, b) * lcm(a, b)" },
+          "assertion_true": { "formula": "gcd(a, b) * lcm(a, b) == a * b" }
+        },
+        "constraints": ["a != b"]
+      },
+      "options": [
+        {
+          "pattern": "Both A and R are true, and R correctly explains A",
+          "is_correct": true
+        },
+        {
+          "pattern": "Both A and R are true, but R does not explain A",
+          "is_correct": false
+        },
+        {
+          "pattern": "A is true but R is false",
+          "is_correct": false
+        },
+        {
+          "pattern": "A is false but R is true",
+          "is_correct": false
+        }
+      ],
+      "difficulty": 4,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "HCF of {{a}} and {{b}} = {{hcf_val}}" },
+          { "number": 2, "text": "LCM of {{a}} and {{b}} = {{lcm_val}}" },
+          { "number": 3, "text": "HCF × LCM = {{hcf_val}} × {{lcm_val}} = {{hcf_lcm_product}}" },
+          { "number": 4, "text": "{{a}} × {{b}} = {{product}}" },
+          { "number": 5, "text": "Both are equal! The formula HCF × LCM = a × b is always true." }
+        ]
+      },
+      "hints": [
+        "Calculate HCF and LCM separately",
+        "Multiply HCF and LCM",
+        "Compare with the product of the two numbers"
+      ],
+      "tags": ["hcf", "lcm", "relationship", "assertion-reason"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "18 - Common Multiples (MCQ)",
+      "concept_id": "math.class5.factors_multiples.multiples",
+      "question_type": "MCQ",
+      "question_pattern": "Which of the following is a common multiple of {{a}} and {{b}}?",
+      "variables": {
+        "base": {
+          "a": { "type": "integer", "enum": [4, 5, 6, 8] },
+          "b": { "type": "integer", "enum": [3, 6, 7, 9] }
+        },
+        "computed": {
+          "lcm_val": { "formula": "lcm(a, b)" },
+          "mult_2": { "formula": "lcm(a, b) * 2" },
+          "wrong1": { "formula": "a * 2" },
+          "wrong2": { "formula": "b * 3" }
+        },
+        "constraints": ["a != b"]
+      },
+      "options": [
+        { "pattern": "{{lcm_val}}", "is_correct": true },
+        { "pattern": "{{wrong1}}", "is_correct": false, "misconception_id": "MULTIPLE_OF_ONE_ONLY" },
+        { "pattern": "{{wrong2}}", "is_correct": false, "misconception_id": "MULTIPLE_OF_ONE_ONLY" },
+        { "pattern": "{{a + b}}", "is_correct": false, "misconception_id": "SUM_NOT_MULTIPLE" }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "A common multiple is divisible by BOTH {{a}} and {{b}}" },
+          { "number": 2, "text": "LCM of {{a}} and {{b}} = {{lcm_val}}" },
+          { "number": 3, "text": "{{lcm_val}} ÷ {{a}} = {{lcm_val // a}} ✓" },
+          { "number": 4, "text": "{{lcm_val}} ÷ {{b}} = {{lcm_val // b}} ✓" },
+          { "number": 5, "text": "{{lcm_val}} is divisible by both, so it's a common multiple" }
+        ]
+      },
+      "hints": [
+        "A common multiple must be divisible by BOTH numbers",
+        "The LCM is the SMALLEST common multiple",
+        "Test each option by dividing"
+      ],
+      "tags": ["multiples", "common-multiples", "lcm"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "19 - Divisibility Test (MCQ)",
+      "concept_id": "math.class5.factors_multiples.divisibility",
+      "question_type": "MCQ",
+      "question_pattern": "Which of the following numbers is divisible by {{divisor}}?",
+      "variables": {
+        "base": {
+          "divisor": { "type": "integer", "enum": [3, 4, 5, 6, 9] },
+          "base_number": { "type": "integer", "enum": [100, 200, 300, 400, 500] }
+        },
+        "computed": {
+          "divisible_num": { "formula": "nearest_multiple_above(base_number, divisor)" },
+          "not_div_1": { "formula": "divisible_num + 1" },
+          "not_div_2": { "formula": "divisible_num + 2" },
+          "not_div_3": { "formula": "divisible_num - 1" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{divisible_num}}", "is_correct": true },
+        { "pattern": "{{not_div_1}}", "is_correct": false },
+        { "pattern": "{{not_div_2}}", "is_correct": false },
+        { "pattern": "{{not_div_3}}", "is_correct": false }
+      ],
+      "difficulty": 2,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Divisibility rule for {{divisor}}: {{divisibility_rule(divisor)}}" },
+          { "number": 2, "text": "Check {{divisible_num}}: {{divisible_num}} ÷ {{divisor}} = {{divisible_num // divisor}} remainder 0 ✓" },
+          { "number": 3, "text": "Check {{not_div_1}}: remainder = {{not_div_1 % divisor}} ✗" },
+          { "number": 4, "text": "{{divisible_num}} is divisible by {{divisor}}" }
+        ]
+      },
+      "hints": [
+        "Apply the divisibility rule for {{divisor}}",
+        "A number is divisible if it leaves remainder 0",
+        "Test each option"
+      ],
+      "tags": ["divisibility", "test", "rules"],
+      "source": "FILE_IMPORT"
+    },
+
+    {
+      "name": "20 - Factor Pairs (FILL_BLANK)",
+      "concept_id": "math.class5.factors_multiples.factor_pairs",
+      "question_type": "FILL_BLANK",
+      "question_pattern": "{{number}} can be written as a product of two factors in ____ different ways.",
+      "variables": {
+        "base": {
+          "number": {
+            "type": "integer",
+            "enum": [12, 18, 24, 30, 36, 48]
+          }
+        },
+        "computed": {
+          "factors_list": { "formula": "factors(number)" },
+          "factor_count": { "formula": "len(factors(number))" },
+          "pair_count": { "formula": "(len(factors(number)) + 1) // 2" }
+        },
+        "constraints": []
+      },
+      "options": [
+        { "pattern": "{{pair_count}}", "is_correct": true },
+        { "pattern": "{{factor_count}}", "is_correct": false, "misconception_id": "TOTAL_FACTORS_NOT_PAIRS" },
+        { "pattern": "{{pair_count - 1}}", "is_correct": false },
+        { "pattern": "{{pair_count + 1}}", "is_correct": false }
+      ],
+      "difficulty": 3,
+      "solution": {
+        "steps": [
+          { "number": 1, "text": "Factors of {{number}}: {{factors_list}}" },
+          { "number": 2, "text": "Factor pairs: (1, {{number}}), (2, {{number // 2}})..." },
+          { "number": 3, "text": "Total factors = {{factor_count}}" },
+          { "number": 4, "text": "Number of pairs = ({{factor_count}} + 1) ÷ 2 = {{pair_count}} ways" }
+        ]
+      },
+      "hints": [
+        "List all factors of {{number}} first",
+        "Pair them: smallest with largest, etc.",
+        "Number of pairs = (total factors + 1) ÷ 2"
+      ],
+      "tags": ["factors", "factor-pairs", "fill-blank"],
+      "source": "FILE_IMPORT"
+    }
+  ],
+  "metadata": {
+    "chapter": "factors_multiples",
+    "grade": 5,
+    "subject": "mathematics",
+    "chapter_title": "Be My Multiple (Chapter 9)",
+    "total_templates": 20,
+    "question_types_covered": ["MCQ", "MCQ_MULTI", "FILL_BLANK", "TRUE_FALSE", "ASSERTION_REASON", "CASE_STUDY", "MATCH_FOLLOWING", "ORDERING", "NUMERIC"],
+    "concepts_covered": [
+      "math.class5.factors_multiples.divisibility",
+      "math.class5.factors_multiples.prime_composite",
+      "math.class5.factors_multiples.factors",
+      "math.class5.factors_multiples.multiples",
+      "math.class5.factors_multiples.factor_pairs",
+      "math.class5.factors_multiples.gcd",
+      "math.class5.factors_multiples.lcm",
+      "math.class5.factors_multiples.prime_factorization",
+      "math.class5.factors_multiples.word_problem",
+      "math.class5.factors_multiples.assertion_reason",
+      "math.class5.factors_multiples.error_analysis",
+      "math.class5.factors_multiples.cross_concept"
+    ],
+    "uploaded_by": "content_team",
+    "version": "1.0",
+    "created_date": "2026-01-18"
+  }
+}

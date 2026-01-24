@@ -150,18 +150,19 @@ app = FastAPI(
 # MIDDLEWARE SETUP
 # ============================================================================
 
-# Add middleware in order (last added = first executed)
+# Add other middleware first (executed after CORS)
 app.add_middleware(PerformanceMonitoringMiddleware, slow_request_threshold_ms=1000)
 app.add_middleware(ErrorHandlingMiddleware)
 app.add_middleware(RequestLoggingMiddleware)
 app.add_middleware(FeatureFlagMiddleware)  # Phase 8 feature flag routing
 
-# CORS middleware
+# CORS middleware must be LAST (added last = executed first for preflight)
+# Starlette middleware order: last added = outermost (first to process request)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"],
     allow_headers=["*"],
     expose_headers=["X-Request-ID"]
 )
@@ -225,6 +226,15 @@ async def health_check(settings: Dict = Depends(get_settings)):
         "service": settings.API_TITLE,
         "version": settings.API_VERSION,
         "debug": settings.DEBUG
+    }
+
+
+@app.get("/debug/cors")
+async def debug_cors():
+    """Debug endpoint to check CORS origins."""
+    from config.settings import settings as app_settings
+    return {
+        "cors_origins": app_settings.CORS_ORIGINS
     }
 
 
@@ -773,6 +783,136 @@ async def reset_student_mastery(student_id: str, chapter_id: str):
 
 
 # ============================================================================
+# ADMIN HELPER ENDPOINTS (for Universal Template Editor)
+# ============================================================================
+
+@app.get("/api/concepts")
+async def get_concepts(subject: Optional[str] = None, grade: Optional[int] = None, chapter: Optional[str] = None):
+    """Get all available concepts from database.
+    
+    Reads from the concept_catalog table, managed via Admin UI.
+    Falls back to YAML files if DB is empty (bootstrap).
+    """
+    from core.database import SessionLocal
+    from db.models.concepts import ConceptCatalog
+    
+    try:
+        with SessionLocal() as db:
+            query = db.query(ConceptCatalog)
+            
+            if subject:
+                query = query.filter(ConceptCatalog.subject == subject.lower())
+            if grade:
+                query = query.filter(ConceptCatalog.grade_level == grade)
+            if chapter:
+                query = query.filter(ConceptCatalog.chapter_key == chapter)
+            
+            db_concepts = query.order_by(ConceptCatalog.concept_id).all()
+            
+            if db_concepts:
+                return {
+                    "total": len(db_concepts),
+                    "concepts": [
+                        {
+                            "id": c.concept_id,
+                            "name": c.display_name or c.concept_id.split(".")[-1],
+                            "description": c.description,
+                            "chapter": c.chapter_key,
+                            "grade": c.grade_level,
+                            "subject": c.subject,
+                            "is_prerequisite": c.is_prerequisite,
+                            "taxonomy": c.taxonomy
+                        }
+                        for c in db_concepts
+                    ]
+                }
+    except Exception as e:
+        logger.warning(f"DB concepts query failed: {e}, falling back to YAML")
+    
+    # Fallback: Load from YAML files if DB is empty
+    try:
+        from domain.adaptation.concept_graph import ConceptGraph
+        import os
+        
+        concepts = []
+        
+        # Load factors_multiples graph as fallback
+        graph_path = os.path.join(
+            os.path.dirname(__file__),
+            "config/content/graphs/math/class5/factors_multiples.yaml"
+        )
+        
+        if os.path.exists(graph_path):
+            graph = ConceptGraph(graph_path)
+            for node_id in graph.graph.nodes():
+                node_data = graph.graph.nodes[node_id]
+                concepts.append({
+                    "id": node_id,
+                    "name": node_data.get("name", node_id.split(".")[-1]),
+                    "chapter": "factors_multiples",
+                    "grade": 5,
+                    "subject": "math"
+                })
+        
+        return {
+            "total": len(concepts),
+            "concepts": sorted(concepts, key=lambda x: x["id"]),
+            "source": "yaml_fallback"
+        }
+    
+    except Exception as e:
+        logger.error(f"Error loading concepts: {e}")
+        return {"total": 0, "concepts": []}
+
+
+@app.get("/api/admin/misconceptions")
+async def get_misconceptions(subject: Optional[str] = None):
+    """Get all available misconception codes from database.
+    
+    Reads from the misconceptions table managed via Admin UI.
+    Falls back to hardcoded list only if DB is empty (bootstrap).
+    """
+    from core.database import SessionLocal
+    from db.models.templates import Misconception
+    
+    try:
+        with SessionLocal() as db:
+            query = db.query(Misconception)
+            if subject:
+                query = query.filter(Misconception.subject == subject.lower())
+            
+            db_misconceptions = query.order_by(Misconception.code).all()
+            
+            if db_misconceptions:
+                return {
+                    "total": len(db_misconceptions),
+                    "misconceptions": [
+                        {
+                            "id": m.code,
+                            "name": m.title,
+                            "description": m.description,
+                            "teaching_point": m.teaching_point,
+                            "category": m.subject,
+                            "concept_tags": m.concept_tags or []
+                        }
+                        for m in db_misconceptions
+                    ]
+                }
+        
+        # Fallback: return empty if no misconceptions in DB
+        # Content team should add via Admin UI: /api/admin/templates/misconceptions
+        return {
+            "total": 0,
+            "misconceptions": [],
+            "message": "No misconceptions in database. Add via Admin UI at /admin/templates/misconceptions"
+        }
+    
+    except Exception as e:
+        logger.error(f"Error loading misconceptions: {e}")
+        return {"total": 0, "misconceptions": [], "error": str(e)}
+
+
+# ============================================================================
 # ROUTE REGISTRATION
 # ============================================================================
 
@@ -782,6 +922,16 @@ async def reset_student_mastery(student_id: str, chapter_id: str):
 
 # Phase 8: Add unified router for gradual rollout
 app.include_router(unified_router)
+
+# Gateway: Add Universal Template Ingestor for content team
+# NOTE: Must be registered BEFORE admin templates router to avoid route conflicts
+# (admin templates has /{template_id} which would catch /universal/* routes)
+try:
+    from api.routes.templates import router as universal_templates_router
+    app.include_router(universal_templates_router, tags=["templates-universal"])
+    logger.info("Universal Template Ingestor router enabled")
+except ImportError as e:
+    logger.warning(f"Template ingestor router not available: {e}")
 
 # Phase 5: Add admin template management
 try:
@@ -801,10 +951,27 @@ except ImportError as e:
 
 # Phase 6: Add CDN diagram management
 try:
-    from api.cdn.diagrams import diagrams_router
-    app.include_router(diagrams_router, prefix="/api/cdn", tags=["cdn"])
-except ImportError:
-    logger.warning("CDN diagram router not available")
+    from api.cdn.diagrams import router as diagrams_router
+    app.include_router(diagrams_router, tags=["cdn"])  # Router already has /api/cdn prefix
+    logger.info("CDN diagram router enabled")
+except ImportError as e:
+    logger.warning(f"CDN diagram router not available: {e}")
+
+# Gateway: Add formula management for content team
+try:
+    from api.routes.formulas import router as formulas_router
+    app.include_router(formulas_router, tags=["formulas"])
+    logger.info("Formula management router enabled")
+except ImportError as e:
+    logger.warning(f"Formula management router not available: {e}")
+
+# Gateway: Add function library management for content team
+try:
+    from api.routes.function_libraries import router as function_libraries_router
+    app.include_router(function_libraries_router, tags=["function-libraries"])
+    logger.info("Function libraries router enabled")
+except ImportError as e:
+    logger.warning(f"Function libraries router not available: {e}")
 
 
 # ============================================================================

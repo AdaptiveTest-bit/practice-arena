@@ -1,202 +1,141 @@
-version: 1
+chapter_id: factors_multiples
 subject: math
 grade: 5
-chapter_id: factors_multiples
-chapter_name: "Factors and Multiples"
-description: "Complete concept graph for Class 5 Factors & Multiples chapter"
-
-# ==================== CONCEPT NODES ====================
 nodes:
-  # REMEMBER Level (Foundation)
-  - concept_id: math.class5.factors_multiples.divisibility
-    bloom_targets: [REMEMBER]
-    difficulty_default: 1
-    description: "Apply divisibility rules for 2, 3, 5, 9, 10"
-    
-  - concept_id: math.class5.factors_multiples.prime_composite
-    bloom_targets: [REMEMBER, UNDERSTAND]
-    difficulty_default: 1
-    description: "Classify numbers as prime (exactly 2 factors) or composite (>2 factors)"
-    
-  # UNDERSTAND Level
-  - concept_id: math.class5.factors_multiples.factors
-    bloom_targets: [UNDERSTAND, APPLY]
-    difficulty_default: 2
-    description: "Find all factors of a number using systematic division"
-    
-  - concept_id: math.class5.factors_multiples.multiples
-    bloom_targets: [UNDERSTAND, APPLY]
-    difficulty_default: 2
-    description: "Generate multiples of a number (n×1, n×2, n×3, ...)"
-    
-  - concept_id: math.class5.factors_multiples.factor_pairs
-    bloom_targets: [UNDERSTAND]
-    difficulty_default: 2
-    description: "Find all pairs (a,b) where a×b = target number"
-    
-  # APPLY Level
-  - concept_id: math.class5.factors_multiples.gcd
-    bloom_targets: [APPLY]
-    difficulty_default: 2
-    description: "Find Greatest Common Divisor using factor listing or prime factorization"
-    
-  - concept_id: math.class5.factors_multiples.lcm
-    bloom_targets: [APPLY]
-    difficulty_default: 2
-    description: "Find Least Common Multiple using multiples listing or prime factorization"
-    
-  - concept_id: math.class5.factors_multiples.prime_factorization
-    bloom_targets: [APPLY]
-    difficulty_default: 2
-    description: "Express a number as product of prime factors"
-    
-  - concept_id: math.class5.factors_multiples.word_problem
-    bloom_targets: [APPLY, ANALYZE]
-    difficulty_default: 3
-    description: "Real-world problems: scheduling (LCM), grouping (GCD), arrangements (factors)"
-    
-  # ANALYZE Level
-  - concept_id: math.class5.factors_multiples.assertion_reason
-    bloom_targets: [ANALYZE]
-    difficulty_default: 3
-    description: "Evaluate assertion-reason statements about number properties"
-    
-  # EVALUATE Level
-  - concept_id: math.class5.factors_multiples.error_analysis
-    bloom_targets: [EVALUATE]
-    difficulty_default: 3
-    description: "Identify errors in worked solutions (Which student is correct?)"
-    
-  # ANALYZE Level - Cross-Concept
-  - concept_id: math.class5.factors_multiples.cross_concept
-    bloom_targets: [ANALYZE]
-    difficulty_default: 4
-    description: "Problems combining factors, multiples, GCD, and LCM together"
-
-# ==================== LEARNING EDGES ====================
-# Defines prerequisite and co-requisite relationships
+- concept_id: math.class5.factors_multiples.divisibility
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Apply divisibility rules for 2, 3, 5, 9, 10
+- concept_id: math.class5.factors_multiples.prime_composite
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Classify numbers as prime (exactly 2 factors) or composite (>2 factors)
+- concept_id: math.class5.factors_multiples.factors
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Find all factors of a number using systematic division
+- concept_id: math.class5.factors_multiples.multiples
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: "Generate multiples of a number (n\xD71, n\xD72, n\xD73, ...)"
+- concept_id: math.class5.factors_multiples.factor_pairs
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: "Find all pairs (a,b) where a\xD7b = target number"
+- concept_id: math.class5.factors_multiples.gcd
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Find Greatest Common Divisor using factor listing or prime factorization
+- concept_id: math.class5.factors_multiples.lcm
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Find Least Common Multiple using multiples listing or prime factorization
+- concept_id: math.class5.factors_multiples.prime_factorization
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Express a number as product of prime factors
+- concept_id: math.class5.factors_multiples.word_problem
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: 'Real-world problems: scheduling (LCM), grouping (GCD), arrangements
+    (factors)'
+- concept_id: math.class5.factors_multiples.assertion_reason
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Evaluate assertion-reason statements about number properties
+- concept_id: math.class5.factors_multiples.error_analysis
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Identify errors in worked solutions (Which student is correct?)
+- concept_id: math.class5.factors_multiples.cross_concept
+  bloom_targets:
+  - understand
+  difficulty_default: 2
+  description: Problems combining factors, multiples, GCD, and LCM together
+- concept_id: factors.divisibility_remainder
+  bloom_targets:
+  - remember
+  - understand
+  difficulty_default: 3
+  description: 'question type for remainder '
 edges:
-  # Divisibility is foundation for all factor/multiple concepts
-  - from: math.class5.factors_multiples.divisibility
-    to: math.class5.factors_multiples.factors
-    kind: prerequisite
-    reason: "Understanding divisibility is needed to find factors"
-    
-  - from: math.class5.factors_multiples.divisibility
-    to: math.class5.factors_multiples.multiples
-    kind: prerequisite
-    reason: "Divisibility helps verify multiples"
-    
-  - from: math.class5.factors_multiples.divisibility
-    to: math.class5.factors_multiples.prime_composite
-    kind: prerequisite
-    reason: "Need divisibility to count factors for prime/composite classification"
-    
-  # Factors lead to factor pairs and GCD
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.factor_pairs
-    kind: prerequisite
-    reason: "Factor pairs are organized pairs from factor list"
-    
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.gcd
-    kind: prerequisite
-    reason: "GCD requires finding common factors"
-    
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.prime_factorization
-    kind: prerequisite
-    reason: "Prime factorization is a specialized form of factoring"
-    
-  # Multiples lead to LCM
-  - from: math.class5.factors_multiples.multiples
-    to: math.class5.factors_multiples.lcm
-    kind: prerequisite
-    reason: "LCM requires finding common multiples"
-    
-  # Prime/composite connects to prime factorization
-  - from: math.class5.factors_multiples.prime_composite
-    to: math.class5.factors_multiples.prime_factorization
-    kind: prerequisite
-    reason: "Must understand primes to do prime factorization"
-    
-  # GCD and LCM are co-requisites (often taught together)
-  - from: math.class5.factors_multiples.gcd
-    to: math.class5.factors_multiples.lcm
-    kind: co_requisite
-    reason: "GCD and LCM are related: GCD × LCM = a × b"
-    
-  # Prime factorization can be used for both GCD and LCM
-  - from: math.class5.factors_multiples.prime_factorization
-    to: math.class5.factors_multiples.gcd
-    kind: co_requisite
-    reason: "Prime factorization method for GCD"
-    
-  - from: math.class5.factors_multiples.prime_factorization
-    to: math.class5.factors_multiples.lcm
-    kind: co_requisite
-    reason: "Prime factorization method for LCM"
-    
-  # Word problems require GCD and LCM
-  - from: math.class5.factors_multiples.gcd
-    to: math.class5.factors_multiples.word_problem
-    kind: prerequisite
-    reason: "Word problems apply GCD to grouping scenarios"
-    
-  - from: math.class5.factors_multiples.lcm
-    to: math.class5.factors_multiples.word_problem
-    kind: prerequisite
-    reason: "Word problems apply LCM to scheduling scenarios"
-    
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.word_problem
-    kind: prerequisite
-    reason: "Word problems may involve counting arrangements (factors)"
-    
-  # Higher-order thinking requires foundation concepts
-  - from: math.class5.factors_multiples.gcd
-    to: math.class5.factors_multiples.assertion_reason
-    kind: prerequisite
-    reason: "Assertion-reason questions test GCD properties"
-    
-  - from: math.class5.factors_multiples.lcm
-    to: math.class5.factors_multiples.assertion_reason
-    kind: prerequisite
-    reason: "Assertion-reason questions test LCM properties"
-    
-  # Error analysis requires understanding of all foundational concepts
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.error_analysis
-    kind: prerequisite
-    reason: "Must understand correct method to identify errors"
-    
-  - from: math.class5.factors_multiples.gcd
-    to: math.class5.factors_multiples.error_analysis
-    kind: prerequisite
-    reason: "Error analysis includes GCD computation errors"
-    
-  - from: math.class5.factors_multiples.lcm
-    to: math.class5.factors_multiples.error_analysis
-    kind: prerequisite
-    reason: "Error analysis includes LCM computation errors"
-    
-  # Cross-concept requires mastery of all foundational concepts
-  - from: math.class5.factors_multiples.factors
-    to: math.class5.factors_multiples.cross_concept
-    kind: prerequisite
-    reason: "Cross-concept questions require understanding factors"
-    
-  - from: math.class5.factors_multiples.multiples
-    to: math.class5.factors_multiples.cross_concept
-    kind: prerequisite
-    reason: "Cross-concept questions require understanding multiples"
-    
-  - from: math.class5.factors_multiples.gcd
-    to: math.class5.factors_multiples.cross_concept
-    kind: prerequisite
-    reason: "Cross-concept questions may involve GCD"
-    
-  - from: math.class5.factors_multiples.lcm
-    to: math.class5.factors_multiples.cross_concept
-    kind: prerequisite
-    reason: "Cross-concept questions may involve LCM"
+- from: math.class5.factors_multiples.divisibility
+  to: math.class5.factors_multiples.factors
+  kind: prerequisite
+- from: math.class5.factors_multiples.divisibility
+  to: math.class5.factors_multiples.multiples
+  kind: prerequisite
+- from: math.class5.factors_multiples.divisibility
+  to: math.class5.factors_multiples.prime_composite
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.factor_pairs
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.gcd
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.prime_factorization
+  kind: prerequisite
+- from: math.class5.factors_multiples.multiples
+  to: math.class5.factors_multiples.lcm
+  kind: prerequisite
+- from: math.class5.factors_multiples.prime_composite
+  to: math.class5.factors_multiples.prime_factorization
+  kind: prerequisite
+- from: math.class5.factors_multiples.gcd
+  to: math.class5.factors_multiples.lcm
+  kind: co_requisite
+- from: math.class5.factors_multiples.prime_factorization
+  to: math.class5.factors_multiples.gcd
+  kind: co_requisite
+- from: math.class5.factors_multiples.prime_factorization
+  to: math.class5.factors_multiples.lcm
+  kind: co_requisite
+- from: math.class5.factors_multiples.gcd
+  to: math.class5.factors_multiples.word_problem
+  kind: prerequisite
+- from: math.class5.factors_multiples.lcm
+  to: math.class5.factors_multiples.word_problem
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.word_problem
+  kind: prerequisite
+- from: math.class5.factors_multiples.gcd
+  to: math.class5.factors_multiples.assertion_reason
+  kind: prerequisite
+- from: math.class5.factors_multiples.lcm
+  to: math.class5.factors_multiples.assertion_reason
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.error_analysis
+  kind: prerequisite
+- from: math.class5.factors_multiples.gcd
+  to: math.class5.factors_multiples.error_analysis
+  kind: prerequisite
+- from: math.class5.factors_multiples.lcm
+  to: math.class5.factors_multiples.error_analysis
+  kind: prerequisite
+- from: math.class5.factors_multiples.factors
+  to: math.class5.factors_multiples.cross_concept
+  kind: prerequisite
+- from: math.class5.factors_multiples.multiples
+  to: math.class5.factors_multiples.cross_concept
+  kind: prerequisite
+- from: math.class5.factors_multiples.gcd
+  to: math.class5.factors_multiples.cross_concept
+  kind: prerequisite
+- from: math.class5.factors_multiples.lcm
+  to: math.class5.factors_multiples.cross_concept
+  kind: prerequisite

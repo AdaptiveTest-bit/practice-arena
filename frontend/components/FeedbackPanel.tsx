@@ -172,6 +172,50 @@ export const FeedbackPanel: FC<FeedbackPanelProps> = ({
           <p className={`${textSizeClasses.body} ${colorScheme.accent}`}>
             {response.solution.summary}
           </p>
+          
+          {/* Solution Steps (shown for detailed) */}
+          {feedbackDepth === "detailed" && response.solution.steps && response.solution.steps.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className={`${textSizeClasses.section} ${colorScheme.accent} mb-2`}>
+                📝 Solution Steps:
+              </p>
+              <ol className="space-y-2 list-decimal list-inside">
+                {response.solution.steps.map((step, idx) => (
+                  <li key={idx} className={`${textSizeClasses.body} ${colorScheme.accent}`}>
+                    {typeof step === 'string' ? step : step.description}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+          
+          {/* Rich Narrative (shown for detailed) */}
+          {feedbackDepth === "detailed" && response.solution.richNarrative && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className={`${textSizeClasses.section} ${colorScheme.accent} mb-2`}>
+                💡 Understanding:
+              </p>
+              <p className={`${textSizeClasses.body} ${colorScheme.accent} italic`}>
+                {response.solution.richNarrative}
+              </p>
+            </div>
+          )}
+          
+          {/* Visual Hints (shown for detailed) */}
+          {feedbackDepth === "detailed" && response.solution.visualHints && response.solution.visualHints.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className={`${textSizeClasses.section} ${colorScheme.accent} mb-2`}>
+                🎯 Remember:
+              </p>
+              <ul className="space-y-1 list-disc list-inside">
+                {response.solution.visualHints.map((hint, idx) => (
+                  <li key={idx} className={`${textSizeClasses.body} ${colorScheme.accent}`}>
+                    {hint}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

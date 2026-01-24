@@ -4,65 +4,72 @@ This service combines:
 - ConceptGraph: Knows prerequisite relationships
 - MasteryTracker: Tracks student mastery per concept
 - Sequencer: Chooses optimal next target
-- Generator: Creates the actual question
+- LeanTemplateEngine: Generates questions from database templates
+
+All questions are generated from the QuestionTemplate database.
+No legacy Python generators are used.
 
 Usage:
-    selector = AdaptiveQuestionSelector("factors_multiples")
-    question = selector.select_question(student_id="abc123")
+    selector = AdaptiveQuestionSelector("factors_multiples", db_session)
+    question_payload, metadata = await selector.select_question(student_id="abc123")
 """
 
-from typing import Dict, Any, Tuple
-from typing import Optional
+from typing import Dict, Any, Tuple, Optional
+import asyncio
+from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from config.logging_config import get_logger
-from domain.adaptation.concept_graph import ConceptGraph
-from domain.adaptation.mastery import MasteryTracker, MasteryLevel
-from domain.adaptation.sequencer import Sequencer, SequencingStrategy, SequencingTarget
-from domain.content_generation.generators.factors_multiples import FactorsMultiplesIntegrated
-from api.models.quiz import Question
+# Use relative imports to avoid circular import through __init__.py
+from .concept_graph import ConceptGraph
+from .mastery import MasteryTracker, MasteryLevel
+from .sequencer import Sequencer, SequencingStrategy, SequencingTarget
+from db.models import QuestionTemplate
 
 logger = get_logger(__name__)
 
 
-# Alias for clarity
-FactorsMultiplesGenerator = FactorsMultiplesIntegrated
-
-
 class AdaptiveQuestionSelector:
-    """Orchestrates adaptive question selection using mastery tracking and sequencing."""
+    """Orchestrates adaptive question selection using mastery tracking and templates.
+    
+    All questions are generated from QuestionTemplate database entries.
+    Templates are selected based on:
+    - concept_id: Matches the sequencer's target concept
+    - difficulty: Matches the target difficulty level
+    - status: Must be PUBLISHED
+    
+    Each template generates unique question instances through variable randomization.
+    """
 
-    # Map chapter keys to generator classes
-    # Note: Deprecated Notion CMS experiment removed in Phase 0 cleanup.
-    GENERATORS = {
-        "factors_multiples": FactorsMultiplesGenerator,
-    }
-
-    # Map concept IDs (from graph YAML) to generator concept keys
-    # Graph uses: fm_divisibility, fm_factors, etc.
-    # Generator uses: divisibility, factors, etc.
-    CONCEPT_ID_TO_KEY = {
+    # Map short concept keys (from graph YAML) to concept_id patterns in templates
+    # Graph uses: fm_gcd, fm_factors, etc.
+    # Templates use: math.class5.factors_multiples.gcd, etc.
+    CONCEPT_KEY_TO_PATTERN = {
         "fm_divisibility": "divisibility",
         "fm_factors": "factors",
         "fm_multiples": "multiples",
         "fm_prime_composite": "prime_composite",
         "fm_factor_pairs": "factor_pairs",
         "fm_prime_factorization": "prime_factorization",
-        "fm_common_factors": "factors",  # Uses factors generator
-        "fm_common_multiples": "multiples",  # Uses multiples generator
+        "fm_common_factors": "common_factors",
+        "fm_common_multiples": "common_multiples",
         "fm_gcd": "gcd",
         "fm_lcm": "lcm",
         "fm_word_problems": "word_problem",
     }
 
-    def __init__(self, chapter_key: str = "factors_multiples"):
+    def __init__(self, chapter_key: str = "factors_multiples", db_session: Session = None):
         """Initialize selector for a specific chapter.
 
         Args:
             chapter_key: Chapter to select questions for (e.g., "factors_multiples")
+            db_session: SQLAlchemy session for template queries (required for select_question)
         """
         self.chapter_key = chapter_key
+        self.db = db_session
+        self._template_engine = None  # Lazy-loaded
 
-        # Load concept graph using the class method
+        # Load concept graph
         try:
             self.graph = ConceptGraph.load(
                 subject="math",
@@ -73,15 +80,19 @@ class AdaptiveQuestionSelector:
             logger.warning(f"No concept graph found for {chapter_key}, using empty graph")
             self.graph = ConceptGraph()
 
-        # Create generator for this chapter
-        generator_class = self.GENERATORS.get(chapter_key, FactorsMultiplesGenerator)
-        self.generator = generator_class()
-
-        # Per-student mastery trackers (in-memory cache, will be persisted to DB)
+        # Per-student mastery trackers (in-memory cache)
         self._mastery_cache: Dict[str, MasteryTracker] = {}
 
-        logger.info(f"✅ AdaptiveQuestionSelector initialized for '{chapter_key}'")
+        logger.info(f"✅ AdaptiveQuestionSelector initialized for '{chapter_key}' (template-based)")
         logger.info(f"   Concepts: {self.graph.get_all_concept_ids()}")
+
+    @property
+    def template_engine(self):
+        """Lazy-load the template engine."""
+        if self._template_engine is None:
+            from domain.template_engine.lean_template_engine import LeanTemplateEngine
+            self._template_engine = LeanTemplateEngine(self.db)
+        return self._template_engine
 
     def get_mastery_tracker(self, student_id: str) -> MasteryTracker:
         """Get or create mastery tracker for a student.
@@ -100,37 +111,45 @@ class AdaptiveQuestionSelector:
             # TODO: Load from DB if exists
         return self._mastery_cache[student_id]
 
-    def select_question(
+    async def select_question(
         self,
         student_id: str,
         strategy: SequencingStrategy = SequencingStrategy.MASTERY_FIRST,
         difficulty_override: Optional[int] = None,
         concept_override: Optional[str] = None,
-    ) -> Tuple[Question, Dict[str, Any]]:
+        excluded_template_ids: Optional[list] = None,
+    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """Select the optimal next question for a student.
 
         Uses the sequencer to determine the best concept and difficulty,
-        then generates a question targeting those parameters.
+        then finds a matching template and generates a unique question instance.
 
         Args:
             student_id: Student identifier
             strategy: Sequencing strategy to use
-            difficulty_override: Force specific difficulty (1-3)
+            difficulty_override: Force specific difficulty (1-4)
             concept_override: Force specific concept ID
+            excluded_template_ids: Template IDs to exclude (already served in session)
 
         Returns:
-            Tuple of (Question, metadata dict with selection info)
+            Tuple of (question_payload dict, metadata dict)
+        
+        Raises:
+            ValueError: If no published template is found for the target concept
+            ValueError: If db_session was not provided during initialization
         """
+        if self.db is None:
+            raise ValueError("db_session is required for select_question. Pass it to __init__.")
+        
         mastery = self.get_mastery_tracker(student_id)
         sequencer = Sequencer(self.graph, mastery, strategy=strategy)
 
         # Get sequencing recommendation
         if concept_override:
-            # Teacher/admin forced a specific concept
             target = SequencingTarget(
                 concept_key=concept_override.split(".")[-1] if "." in concept_override else concept_override,
                 concept_id=concept_override,
-                difficulty=difficulty_override or 1,
+                difficulty=difficulty_override or 2,
                 bloom_level="APPLY",
                 reason=f"Concept override: {concept_override}",
                 priority=1.0
@@ -149,18 +168,17 @@ class AdaptiveQuestionSelector:
                 priority=target.priority
             )
 
-        # Use the concept_key directly from the target - it's already the short key
-        # (e.g., "prime_composite", "factors", etc.)
-        concept_key = target.concept_key
+        # Find matching template from database
+        template = self._find_template_for_target(target, excluded_template_ids)
+        
+        # Generate unique question instance from template
+        result = await self.template_engine.generate_question(template.id)
+        question_payload = result["payload"]
+        
+        # Add template_id for tracking
+        question_payload["template_id"] = template.id
 
-        # Generate question using the generator's generate() method
-        question = self.generator.generate(
-            concept_key=concept_key,
-            difficulty=target.difficulty,
-            bloom_level=None,  # Let generator pick appropriate bloom level
-        )
-
-        # Build selection metadata for frontend
+        # Build selection metadata
         concept_mastery = mastery.get_mastery(target.concept_id)
         metadata = {
             "selection": {
@@ -170,23 +188,94 @@ class AdaptiveQuestionSelector:
                 "bloom_level": target.bloom_level,
                 "reason": target.reason,
                 "strategy": strategy.value,
+                "template_id": template.id,
             },
             "mastery": {
                 "current_level": concept_mastery.level.name,
                 "attempts": concept_mastery.total_attempts,
                 "accuracy": concept_mastery.accuracy,
             },
-            # Phase 1: Lean progress payload (no concept lists) for question responses
             "progress": self._get_progress_summary(mastery, include_concept_lists=False),
+            "correct_index": result.get("correct_index"),
+            "variables": result.get("variables", {}),
         }
 
         logger.info(
-            f"🎯 Selected question for student {student_id[:8]}...: "
+            f"🎯 Selected template-based question for student {student_id[:8]}...: "
             f"concept={target.concept_id}, difficulty={target.difficulty}, "
-            f"reason='{target.reason}'"
+            f"template_id={template.id}, reason='{target.reason}'"
         )
 
-        return question, metadata
+        return question_payload, metadata
+
+    def _find_template_for_target(
+        self, 
+        target: SequencingTarget,
+        excluded_ids: Optional[list] = None,
+    ) -> QuestionTemplate:
+        """Find a published template matching the sequencing target.
+        
+        Args:
+            target: Sequencing target with concept and difficulty
+            excluded_ids: Template IDs to exclude (for variety)
+            
+        Returns:
+            QuestionTemplate from database
+            
+        Raises:
+            ValueError: If no matching published template found
+        """
+        # Build concept pattern for matching
+        # Templates may use: math.class5.factors_multiples.gcd or just gcd
+        concept_key = self.CONCEPT_KEY_TO_PATTERN.get(target.concept_key, target.concept_key)
+        
+        # Try multiple patterns for flexibility
+        patterns = [
+            f"%{concept_key}",  # Ends with concept key
+            f"%.{concept_key}",  # Has .concept_key
+            f"math.class5.{self.chapter_key}.{concept_key}",  # Full path
+        ]
+        
+        for pattern in patterns:
+            query = self.db.query(QuestionTemplate).filter(
+                QuestionTemplate.concept_id.like(pattern),
+                QuestionTemplate.status == "PUBLISHED",
+                QuestionTemplate.difficulty == target.difficulty,
+            )
+            
+            # Exclude already-served templates for variety
+            if excluded_ids:
+                query = query.filter(~QuestionTemplate.id.in_(excluded_ids))
+            
+            # Random selection for variety
+            template = query.order_by(func.random()).first()
+            
+            if template:
+                return template
+        
+        # Try without difficulty constraint as fallback
+        for pattern in patterns:
+            query = self.db.query(QuestionTemplate).filter(
+                QuestionTemplate.concept_id.like(pattern),
+                QuestionTemplate.status == "PUBLISHED",
+            )
+            
+            if excluded_ids:
+                query = query.filter(~QuestionTemplate.id.in_(excluded_ids))
+            
+            template = query.order_by(func.random()).first()
+            
+            if template:
+                logger.warning(
+                    f"No template for difficulty={target.difficulty}, "
+                    f"using template with difficulty={template.difficulty}"
+                )
+                return template
+        
+        raise ValueError(
+            f"No published template found for concept='{target.concept_id}', "
+            f"difficulty={target.difficulty}. Please create and publish templates in Admin UI."
+        )
 
     def record_attempt(
         self,
@@ -209,8 +298,6 @@ class AdaptiveQuestionSelector:
         mastery = self.get_mastery_tracker(student_id)
         mastery.record_attempt(concept_id, is_correct)
 
-        # TODO: Persist to DB
-
         new_level = mastery.get_mastery_level(concept_id)
         concept_mastery = mastery.get_mastery(concept_id)
 
@@ -225,17 +312,11 @@ class AdaptiveQuestionSelector:
             "attempts": concept_mastery.total_attempts,
             "correct": concept_mastery.correct_attempts,
             "accuracy": concept_mastery.accuracy,
-            "level_changed": True,  # TODO: Track actual level changes
+            "level_changed": True,
         }
 
     def _get_progress_summary(self, mastery: MasteryTracker, include_concept_lists: bool = True) -> Dict[str, Any]:
-        """Generate progress summary for frontend display.
-        
-        Args:
-            mastery: MasteryTracker instance
-            include_concept_lists: If True, include full concept lists (for full progress endpoint).
-                                   If False, return lean payload (for question responses).
-        """
+        """Generate progress summary for frontend display."""
         all_concepts = self.graph.get_all_concept_ids()
 
         mastered = []
@@ -253,7 +334,6 @@ class AdaptiveQuestionSelector:
 
         total = len(all_concepts) if all_concepts else 1
 
-        # Base lean payload (always returned)
         result = {
             "total_concepts": total,
             "mastered_count": len(mastered),
@@ -262,8 +342,6 @@ class AdaptiveQuestionSelector:
             "completion_percentage": round(len(mastered) / total * 100, 1),
         }
         
-        # Phase 1: Only include full concept lists when explicitly requested
-        # This reduces question payload by ~40% for chapters with many concepts
         if include_concept_lists:
             result["concepts_mastered"] = mastered
             result["concepts_learning"] = learning
@@ -272,14 +350,7 @@ class AdaptiveQuestionSelector:
         return result
 
     def get_student_progress(self, student_id: str) -> Dict[str, Any]:
-        """Get full progress report for a student.
-
-        Args:
-            student_id: Student identifier
-
-        Returns:
-            Detailed progress including mastery per concept
-        """
+        """Get full progress report for a student."""
         mastery = self.get_mastery_tracker(student_id)
 
         concept_details = {}
@@ -300,25 +371,62 @@ class AdaptiveQuestionSelector:
         return {
             "student_id": student_id,
             "chapter": self.chapter_key,
-            # Full progress endpoint: include concept lists for dashboard/summary views
             "progress": self._get_progress_summary(mastery, include_concept_lists=True),
             "concepts": concept_details,
         }
 
+    def get_template_coverage(self) -> Dict[str, Any]:
+        """Get template coverage report for this chapter.
+        
+        Returns:
+            Coverage info including concepts with/without templates
+        """
+        all_concepts = self.graph.get_all_concept_ids()
+        coverage = {}
+        
+        for concept_id in all_concepts:
+            concept_key = self.CONCEPT_KEY_TO_PATTERN.get(concept_id, concept_id)
+            
+            published_count = self.db.query(QuestionTemplate).filter(
+                QuestionTemplate.concept_id.like(f"%{concept_key}"),
+                QuestionTemplate.status == "PUBLISHED",
+            ).count()
+            
+            draft_count = self.db.query(QuestionTemplate).filter(
+                QuestionTemplate.concept_id.like(f"%{concept_key}"),
+                QuestionTemplate.status.in_(["DRAFT", "REVIEW", "APPROVED"]),
+            ).count()
+            
+            coverage[concept_id] = {
+                "published": published_count,
+                "draft": draft_count,
+                "total": published_count + draft_count,
+                "ready": published_count > 0,
+            }
+        
+        total_concepts = len(all_concepts)
+        ready_concepts = sum(1 for c in coverage.values() if c["ready"])
+        
+        return {
+            "chapter": self.chapter_key,
+            "total_concepts": total_concepts,
+            "concepts_with_templates": ready_concepts,
+            "coverage_percentage": round(ready_concepts / total_concepts * 100, 1) if total_concepts > 0 else 0,
+            "concepts": coverage,
+        }
 
-# Singleton instance for the MVP chapter
-_selector_cache: Dict[str, AdaptiveQuestionSelector] = {}
 
-
-def get_adaptive_selector(chapter_key: str = "factors_multiples") -> AdaptiveQuestionSelector:
-    """Get or create an AdaptiveQuestionSelector for a chapter.
+# Factory function
+def get_adaptive_selector(chapter_key: str = "factors_multiples", db_session: Session = None) -> AdaptiveQuestionSelector:
+    """Create an AdaptiveQuestionSelector for a chapter.
 
     Args:
         chapter_key: Chapter key (e.g., "factors_multiples")
+        db_session: SQLAlchemy session (REQUIRED)
 
     Returns:
         AdaptiveQuestionSelector instance
+        
+    Note: Unlike before, selectors are not cached because they require db_session.
     """
-    if chapter_key not in _selector_cache:
-        _selector_cache[chapter_key] = AdaptiveQuestionSelector(chapter_key)
-    return _selector_cache[chapter_key]
+    return AdaptiveQuestionSelector(chapter_key, db_session)

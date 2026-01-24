@@ -1,0 +1,11 @@
+
+        <svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+            <rect width="500" height="300" fill="white" stroke="#ddd" stroke-width="1"/>
+            <text x="250" y="30" text-anchor="middle" font-size="18" font-weight="bold">24</text>
+            <line x1="250" y1="35" x2="250" y2="60" stroke="black" stroke-width="2"/>
+            <circle cx="250" cy="80" r="20" fill="lightblue" stroke="black" stroke-width="2"/>
+            <text x="250" y="85" text-anchor="middle" font-size="12">24</text>
+            <text x="250" y="120" text-anchor="middle" font-size="14" fill="#2196F3">1, 2, 3, 4, 6, 8, 12, 24</text>
+            <text x="250" y="140" text-anchor="middle" font-size="12">Total: 8 factors</text>
+        </svg>
+        

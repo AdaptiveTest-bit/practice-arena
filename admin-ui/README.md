@@ -50,7 +50,7 @@ The app uses Vite environment variables:
 ## 🌐 API Configuration
 
 The app automatically connects to:
-- Development: `http://localhost:8000/api`
+- Development: `http://localhost:5002/api`
 - Production: `/api` (same domain)
 
 Override with `VITE_API_URL` environment variable.
@@ -68,7 +68,7 @@ Override with `VITE_API_URL` environment variable.
 
 ## 📱 Development
 
-The admin UI runs on port 3001 and proxies API requests to the backend on port 8000.
+The admin UI runs on port 3001 and proxies API requests to the backend on port 5002.
 
 Make sure the backend API server is running when using the admin UI.
 
@@ -82,7 +82,7 @@ Make sure the backend API server is running when using the admin UI.
 
 ### API connection issues
 ```bash
-# Ensure backend is running on port 8000
+# Ensure backend is running on port 5002
 # Check vite.config.ts proxy configuration
 ```
 

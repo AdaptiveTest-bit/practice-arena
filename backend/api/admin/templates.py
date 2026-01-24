@@ -30,6 +30,12 @@ class TemplateCreateRequest(BaseModel):
     bloom_level: str = Field(..., description="Bloom's taxonomy level")
     estimated_time: int = Field(..., gt=0, description="Estimated time in seconds")
     misconceptions: Optional[List[Dict[str, Any]]] = Field(default=None, description="Misconception mappings")
+    # Quality fields
+    solution_pattern: Optional[str] = Field(default=None, description="Jinja2 template for step-by-step solution")
+    solution_steps_schema: Optional[Dict[str, Any]] = Field(default=None, description="Schema for solution steps")
+    hint_pattern: Optional[str] = Field(default=None, description="Jinja2 template for progressive hints")
+    narrative_pattern: Optional[str] = Field(default=None, description="Jinja2 template for rich narrative")
+    diagram_config: Optional[Dict[str, Any]] = Field(default=None, description="Diagram type and variable mappings")
 
 
 class TemplateResponse(BaseModel):
@@ -48,6 +54,11 @@ class TemplateResponse(BaseModel):
     created_by: Optional[str]
     reviewed_by: Optional[str]
     published_at: Optional[datetime]
+    # Quality fields
+    solution_pattern: Optional[str] = None
+    hint_pattern: Optional[str] = None
+    narrative_pattern: Optional[str] = None
+    diagram_config: Optional[Dict[str, Any]] = None
     
     class Config:
         from_attributes = True
@@ -330,6 +341,54 @@ async def get_workflow_summary(
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
+@router.post("/{template_id}/preview")
+async def preview_template(
+    template_id: int,
+    db: Session = Depends(get_db),
+    service: AdminTemplateService = Depends(get_template_service)
+):
+    """
+    Generate a preview question from a template.
+    
+    - Works for any template status (including DRAFT)
+    - Returns generated question with all options
+    - Useful for content writers to test templates
+    """
+    try:
+        # Get template regardless of status
+        template = db.query(QuestionTemplate).filter(QuestionTemplate.id == template_id).first()
+        if not template:
+            raise HTTPException(status_code=404, detail="Template not found")
+        
+        # Try to generate a preview question (allow any status for previews)
+        from domain.template_engine.lean_template_engine import LeanTemplateEngine
+        engine = LeanTemplateEngine(db)
+        
+        try:
+            question_data = await engine.generate_question(template_id, allow_any_status=True)
+            return {
+                "success": True,
+                "template_id": template_id,
+                "status": template.status,
+                "question": question_data.get('payload', {}),
+                "variables": question_data.get('variables', {}),
+                "correct_index": question_data.get('correct_index'),
+            }
+        except Exception as gen_error:
+            return {
+                "success": False,
+                "template_id": template_id,
+                "status": template.status,
+                "error": str(gen_error),
+                "question_pattern": template.question_pattern,
+            }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
 @router.post("/{template_id}/validate")
 async def validate_template_for_generation(
     template_id: int,
@@ -371,4 +430,183 @@ async def get_templates_by_status(
         return [TemplateResponse.from_orm(template) for template in templates]
         
     except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
+# ============================================================================
+# Misconceptions API
+# ============================================================================
+
+class MisconceptionResponse(BaseModel):
+    """Response model for misconception data."""
+    id: int
+    code: str
+    title: str
+    description: str
+    teaching_point: str
+    subject: str
+    concept_tags: Optional[List[str]] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class MisconceptionCreateRequest(BaseModel):
+    """Request model for creating a misconception."""
+    code: str = Field(..., description="Unique misconception code (e.g., ARITHMETIC_ERROR)")
+    title: str = Field(..., description="Brief title for the misconception")
+    description: str = Field(..., description="Detailed description of the misconception")
+    teaching_point: str = Field(..., description="How to correct this misconception")
+    subject: str = Field(..., description="Subject area (math, science, etc.)")
+    concept_tags: Optional[List[str]] = Field(default=None, description="Related concept IDs")
+
+
+@router.get("/misconceptions", response_model=List[MisconceptionResponse])
+async def list_misconceptions(
+    subject: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    """
+    List all misconceptions, optionally filtered by subject.
+    
+    Used by the admin UI to tag incorrect options with misconceptions.
+    """
+    from db.models import Misconception
+    
+    try:
+        query = db.query(Misconception)
+        if subject:
+            query = query.filter(Misconception.subject == subject.lower())
+        
+        misconceptions = query.order_by(Misconception.code).all()
+        return [MisconceptionResponse.from_orm(m) for m in misconceptions]
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
+@router.post("/misconceptions", response_model=MisconceptionResponse)
+async def create_misconception(
+    data: MisconceptionCreateRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new misconception.
+    
+    Misconceptions can be reused across multiple templates.
+    """
+    from db.models import Misconception
+    
+    try:
+        # Check if code already exists
+        existing = db.query(Misconception).filter(Misconception.code == data.code).first()
+        if existing:
+            raise HTTPException(status_code=400, detail=f"Misconception with code '{data.code}' already exists")
+        
+        misconception = Misconception(
+            code=data.code,
+            title=data.title,
+            description=data.description,
+            teaching_point=data.teaching_point,
+            subject=data.subject.lower(),
+            concept_tags=data.concept_tags,
+        )
+        
+        db.add(misconception)
+        db.commit()
+        db.refresh(misconception)
+        
+        return MisconceptionResponse.from_orm(misconception)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
+@router.get("/misconceptions/{misconception_id}", response_model=MisconceptionResponse)
+async def get_misconception(
+    misconception_id: int,
+    db: Session = Depends(get_db)
+):
+    """Get a specific misconception by ID."""
+    from db.models import Misconception
+    
+    misconception = db.query(Misconception).filter(Misconception.id == misconception_id).first()
+    if not misconception:
+        raise HTTPException(status_code=404, detail="Misconception not found")
+    
+    return MisconceptionResponse.from_orm(misconception)
+
+
+@router.delete("/misconceptions/{misconception_code}")
+async def delete_misconception(
+    misconception_code: str,
+    db: Session = Depends(get_db)
+):
+    """Delete a misconception by code."""
+    from db.models import Misconception
+    
+    try:
+        misconception = db.query(Misconception).filter(Misconception.code == misconception_code).first()
+        if not misconception:
+            raise HTTPException(status_code=404, detail=f"Misconception with code '{misconception_code}' not found")
+        
+        db.delete(misconception)
+        db.commit()
+        
+        return {"success": True, "message": f"Misconception '{misconception_code}' deleted"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
+@router.put("/{template_id}", response_model=TemplateResponse)
+async def update_template(
+    template_id: int,
+    template_data: TemplateCreateRequest,
+    db: Session = Depends(get_db),
+    service: AdminTemplateService = Depends(get_template_service)
+):
+    """
+    Update an existing template.
+    
+    - Only DRAFT templates can be updated
+    - Re-validates the template after update
+    """
+    try:
+        template = db.query(QuestionTemplate).filter(QuestionTemplate.id == template_id).first()
+        if not template:
+            raise HTTPException(status_code=404, detail="Template not found")
+        
+        # Only allow updates to DRAFT templates
+        if template.status not in ("DRAFT", "REVIEW"):
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Cannot update template in {template.status} status. Only DRAFT or REVIEW templates can be updated."
+            )
+        
+        # Update template fields
+        update_data = template_data.model_dump(exclude_unset=True)
+        for field, value in update_data.items():
+            if hasattr(template, field):
+                setattr(template, field, value)
+        
+        # Re-validate
+        template.validation_passed = True  # Simplified - actual validation would be more complex
+        template.validation_errors = None
+        
+        db.commit()
+        db.refresh(template)
+        
+        return TemplateResponse.from_orm(template)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")

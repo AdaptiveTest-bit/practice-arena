@@ -1,0 +1,12 @@
+chapter_id: trigonometry
+subject: math
+grade: 10
+nodes:
+- concept_id: math.class10.trigonometry.standard_angles
+  bloom_targets:
+  - REMEMBER
+  - UNDERSTAND
+  difficulty_default: 2
+  description: "Trigonometric values for standard angles (0\xB0, 30\xB0, 45\xB0, 60\xB0\
+    , 90\xB0)"
+edges: []

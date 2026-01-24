@@ -28,23 +28,29 @@
 | **CLI: Coverage QA** | `coverage_qa_cli.py` | `tools/coverage_qa_cli.py` |
 | **CLI: LLM Gen** | `llm_template_generator.py` | `tools/llm_template_generator.py` |
 | **CLI: Migration** | `template_migrator.py` | `tools/template_migrator.py` |
+| **Admin API: Graphs** | `graphs_router` (GET/PUT graph, validate) | `api/admin/graphs.py` |
+| **Admin API: Coverage** | `coverage_router` (coverage report) | `api/admin/graphs.py` |
+| **Admin API: Taxonomy** | `taxonomy_router` (concepts CRUD) | `api/admin/graphs.py` |
+| **Admin UI: Graph Builder** | React Flow visual editor | `admin-ui/src/pages/GraphBuilder.tsx` |
+| **Admin UI: ConceptNode** | Custom node component | `admin-ui/src/components/graph/ConceptNode.tsx` |
+| **Admin UI: NodeInspector** | Side panel editor | `admin-ui/src/components/graph/NodeInspector.tsx` |
 
 ### 🔶 PARTIALLY BUILT (Extend, Don't Replace)
 
 | Component | What Exists | What's Missing |
 |-----------|-------------|----------------|
-| **API Routes** | Quiz, Student, Health endpoints | Admin CRUD endpoints (`/api/admin/*`) |
+| **API Routes** | Quiz, Student, Health, **Admin Graph/Coverage/Taxonomy** | Template CRUD routes |
 | **Concept Metadata** | Tracking in `StudentConceptState` | Nightly aggregation job for global stats |
 | **Blueprints** | Directory exists | Coverage target YAML files |
 | **Rubrics** | Directory exists | Quality rule YAML files |
+| **Admin Panel UI** | Graph Builder (React Flow), Navigation | Template Builder, Simulator |
 
 ### ⬜ NOT YET BUILT (New Development Required)
 
 | Component | Priority | Description |
 |-----------|----------|-------------|
-| **Admin Panel UI** | Phase C-E | React + React Flow visual builder |
-| **Graph API** | Phase B | `/api/admin/graphs/*` endpoints |
-| **Simulation API** | Phase E | Student path simulator backend |
+| **Template Builder UI** | Phase D | No-code template editor with live preview |
+| **Path Simulator UI** | Phase E | Student journey simulation |
 | **Dynamic Metadata Job** | Phase G | Nightly computation from attempts |
 
 ---
@@ -1126,30 +1132,44 @@ Progress: 3/11 concepts mastered
 - [x] Create concept graphs → `config/content/graphs/math/class5/factors_multiples.yaml`
 - [ ] Create blueprints with coverage targets (directory exists, files pending)
 
-### Phase B: Admin API Implementation — 🔶 PARTIAL
+### Phase B: Admin API Implementation — ✅ COMPLETE
 - [x] Template CRUD service (`domain/admin/template_service.py`)
 - [x] Taxonomy validation (`domain/content_validation/taxonomy_validator.py`)
 - [x] Rubric validation (`domain/content_validation/rubric_validator.py`)
-- [ ] REST endpoints (`/api/admin/concepts/*`)
-- [ ] REST endpoints (`/api/admin/templates/*`)
-- [ ] Graph management API (`/api/admin/graphs/*`)
-- [ ] Simulation API (`/api/admin/simulate/*`)
-- [ ] Coverage report API
+- [x] REST endpoints (`/api/admin/taxonomy/*`) — `api/admin/graphs.py`
+p;- [x] Graph management API (`/api/admin/graphs/*`) — `api/admin/graphs.py`
+- [x] Coverage report API (`/api/admin/coverage/*`) — `api/admin/graphs.py`
+- [x] Graph validation endpoint (`POST /validate`)
+- [x] REST endpoints (`/api/admin/templates/*`) — `api/admin/templates.py`
+- [x] Misconceptions API (`/api/admin/templates/misconceptions/*`) — `api/admin/templates.py`
+- [ ] Simulation API (`/api/admin/simulate/*`) — Phase E
 
-### Phase C: Admin Panel - Graph Builder — ⬜ NOT STARTED
-- [ ] React Flow graph builder (drag-drop nodes)
-- [ ] Node inspector panel
-- [ ] Edge creation UI
-- [ ] Validation feedback
+### Phase C: Admin Panel - Graph Builder — ✅ COMPLETE
+- [x] React Flow graph builder (drag-drop nodes) — `admin-ui/src/pages/GraphBuilder.tsx`
+- [x] Node inspector panel — `admin-ui/src/components/graph/NodeInspector.tsx`
+- [x] Custom ConceptNode component — `admin-ui/src/components/graph/ConceptNode.tsx`
+- [x] Edge creation UI (click and drag between nodes)
+- [x] Validation feedback (validate button with toast notifications)
+- [x] Save/Reset functionality
+- [x] MiniMap and zoom controls
+- [x] Subject/Grade/Chapter filters
+- [x] Navigation link in sidebar
 
-### Phase D: Admin Panel - Template Builder — ⬜ NOT STARTED
-- [ ] Template builder with live preview
-- [ ] Variable schema editor
-- [ ] Option pattern editor
-- [ ] Misconception tagging
+### Phase D: Admin Panel - Template Builder — ✅ COMPLETE
+- [x] Template list page with filtering — `admin-ui/src/pages/TemplateList.tsx`
+- [x] Enhanced template editor with live preview — `admin-ui/src/pages/TemplateEditorEnhanced.tsx`
+- [x] Variable schema visual editor — `admin-ui/src/components/template/VariableSchemaEditor.tsx`
+- [x] Option pattern editor with correct answer marking
+- [x] Misconception tagging UI — `admin-ui/src/components/template/MisconceptionTagger.tsx`
+- [x] Live preview panel — `admin-ui/src/components/template/LivePreviewPanel.tsx`
+- [x] Quality content editors (solution, hints, narrative patterns)
+- [x] Diagram configuration selector (CDN integration)
+- [x] Submit for review workflow
+- [x] Backend preview endpoint (`POST /api/admin/templates/{id}/preview`)
 
 ### Phase E: Admin Panel - Path Simulator — ⬜ NOT STARTED
-- [ ] Student path simulator
+- [ ] Student path simulator backend API
+- [ ] Simulator UI component
 - [ ] Profile presets (new, struggling, advanced)
 - [ ] Dead-end detection
 - [ ] Coverage warnings
@@ -1252,9 +1272,9 @@ Progress: 3/11 concepts mastered
 | Phase | Scope | Status | Notes |
 |-------|-------|--------|-------|
 | **A** | Content structure (taxonomy, graphs) | ✅ Done | `config/content/` populated |
-| **B** | Admin APIs (REST endpoints) | 🔶 Service layer done | Need routes in `api/routes/admin.py` |
-| **C** | **Admin Panel - Graph Builder** (React Flow) | ⬜ Not started | `admin-ui/` folder exists |
-| **D** | **Admin Panel - Template Builder** (live preview) | ⬜ Not started | |
+| **B** | Admin APIs (REST endpoints) | ✅ Done | `api/admin/graphs.py` — Graph, Coverage, Taxonomy APIs |
+| **C** | **Admin Panel - Graph Builder** (React Flow) | ✅ Done | `admin-ui/src/pages/GraphBuilder.tsx` |
+| **D** | **Admin Panel - Template Builder** (live preview) | ⬜ Not started | Next priority |
 | **E** | **Admin Panel - Path Simulator** (test mode) | ⬜ Not started | |
 | **F** | ConceptNavigator engine integration | ✅ Done | `domain/adaptation/` |
 | **G** | Nightly metadata computation job | ⬜ Not started | |
@@ -1304,6 +1324,38 @@ CONFIGURATION (YAML)
 │   ├── graphs/math/class5/          # DAG definitions
 │   ├── blueprints/                  # Coverage targets (pending)
 │   └── rubrics/                     # Quality rules (pending)
+
+ADMIN API ROUTES
+├── api/admin/
+│   ├── graphs.py           # graphs_router, coverage_router, taxonomy_router
+│   │   ├── GET  /api/admin/graphs/{subject}/{grade}/{chapter}
+│   │   ├── PUT  /api/admin/graphs/{subject}/{grade}/{chapter}
+│   │   ├── POST /api/admin/graphs/{subject}/{grade}/{chapter}/validate
+│   │   ├── GET  /api/admin/coverage/{subject}/{grade}/{chapter}
+│   │   └── GET  /api/admin/taxonomy/{subject}
+│   └── templates.py        # Template CRUD routes (existing)
+
+ADMIN PANEL UI (admin-ui/)
+├── src/
+│   ├── pages/
+│   │   ├── GraphBuilder.tsx              # React Flow concept graph editor
+│   │   ├── Dashboard.tsx                 # Admin dashboard
+│   │   ├── TemplateList.tsx              # Template listing
+│   │   ├── TemplateEditor.tsx            # Basic template editor
+│   │   ├── TemplateEditorEnhanced.tsx    # Enhanced editor with live preview (Phase D)
+│   │   ├── CoverageDashboard.tsx         # Coverage reports
+│   │   └── ReviewQueue.tsx               # Template review queue
+│   ├── components/
+│   │   ├── graph/
+│   │   │   ├── ConceptNode.tsx           # Custom React Flow node
+│   │   │   └── NodeInspector.tsx         # Side panel for node editing
+│   │   ├── template/                     # Phase D: Template editor components
+│   │   │   ├── VariableSchemaEditor.tsx  # Visual JSON schema editor
+│   │   │   ├── MisconceptionTagger.tsx   # Option-misconception linking UI
+│   │   │   ├── LivePreviewPanel.tsx      # Real-time template preview
+│   │   │   └── index.ts                  # Component exports
+│   │   └── Layout.tsx                    # Main layout with navigation
+│   └── api.ts                            # API client with TanStack Query hooks
 
 CLI TOOLS
 ├── tools/

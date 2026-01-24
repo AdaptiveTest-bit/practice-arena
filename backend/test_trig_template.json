@@ -1,0 +1,63 @@
+{
+  "template": {
+    "name": "Trigonometry - Find Sin/Cos/Tan of Standard Angles",
+    "concept_id": "math.class10.trigonometry.standard_angles",
+    "question_type": "MCQ",
+    "difficulty": 2,
+    "question_pattern": "Find the value of {{trig_function}}({{angle}}°)",
+    "variables": {
+      "base": {
+        "angle": {"type": "integer", "enum": [0, 30, 45, 60, 90]},
+        "trig_function": {"type": "string", "enum": ["sin", "cos"]},
+        "distractor_angle1": {"type": "integer", "enum": [0, 30, 45, 60, 90]},
+        "distractor_angle2": {"type": "integer", "enum": [0, 30, 45, 60, 90]}
+      },
+      "computed": {
+        "correct_answer": "trig_value(trig_function, angle)",
+        "distractor1": "trig_value(trig_function, distractor_angle1)",
+        "distractor2": "trig_value(trig_function, distractor_angle2)"
+      },
+      "constraints": [
+        "angle != distractor_angle1",
+        "angle != distractor_angle2",
+        "distractor_angle1 != distractor_angle2",
+        "correct_answer != distractor1",
+        "correct_answer != distractor2",
+        "distractor1 != distractor2"
+      ],
+      "custom_functions": {
+        "trig_value": {
+          "params": ["func", "ang"],
+          "body": "{'sin': {0: '0', 30: '1/2', 45: '1/√2', 60: '√3/2', 90: '1'}, 'cos': {0: '1', 30: '√3/2', 45: '1/√2', 60: '1/2', 90: '0'}, 'tan': {0: '0', 30: '1/√3', 45: '1', 60: '√3', 90: 'undefined'}}[func][ang]",
+          "description": "Returns the trigonometric value for standard angles"
+        }
+      }
+    },
+    "options": [
+      {"pattern": "{{correct_answer}}", "is_correct": true},
+      {"pattern": "{{distractor1}}", "is_correct": false, "student_thinking": "Confused with another standard angle"},
+      {"pattern": "{{distractor2}}", "is_correct": false, "student_thinking": "Mixed up another standard angle"},
+      {"pattern": "None of the above", "is_correct": false}
+    ],
+    "solution": {
+      "steps": [
+        {"number": 1, "text": "Identify the trigonometric function: {{trig_function}}"},
+        {"number": 2, "text": "Identify the angle: {{angle}}°"},
+        {"number": 3, "text": "Recall the standard value from the trigonometry table"},
+        {"number": 4, "text": "{{trig_function}}({{angle}}°) = {{correct_answer}}"}
+      ]
+    },
+    "hints": [
+      "Remember the standard trigonometry table for angles 0°, 30°, 45°, 60°, 90°",
+      "For sin: values go 0, 1/2, 1/√2, √3/2, 1 as angle increases"
+    ],
+    "diagram": {
+      "type": "angle_diagram",
+      "parameters": {
+        "angle": "{{angle}}",
+        "label": "{{angle}}°"
+      }
+    }
+  },
+  "count": 10
+}

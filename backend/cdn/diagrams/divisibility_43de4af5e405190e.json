@@ -1,0 +1,11 @@
+{
+  "type": "divisibility",
+  "parameters": {
+    "number": 94,
+    "divisor": 3,
+    "is_divisible": false,
+    "quotient": 31,
+    "remainder": 1
+  },
+  "rendered_at": "2026-01-17T18:09:55.571040"
+}

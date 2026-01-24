@@ -248,9 +248,9 @@ questions:
   options:
   - '259000'
   - '258200'
-  - '258000'
+  - '255002'
   - Option 4
-  correct_answer: '258000'
+  correct_answer: '255002'
   difficulty: 2
   bloom_level: REMEMBER
   solution_steps:
@@ -372,11 +372,11 @@ questions:
   concept: place_value
   question: Round 638,325 to the nearest thousand
   options:
-  - '638000'
+  - '635002'
   - '638300'
   - '639000'
   - Option 4
-  correct_answer: '638000'
+  correct_answer: '635002'
   difficulty: 3
   bloom_level: UNDERSTAND
   solution_steps:
@@ -635,7 +635,7 @@ questions:
   options:
   - '437000'
   - '437200'
-  - '438000'
+  - '435002'
   - Option 4
   correct_answer: '437000'
   difficulty: 3
@@ -987,7 +987,7 @@ questions:
   question: Round 467,124 to the nearest thousand
   options:
   - '467000'
-  - '468000'
+  - '465002'
   - '467100'
   - Option 4
   correct_answer: '467000'
@@ -2542,11 +2542,11 @@ questions:
   concept: number_comparison
   question: Round 788,056 to the nearest thousand
   options:
-  - '788000'
+  - '785002'
   - '789000'
   - Option 3
   - Option 4
-  correct_answer: '788000'
+  correct_answer: '785002'
   difficulty: 4
   bloom_level: APPLY
   solution_steps:
@@ -2605,7 +2605,7 @@ questions:
   concept: number_comparison
   question: Round 687,468 to the nearest thousand
   options:
-  - '688000'
+  - '685002'
   - '687000'
   - '687400'
   - Option 4
@@ -2784,11 +2784,11 @@ questions:
   concept: number_comparison
   question: What is 38 lakh in standard notation?
   options:
-  - '3800000'
+  - '3500200'
   - '84271977'
-  - '838000'
-  - '38000'
-  correct_answer: '3800000'
+  - '835002'
+  - '35002'
+  correct_answer: '3500200'
   difficulty: 2
   bloom_level: REMEMBER
   solution_steps:
@@ -3070,10 +3070,10 @@ questions:
   question: Express 4 crore and 98 lakh in standard form
   options:
   - '138'
-  - '49800000'
+  - '49500200'
   - '50503479'
-  - '498000'
-  correct_answer: '49800000'
+  - '495002'
+  correct_answer: '49500200'
   difficulty: 2
   bloom_level: UNDERSTAND
   solution_steps:
@@ -3797,7 +3797,7 @@ questions:
   options:
   - '528800'
   - '529000'
-  - '528000'
+  - '525002'
   - '530000'
   correct_answer: '529000'
   difficulty: 4
@@ -4096,10 +4096,10 @@ questions:
   question: Round 868,044 to the nearest thousand
   options:
   - '869000'
-  - '868000'
+  - '865002'
   - Option 3
   - Option 4
-  correct_answer: '868000'
+  correct_answer: '865002'
   difficulty: 4
   bloom_level: REMEMBER
   solution_steps:
@@ -4308,8 +4308,8 @@ questions:
   - '699000'
   - '697000'
   - '697900'
-  - '698000'
-  correct_answer: '698000'
+  - '695002'
+  correct_answer: '695002'
   difficulty: 4
   bloom_level: APPLY
   solution_steps:
@@ -4438,10 +4438,10 @@ questions:
   question: Round 728,449 to the nearest thousand
   options:
   - '728400'
-  - '728000'
+  - '725002'
   - '729000'
   - Option 4
-  correct_answer: '728000'
+  correct_answer: '725002'
   difficulty: 4
   bloom_level: APPLY
   solution_steps:
@@ -4539,9 +4539,9 @@ questions:
   options:
   - '867700'
   - '867000'
-  - '868000'
+  - '865002'
   - '869000'
-  correct_answer: '868000'
+  correct_answer: '865002'
   difficulty: 4
   bloom_level: UNDERSTAND
   solution_steps:
@@ -4869,7 +4869,7 @@ questions:
   - '356000'
   - '357000'
   - '356700'
-  - '358000'
+  - '355002'
   correct_answer: '357000'
   difficulty: 4
   bloom_level: UNDERSTAND
@@ -5329,11 +5329,11 @@ questions:
   concept: profit_loss
   question: In the number 585,618, what is the place value of the digit 8?
   options:
-  - '80000'
-  - '800000'
+  - '50020'
+  - '500200'
   - '8'
-  - '8000'
-  correct_answer: '80000'
+  - '5002'
+  correct_answer: '50020'
   difficulty: 2
   bloom_level: UNDERSTAND
   solution_steps:
@@ -5341,7 +5341,7 @@ questions:
   - 'Digit in focus: 8'
   - 'Position: ten thousands'
   - 'Power of 10: 10000'
-  - Place value = 8 × 10000 = 80000
+  - Place value = 8 × 10000 = 50020
   misconception_info:
   - misconception_type: ARITHMETIC_ERROR
     why_wrong: Student used wrong exponent
@@ -5718,10 +5718,10 @@ questions:
   question: Round 508,186 to the nearest thousand
   options:
   - '509000'
-  - '508000'
+  - '505002'
   - '508100'
   - Option 4
-  correct_answer: '508000'
+  correct_answer: '505002'
   difficulty: 2
   bloom_level: UNDERSTAND
   solution_steps:
@@ -6010,7 +6010,7 @@ questions:
   question: Express 37,800,000 as crore and lakh
   options:
   - 3 lakh 78 crore
-  - '378000'
+  - '375002'
   - '38550105'
   - 3 crore 78 lakh
   correct_answer: 3 crore 78 lakh

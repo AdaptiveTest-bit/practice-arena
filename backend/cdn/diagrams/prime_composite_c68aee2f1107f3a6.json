@@ -1,0 +1,14 @@
+{
+  "type": "prime_composite",
+  "parameters": {
+    "number": 14,
+    "factors": [
+      1,
+      2,
+      7,
+      14
+    ],
+    "is_prime": false
+  },
+  "rendered_at": "2026-01-17T18:09:55.573911"
+}

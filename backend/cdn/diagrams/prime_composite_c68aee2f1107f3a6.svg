@@ -1,0 +1,9 @@
+
+        <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="500" height="200" fill="white" stroke="#ddd" stroke-width="1"/>
+            <circle cx="250" cy="80" r="50" fill="#2196F3" opacity="0.3" stroke="#2196F3" stroke-width="3"/>
+            <text x="250" y="90" text-anchor="middle" font-size="24" font-weight="bold">14</text>
+            <text x="250" y="160" text-anchor="middle" font-size="16" font-weight="bold" fill="#2196F3">COMPOSITE</text>
+            <text x="250" y="185" text-anchor="middle" font-size="12" fill="#666">Factors: 1, 2, 7, 14</text>
+        </svg>
+        
